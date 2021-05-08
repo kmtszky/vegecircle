@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_08_153325) do
+ActiveRecord::Schema.define(version: 2021_05_08_153520) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -89,6 +89,15 @@ ActiveRecord::Schema.define(version: 2021_05_08_153325) do
     t.index ["name"], name: "index_farmers_on_name"
     t.index ["reset_password_token"], name: "index_farmers_on_reset_password_token", unique: true
     t.index ["store_address"], name: "index_farmers_on_store_address", unique: true
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.integer "farmer_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_follows_on_customer_id"
+    t.index ["farmer_id"], name: "index_follows_on_farmer_id"
   end
 
   create_table "news", force: :cascade do |t|
