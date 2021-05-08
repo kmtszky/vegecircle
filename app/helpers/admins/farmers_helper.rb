@@ -1,0 +1,2 @@
+module Admins::FarmersHelper
+end
