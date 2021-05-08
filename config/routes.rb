@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  namespace :farmers do
+    get 'farmers/show'
+    get 'farmers/edit'
+    get 'farmers/unsubscribe'
+  end
   devise_for :admins, controllers: {
     sessions:      'admins/sessions',
     passwords:     'admins/passwords',
