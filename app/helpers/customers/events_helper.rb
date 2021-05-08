@@ -1,0 +1,2 @@
+module Customers::EventsHelper
+end

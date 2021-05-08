@@ -1,0 +1,2 @@
+module Farmers::NewsHelper
+end
