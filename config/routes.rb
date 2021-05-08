@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  namespace :farmers do
+    get 'recipes/new'
+    get 'recipes/confirm'
+    get 'recipes/edit'
+  end
   namespace :admins do
     get 'customers/index'
   end
