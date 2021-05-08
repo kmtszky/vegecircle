@@ -1,0 +1,2 @@
+module Customers::FavoriteEventsHelper
+end
