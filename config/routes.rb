@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  namespace :customers do
+    get 'homes/top'
+    get 'homes/about'
+  end
   namespace :farmers do
     get 'events/new'
     get 'events/confirm'
