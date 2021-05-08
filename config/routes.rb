@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
   namespace :farmers do
+    get 'events/new'
+    get 'events/confirm'
+    get 'events/edit'
+  end
+  namespace :farmers do
     get 'recipes/new'
     get 'recipes/confirm'
     get 'recipes/edit'
