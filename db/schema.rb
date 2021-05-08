@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_08_150415) do
+ActiveRecord::Schema.define(version: 2021_05_08_151258) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2021_05_08_150415) do
     t.integer "tag_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["recipe_id", "tag_id"], name: "index_recipe_tags_on_recipe_id_and_tag_id", unique: true
     t.index ["recipe_id"], name: "index_recipe_tags_on_recipe_id"
     t.index ["tag_id"], name: "index_recipe_tags_on_tag_id"
   end
@@ -92,6 +93,13 @@ ActiveRecord::Schema.define(version: 2021_05_08_150415) do
     t.datetime "updated_at", null: false
     t.index ["farmer_id"], name: "index_recipes_on_farmer_id"
     t.index ["title"], name: "index_recipes_on_title"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "tag", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag"], name: "index_tags_on_tag", unique: true
   end
 
 end
