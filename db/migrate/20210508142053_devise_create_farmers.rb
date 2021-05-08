@@ -47,6 +47,7 @@ class DeviseCreateFarmers < ActiveRecord::Migration[5.2]
 
     add_index :farmers, :email,                unique: true
     add_index :farmers, :reset_password_token, unique: true
+    add_index :farmers, :name
     add_index :farmers, :store_address,        unique: true
     # add_index :farmers, :confirmation_token,   unique: true
     # add_index :farmers, :unlock_token,         unique: true
