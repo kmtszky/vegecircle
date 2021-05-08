@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_08_151258) do
+ActiveRecord::Schema.define(version: 2021_05_08_151752) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -36,6 +36,26 @@ ActiveRecord::Schema.define(version: 2021_05_08_151258) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_customers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.integer "farmer_id", null: false
+    t.string "title", null: false
+    t.string "plan_image_id", null: false
+    t.text "body", null: false
+    t.integer "fee", null: false
+    t.text "cancel_change", null: false
+    t.date "date", null: false
+    t.time "start_time", null: false
+    t.time "end_time", null: false
+    t.string "location", null: false
+    t.text "access", null: false
+    t.integer "parking", default: 0, null: false
+    t.text "etc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["farmer_id"], name: "index_events_on_farmer_id"
+    t.index ["location"], name: "index_events_on_location", unique: true
   end
 
   create_table "farmers", force: :cascade do |t|
