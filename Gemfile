@@ -68,3 +68,7 @@ gem 'font-awesome-sass', '~> 5.13'
 gem 'dotenv-rails'
 gem 'kaminari','~> 1.2.1'
 gem 'pry-byebug'
+
+group :production do
+  gem 'mysql2'
+end
