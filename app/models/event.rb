@@ -3,6 +3,7 @@ class Event < ApplicationRecord
   belongs_to :farmer
   has_many :favorites, dependent: :destroy
   has_many :reservations, dependent: :destroy
+  attachment :plan_image
 
   with_options presence: true do
     validates :title

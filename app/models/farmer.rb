@@ -12,8 +12,12 @@ class Farmer < ApplicationRecord
   has_many :recipes, dependent: :destroy
 
   with_options presence: true do
-    validates :phone, uniqueness: true, format: { with: /\A\d{10,11}\z/ }
     validates :farm_address
     validates :store_address, uniqueness: true
   end
+
+  attachment :farmer_image
+  attachment :image_1
+  attachment :image_2
+  attachment :image_3
 end

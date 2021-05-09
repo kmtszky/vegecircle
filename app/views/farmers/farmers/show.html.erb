@@ -1,2 +1,54 @@
-<h1>Farmers::Farmers#show</h1>
-<p>Find me in app/views/farmers/farmers/show.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-5 offset-md-2 my-2">
+      <table>
+        <tbody>
+          <tr>
+            <td rowspan="3"><%= attachment_image_tag @farmer, :farmer_image, :fill, 100, 100, class: "circle-icon", fallback: asset_path('logo/farmer_default_icon.jpeg'), size: '100x100' %></td>
+            <td class="cell-pl"><%= @farmer.farm_address %></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="cell-pl"><h3><%= @farmer.name %></h3></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="cell-pl">評価（〇件）</td>
+            <td class="cell-pl">
+              <% if @farmer == current_farmer %>
+                <%= link_to "編集する", edit_farmer_path(current_farmer), class: "btn btn-sm btn-success" %>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table><br>
+      <%= @farmer.introduction %>
+    </div>
+    <div class="col-12 col-md-5 mr-auto my-2">
+      <%= attachment_image_tag @farmer, :image_1, class: "farm_pictures", fallback: asset_path('no_images/no_image_md.png'), size: '300x300' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-5 offset-md-2 my-2">
+      <h6>直売所へのアクセス</h6>
+      <%= @farmer.store_address %>
+    </div>
+    <div class="col-12 col-md-5 mr-auto my-2">
+      <h6>お知らせ</h6>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-8 mx-auto mt-3">
+      <h6>予約受付中の農業体験</h6>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-8 mx-auto my-3">
+      <h6>この農家さんに関するコメント</h6>
+    </div>
+  </div>
+
+</div>

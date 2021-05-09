@@ -49,6 +49,14 @@ li {
   font-size: 12px;
 }
 
+h4 {
+  text-align: center;
+}
+
+.required {
+  color: red;
+}
+
 // header
 header {
   width: 100%;
@@ -72,7 +80,7 @@ footer {
   margin: 10px auto;
 }
 
-.footer_links th, td {
+.footer_links th, .footer_links td {
   width: 150px;
   padding: 4px 0;
   text-align: center;
@@ -106,4 +114,18 @@ footer {
 // devise
 .sign {
   border: 3px solid #e0e0e0;
+}
+
+// farmer
+.circle-icon {
+  border-radius: 50%;
+}
+
+.cell-pl {
+  padding-left: 10px;
+}
+
+.farm_pictures {
+  width: 300px;
+  height: auto;
 }

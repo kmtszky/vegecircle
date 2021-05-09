@@ -3,4 +3,6 @@ class Chat < ApplicationRecord
   belongs_to :farmer
 
   validates :chat, presence: true
+
+  attachment :chat_image
 end
