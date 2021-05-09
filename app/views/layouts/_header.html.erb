@@ -16,7 +16,7 @@
             <li><%= link_to ' ログアウト', destroy_customer_session_path, method: :delete, class: "nav-link text-dark fas fas fa-walking" %></li>
           <% elsif farmer_signed_in? %>
           <!--farmerのヘッダー-->
-            <li><%= link_to ' ログアウト', destroy_admin_session_path, method: :delete, class: "nav-link text-dark fas fas fa-walking" %></li>
+            <li><%= link_to ' ログアウト', destroy_farmer_session_path, method: :delete, class: "nav-link text-dark fas fas fa-walking" %></li>
           <% elsif admin_signed_in? %>
           <!--adminのヘッダー-->
             <li><%= link_to ' ログアウト', destroy_admin_session_path, method: :delete, class: "nav-link text-dark fas fa-walking" %></li>

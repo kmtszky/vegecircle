@@ -18,8 +18,12 @@ class Farmers::SessionsController < Devise::SessionsController
   #   super
   # end
 
+  def after_sign_in_path_for(resource)
+    farmer_path(current_farmer)
+  end
+
   def after_sign_out_path_for(resource)
-     new_farmer_session_path
+    root_path
   end
 
   # protected

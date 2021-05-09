@@ -15,9 +15,5 @@ class Farmer < ApplicationRecord
     validates :phone, uniqueness: true, format: { with: /\A\d{10,11}\z/ }
     validates :farm_address
     validates :store_address, uniqueness: true
-    validates :farmer_image_id
-    validates :introduction
-    validates :image_1_id
-    validates :evaluation, numericality: true
   end
 end
