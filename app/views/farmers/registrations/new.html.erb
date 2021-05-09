@@ -1,29 +1,57 @@
-<h2>Sign up</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-7 mx-auto p-4 text-center sign">
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "farmers/shared/error_messages", resource: resource %>
+    <h4>農家さん：新規登録</h4><br>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <%= form_with model: @farmer, url: farmer_registration_path, id: 'new_farmer', class: 'new_farmer', local: true do |f| %>
+      <%= render "farmers/shared/error_messages", resource: resource %>
+      <table class="table table-borderless">
+        <tbody>
+          <tr>
+            <td align="right"><%= f.label :name, "農場 / 農家さんのお名前" %></td>
+            <td align="left"><%= f.text_field :name, autofocus: true, autocomplete: "name", placeholder: "にこにこ農場", class: "form-control form-control-sm" %></td>
+          </tr>
+          <tr>
+            <td align="right"><%= f.label :phone, "電話番号（ハイフンなし半角）" %></td>
+            <td align="left"><%= f.text_field :phone, autocomplete: "phone", class: "form-control form-control-sm" %></td>
+          </tr>
+          <tr>
+            <td align="right"><%= f.label :farm_address, "農場 / 農家さんのあるエリア（市区町村まで）" %></td>
+            <td align="left"><%= f.text_field :farm_address, autocomplete: "farm_address", placeholder: "栃木県下野市", class: "form-control form-control-sm" %></td>
+          </tr>
+          <tr>
+            <td align="right"><%= f.label :store_address, "直売所のある住所" %></td>
+            <td align="left"><%= f.text_field :store_address, autocomplete: "store_address", placeholder: "栃木県下野市祇園00-00", class: "form-control form-control-sm" %></td>
+          </tr>
+          <tr>
+            <td align="right"><%= f.label :email, "メールアドレス" %></td>
+            <td align="left"><%= f.email_field :email, autocomplete: "email", class: "form-control form-control-sm" %></td>
+          </tr>
+          <tr>
+            <td align="right">
+              <%= f.label :password, "パスワード" %>
+              <% if @minimum_password_length %>
+                （<%= @minimum_password_length %> 文字以上）
+              <% end %>
+              </td>
+            <td align="left">
+              <%= f.password_field :password, autocomplete: "new-password", class: "form-control form-control-sm" %>
+            </td>
+          </tr>
+          <tr>
+            <td align="right"><%= f.label :password_confirmation, "パスワード（確認用）" %></td>
+            <td align="left"><%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control form-control-sm" %></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <%= f.submit "新規登録", class: "btn btn-sm btn-secondary" %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    <% end %>
+    <p>登録済みのアカウントからログインされる方は<%= render "farmers/shared/session" %></p>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "farmers/shared/links" %>
+</div>

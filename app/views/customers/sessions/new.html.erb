@@ -2,20 +2,20 @@
   <div class="row">
     <div class="col-12 col-md-5 mx-auto p-4 text-center sign">
 
-    <h4>ログイン</h4>
+    <h4>ログイン</h4><br>
 
-    <br><p>会員登録がお済みでない方は、<%= render "customers/shared/links" %>よりご登録ください</p>
+    <p>会員登録がお済みでない方は、<%= render "customers/shared/links" %>よりご登録ください</p>
 
     <%= form_with model: @customer, url: customer_session_path, local: true do |f| %>
       <table class="table table-borderless">
         <tbody>
           <tr>
             <td align="right"><%= f.label :email, "メールアドレス" %></td>
-            <td align="left"><%= f.email_field :email, autofocus: true, autocomplete: "email" %></td>
+            <td align="left"><%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-sm" %></td>
           </tr>
           <tr>
             <td align="right"><%= f.label :password, "パスワード" %></td>
-            <td align="left"><%= f.password_field :password, autocomplete: "current-password" %></td>
+            <td align="left"><%= f.password_field :password, autocomplete: "current-password", class: "form-control form-control-sm" %></td>
           </tr>
           <tr>
             <td colspan="2">
@@ -36,3 +36,4 @@
     <%= render "customers/shared/password" %>
     </div>
   </div>
+</div>
