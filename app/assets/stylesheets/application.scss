@@ -26,20 +26,27 @@
 
 body {
   font-size: 12px;
-  color: rgba(106, 25, 23, 1);
-  background-color: #f8f4e6;
+  color: #2f2f2f;
   display: flex;
   flex-flow: column;
   min-height: 100vh;
+}
+
+main {
+  margin: 20px 0;
+  flex: 1;
 }
 
 a:hover {
   text-decoration: none;
 }
 
-// フリーのポジティブなスペースがある場合にそのスペースを満たすようにエリアを確保
-main {
-  flex: 1;
+li {
+  text-align: left;
+}
+
+.btn {
+  font-size: 12px;
 }
 
 // kaminari
@@ -58,6 +65,15 @@ main {
 }
 
 // header
+header {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.header_logo {
+  width: auto;
+  height: 65px;
+}
 
 // top
 .slick-slide img {
@@ -69,6 +85,11 @@ main {
 }
 
 // footer
+
+// サインイン、新規登録
+.sign {
+  border: 3px solid #e0e0e0;
+}
 
 // 検索box
 dl.searchbox{

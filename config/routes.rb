@@ -32,12 +32,9 @@ Rails.application.routes.draw do
     root 'homes#top'
     get 'about' => 'homes#about'
 
-    get 'recipes/favorites' => 'recipes#favorite'
     resources :recipes, only: [:index, :show] do
       resource :favorite_recipes, only: [:create, :destroy]
     end
-
-    get 'events/favorites' => 'events#favorite'
     resources :events, only: [:index, :show] do
       resource :favorite_events, only: [:create, :destroy]
     end
@@ -48,6 +45,7 @@ Rails.application.routes.draw do
       post 'reservations/confirm'
       get 'reservations/thanx'
     resource :profiles, only: [:show, :edit, :update]
+      get 'customer/favorites' => 'profiles#favorite'
       get 'customer/unsubscribe' => 'profiles#unsubscribe'
       patch 'customer/withdraw'  => 'profiles#withdraw'
   end
