@@ -1,1 +1,31 @@
-<footer></footer>
+<footer>
+  <div class="container">
+    <div class="row">
+      <table class="footer_links">
+        <thead>
+          <tr>
+            <th>農家の皆さまへ</th>
+            <th>vegecircleについて</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>vegecircleでできること</td>
+            <td><%= link_to "vegecircleについて", about_path %></td>
+          </tr>
+          <tr>
+            <td><%= link_to "新規登録・ログイン", new_farmer_registration_path %></td>
+            <td>お問い合わせ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col text-center mt-2">
+        <p class="copyright">vegecircle © 2021 All rights reserved by Infratop.Inc.</p>
+      </div>
+    </div>
+      </div>
+    </div>
+  </div>
+</footer>
