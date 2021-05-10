@@ -1,0 +1,2 @@
+module Customers::ProfilesHelper
+end

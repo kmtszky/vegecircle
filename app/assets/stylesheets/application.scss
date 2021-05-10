@@ -26,20 +26,71 @@
 
 body {
   font-size: 12px;
-  color: rgba(106, 25, 23, 1);
-  background-color: #f8f4e6;
+  color: #2f2f2f;
   display: flex;
   flex-flow: column;
   min-height: 100vh;
+}
+
+main {
+  margin: 20px 0;
+  flex: 1;
 }
 
 a:hover {
   text-decoration: none;
 }
 
-// フリーのポジティブなスペースがある場合にそのスペースを満たすようにエリアを確保
-main {
-  flex: 1;
+li {
+  text-align: left;
+}
+
+h4 {
+  text-align: center;
+}
+
+h6 {
+  font-weight: bold;
+  padding-bottom: 4px;
+}
+
+// header
+header {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.header_logo {
+  width: auto;
+  height: 65px;
+}
+
+// footer
+footer {
+  width: 100%;
+  height: auto;
+  background-color: #c3c3c3;
+  bottom: 0;
+}
+
+.footer_links {
+  margin: 10px auto;
+}
+
+.footer_links th, .footer_links td {
+  width: 150px;
+  padding: 4px 0;
+  text-align: center;
+}
+
+.footer_links a {
+  color: #2f2f2f;
+  text-decoration: none;
+}
+
+.copyright {
+  color: white;
+  text-align: center;
 }
 
 // kaminari
@@ -57,59 +108,30 @@ main {
   border-radius: 20px;
 }
 
-// header
-
-// top
-.slick-slide img {
-  margin: 0 auto;
+// devise
+.sign {
+  border: 3px solid #e0e0e0;
 }
 
-.slick-slide {
-  width: auto !important;
+// form関連
+.btn {
+  font-size: 12px;
 }
 
-// footer
-
-// 検索box
-dl.searchbox{
-  width: 200px;
-  position:relative;
-  background-color:#fff;
-  border:1px solid #aaa;
-  border-radius:6px;
+.required {
+  color: red;
 }
 
-dl.searchbox dt{
-  padding:3px;
+// farmer
+.circle-icon {
+  border-radius: 50%;
 }
 
-dl.searchbox dt input{
-  width:50%;
-  height:19px;
-  line-height:25px;
-  background:none;
-  border:none;
+.cell-pl {
+  padding-left: 10px;
 }
 
-dl.searchbox dd{
-  position:absolute;
-  top:1px;
-  right:1px;
-  width:30%;
-}
-
-.search-btn{
-  display:block;
-  background:#5fad35;
-  width:100%;
-  height:22px;
-  line-height:25px;
-  border:none;
-  border-radius: 0 6px 6px 0;
-  color:#FFF;
-}
-
-
-.search-btn:hover {
-  background:#228B22;
+.farm_pictures {
+  width: 300px;
+  height: auto;
 }

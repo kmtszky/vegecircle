@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-5 mx-auto">
+      <h4>基本情報の変更</h4>
+      <%= render 'layouts/error_messages', validation: @farmer %><br>
+
+      <%= form_with model: @farmer, local: true do |f| %>
+
+        <div class="field form-group">
+          <%= f.label :name, "農場 / 農家さんのお名前" %><string class="required"> *</string><br />
+          <%= f.text_field :name, class: "form-control form-control-sm" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :farmer_image, "プロフィール画像" %><br />
+          <%= f.attachment_field :farmer_image %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :farm_address, "農場 / 農家さんのあるエリア（市区町村まで）" %><string class="required"> *</string><br />
+          <%= f.text_field :farm_address, class: "form-control form-control-sm" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :store_address, "直売所の住所" %><string class="required"> *</string><br />
+          <%= f.text_field :store_address, class: "form-control form-control-sm" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :introduction, "紹介文" %><br />
+          <%= f.text_area :introduction, rows: '5', class: "form-control form-control-sm" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :image_1, "農家さん紹介画像（最大3つ）" %><br />
+          <%= f.attachment_field :image_1 %>
+          <%= f.attachment_field :image_2 %>
+          <%= f.attachment_field :image_3 %>
+        </div>
+
+        <%= f.submit '変更を保存', class: "btn btn-success text-light" %>
+      <% end %>
+    </div>
+  </div>
+</div>
