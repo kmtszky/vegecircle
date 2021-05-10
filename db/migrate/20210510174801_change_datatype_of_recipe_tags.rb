@@ -1,4 +1,4 @@
-class ChangeColumnToRecipeTags < ActiveRecord::Migration[5.2]
+class ChangeDatatypeOfRecipeTags < ActiveRecord::Migration[5.2]
 
   def up
     change_column :recipe_tags, :recipe_id, :bigint
