@@ -1,4 +1,4 @@
-<table class="table", id="news_index">
+<table class="table", id="news_last3">
   <tbody>
     <% news.each do |news| %>
       <tr>
@@ -12,3 +12,22 @@
     <% end %>
   </tbody>
 </table>
+<% if news_left.any? %>
+  <details>
+    <summary>全てのお知らせを表示</summary>
+    <table class="table", id="news_left">
+      <tbody>
+        <% news_left.each do |news| %>
+          <tr>
+            <td><%= attachment_image_tag news, :news_image, :fill, 50, 50, fallback: asset_path('no_images/no_image_sm.png'), size: '50x50' %></td>
+            <td><%= news.created_at.strftime('%Y/%m/%d %R') %>
+                <% if news.farmer == current_farmer %>
+                  <%= link_to "削除", farmers_news_path(news), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "お知らせを削除しますか？"} %>
+                <% end %><br>
+                <%= news.news %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </details>
+<% end %>

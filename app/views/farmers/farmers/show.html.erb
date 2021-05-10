@@ -37,7 +37,7 @@
     <div class="col-12 col-md-4 mr-auto my-2">
       <h6>お知らせ</h6>
       <%= render 'layouts/error_messages', validation: @news %>
-      <%= render 'farmers/news/index', news: @news_index %>
+      <%= render 'farmers/news/index', news: @news_last3, news_left: @news_left %>
       <%= form_with model: [:farmers, @news], local: true do |f| %>
         <div class="form-group">
           <%= f.text_area :news, class: "form-control form-control-sm" %>
