@@ -24,7 +24,7 @@
       </table><br>
       <%= @farmer.introduction %>
     </div>
-    <div class="col-12 col-md-5 mr-auto my-2">
+    <div class="col-12 col-md-4 mr-auto my-2">
       <%= attachment_image_tag @farmer, :image_1, class: "farm_pictures", fallback: asset_path('no_images/no_image_md.png'), size: '300x300' %>
     </div>
   </div>
@@ -34,8 +34,17 @@
       <h6>直売所へのアクセス</h6>
       <%= @farmer.store_address %>
     </div>
-    <div class="col-12 col-md-5 mr-auto my-2">
+    <div class="col-12 col-md-4 mr-auto my-2">
       <h6>お知らせ</h6>
+      <%= render 'layouts/error_messages', validation: @news %>
+      <%= render 'farmers/news/index', news: @news_index %>
+      <%= form_with model: [:farmers, @news], local: true do |f| %>
+        <div class="form-group">
+          <%= f.text_area :news, class: "form-control form-control-sm" %>
+          <%= f.attachment_field :news_image %>
+        </div>
+        <%= f.submit '送信', class: "btn btn-sm btn-success" %>
+      <% end %>
     </div>
   </div>
 

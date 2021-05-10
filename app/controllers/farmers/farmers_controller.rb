@@ -2,6 +2,8 @@ class Farmers::FarmersController < ApplicationController
   before_action :set_farmer
 
   def show
+    @news = News.new
+    @news_index = News.where(farmer_id: @farmer.id).order('created_at DESC')
   end
 
   def edit

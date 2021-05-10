@@ -45,16 +45,13 @@ li {
   text-align: left;
 }
 
-.btn {
-  font-size: 12px;
-}
-
 h4 {
   text-align: center;
 }
 
-.required {
-  color: red;
+h6 {
+  font-weight: bold;
+  padding-bottom: 4px;
 }
 
 // header
@@ -114,6 +111,15 @@ footer {
 // devise
 .sign {
   border: 3px solid #e0e0e0;
+}
+
+// form関連
+.btn {
+  font-size: 12px;
+}
+
+.required {
+  color: red;
 }
 
 // farmer
