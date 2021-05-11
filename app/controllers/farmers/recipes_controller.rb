@@ -3,44 +3,50 @@ class Farmers::RecipesController < ApplicationController
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
 
   def new
-    session.delete(:tags)
+    session.delete(:tag_list)
     session.delete(:recipe)
     @recipe = Recipe.new
   end
 
   def confirm
     @recipe = current_farmer.recipes.new(recipe_params)
-    @tags = params[:recipe][:tags].split(',')
+    @tag_list = params[:recipe][:tag_ids].split(',')
     session[:recipe] = @recipe
-    session[:tags] = @tags
-    if @recipe.invalid?
-			render :new
-		end
+    session[:tag_list] = @tag_list
+    if @recipe.invalid? || @tag_list.blank?
+      render :new
+    end
   end
 
   def back
     @recipe = current_farmer.recipes.new(session[:recipe])
     session.delete(:recipe)
-    session.delete(:tags)
+    session.delete(:tag_list)
     render :new
   end
 
   def create
-    @recipe = current_farmer.create(session[:recipe])
-    @recipe.save_tags(session[:tags])
-    session.delete(:recipe)
-    session.delete(:tags)
-    redirect_to farmers_recipe_path(params[:id]), flash: {success: "レシピを作成しました"}
+    @recipe = Recipe.new(session[:recipe])
+    if @recipe.save
+      @recipe.save_tags(session[:tag_list])
+      session.delete(:recipe)
+      session.delete(:tag_list)
+      redirect_to farmers_recipe_path(params[:id]), flash: {success: "レシピを作成しました"}
+    end
   end
 
   def show
+    @tag_list = @recipe.tags.pluck(:tag)
   end
 
   def edit
+    @tag_list = @recipe.tags.pluck(:tag).join(",")
   end
 
   def update
-    if @recipe.updade(recipe_params)
+    tag_list = params[:recipe][:tag_ids].split(',')
+    if @recipe.update_attributes(recipe_params)
+      @recipe.save_tags(tag_list)
       redirect_to farmers_recipe_path(params[:id]), flash: {success: "レシピを更新しました"}
     else
       render :edit

@@ -7,7 +7,7 @@ class Recipe < ApplicationRecord
 
   with_options presence: true do
     validates :title
-    validates :recipe_image_id
+    validates :recipe_image
     validates :duration, numericality: true
     validates :amount, numericality: true
     validates :ingredient
@@ -16,9 +16,17 @@ class Recipe < ApplicationRecord
 
   attachment :recipe_image
 
-  def save_tags(recipe_tags)
-    recipe_tags.each do |entered_tag|
-      recipe_tag = Tag.find_or_create_by(tag: entered_tag)
+  def save_tags(input_tags)
+    current_tags = self.tags.pluck(:tag) unless self.tags.nil?
+    delete_tags = current_tags - input_tags
+    add_tags = input_tags - current_tags
+
+    delete_tags.each do |delete_tag|
+      self.tags.delete Tag.find_by(tag: delete_tag)
+    end
+
+    add_tags.each do |add_tag|
+      recipe_tag = Tag.find_or_create_by(tag: add_tag)
       self.tags << recipe_tag
     end
   end

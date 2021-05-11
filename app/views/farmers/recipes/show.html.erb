@@ -1,0 +1,18 @@
+<div class="container">
+  <%= render 'farmers/recipes/show' tag_list: @tag_list, recipe: @recipe %>
+
+  <% if current_farmer.id == @recipe.farmer_id %>
+    <div class="row">
+      <div class="col-12 col-md-8 mx-auto mt-2 mb-4">
+        <table>
+          <tbody>
+            <tr>
+              <td><%= link_to "編集する", edit_farmers_recipe_path(@recipe), class: "btn btn-sm btn-success mr-3" %></td>
+              <td><%= link_to "削除する", farmers_recipe_path(@recipe), method: :delete, data: { confirm: "レシピを削除しますか?" }, class: "btn btn-sm btn-danger" %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>
