@@ -8,17 +8,19 @@ Rails.application.routes.draw do
   }
 
   namespace :farmers do
-    resources :recipes, only: [:new, :create, :edit, :update, :destroy]
-      get 'recipes/confirm'
-    resources :events, only: [:new, :create, :edit, :update, :destroy]
-      get 'events/confirm'
+    resources :recipes, only: [:new, :create, :show, :edit, :update, :destroy]
+      post 'recipes/confirm'
+      post 'recipes/back'
+    resources :events, only: [:new, :create, :show, :edit, :update, :destroy]
+      post 'events/confirm'
+      post 'events/back'
     resources :news, only: [:create, :destroy]
   end
 
   scope module: :farmers do
     resources :farmers, only: [:show, :edit, :update]
-    get 'farmers/unsubscribe'
-    patch 'farmers/withdraw'
+    get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe', as: 'farmers_unsubscribe'
+    patch 'farmers/:id/withdraw'  => 'farmers#withdraw',    as: 'farmers_withdraw'
   end
 
   # customer

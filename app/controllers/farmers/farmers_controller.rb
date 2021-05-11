@@ -1,8 +1,11 @@
 class Farmers::FarmersController < ApplicationController
+  before_action :authenticate_farmer!, exept: [:show]
   before_action :set_farmer
 
   def show
-    @news = News.new
+    if current_farmer == @farmer
+      @news = News.new
+    end
     @news_index = News.where(farmer_id: @farmer.id).order('created_at DESC')
     @news_last3 = @news_index.first(3)
     @news_left = @news_index.offset(3)
@@ -24,9 +27,7 @@ class Farmers::FarmersController < ApplicationController
 
   def withdraw
     @farmer.update(is_deleted: true)
-    reset_session
-    flash[:notice] = "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。"
-    redirect_to root_path
+    redirect_to root_path, flash: {success: "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。"}
   end
 
   private

@@ -12,4 +12,8 @@ class Customer < ApplicationRecord
   has_many :reservations, dependent: :destroy
 
   validates :nickname, uniqueness: true, presence: true
+
+  def active_for_authentication?
+    super && (self.is_deleted == false)
+  end
 end
