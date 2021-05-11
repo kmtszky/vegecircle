@@ -135,7 +135,45 @@ footer {
   padding-left: 10px;
 }
 
+// 画像リサイズ
 .farm_pictures {
   width: 300px;
   height: auto;
+}
+
+.recipe_image {
+  width: 80%;
+  height: auto;
+}
+
+// タグ
+.tag h6 {
+  position: relative;
+  display: inline-block;
+  height: 64px;
+  margin-left: 30px;
+  padding: 1rem 2rem 1rem 3rem;
+  color: #fff;
+  background: #d1ffa3;
+}
+
+.tag h6:before {
+  position: absolute;
+  top: 0;
+  left: -30px;
+  content: '';
+  border-width: 32px 30px 32px 0;
+  border-style: solid;
+  border-color: transparent #d1ffa3 transparent transparent;
+}
+
+.tag h6:after {
+  position: absolute;
+  top: calc(50% - 7px);
+  left: -10px;
+  width: 14px;
+  height: 14px;
+  content: '';
+  border-radius: 50%;
+  background: #fff;
 }

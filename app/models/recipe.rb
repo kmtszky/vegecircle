@@ -15,4 +15,11 @@ class Recipe < ApplicationRecord
   end
 
   attachment :recipe_image
+
+  def save_tags(recipe_tags)
+    recipe_tags.each do |entered_tag|
+      recipe_tag = Tag.find_or_create_by(tag: entered_tag)
+      self.tags << recipe_tag
+    end
+  end
 end
