@@ -17,8 +17,8 @@ Rails.application.routes.draw do
 
   scope module: :farmers do
     resources :farmers, only: [:show, :edit, :update]
-    get 'farmers/unsubscribe'
-    patch 'farmers/withdraw'
+    get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe', as: 'farmers_unsubscribe'
+    patch 'farmers/:id/withdraw'  => 'farmers#withdraw',    as: 'farmers_withdraw'
   end
 
   # customer

@@ -32,13 +32,14 @@
         </div>
 
         <div class="field form-group">
-          <%= f.label :image_1, "農家さん紹介画像（最大3つ）" %><br />
-          <%= f.attachment_field :image_1 %>
-          <%= f.attachment_field :image_2 %>
-          <%= f.attachment_field :image_3 %>
+          <p>農家さん紹介画像（最大3つ）</p>
+          <%= f.attachment_field :image_1 %><br />
+          <%= f.attachment_field :image_2, class: "my-2" %><br />
+          <%= f.attachment_field :image_3 %><br />
         </div>
 
-        <%= f.submit '変更を保存', class: "btn btn-success text-light" %>
+        <%= f.submit '変更を保存', class: "btn btn-success text-light mr-3" %>
+      <%= link_to  "退会する", farmers_unsubscribe_path(current_farmer), class: "btn btn-danger" %>
       <% end %>
     </div>
   </div>

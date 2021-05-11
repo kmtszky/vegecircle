@@ -24,9 +24,7 @@ class Farmers::FarmersController < ApplicationController
 
   def withdraw
     @farmer.update(is_deleted: true)
-    reset_session
-    flash[:notice] = "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。"
-    redirect_to root_path
+    redirect_to root_path, flash: {success: "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。"}
   end
 
   private

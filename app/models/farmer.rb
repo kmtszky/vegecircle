@@ -20,4 +20,8 @@ class Farmer < ApplicationRecord
   attachment :image_1
   attachment :image_2
   attachment :image_3
+
+  def active_for_authentication?
+    super && (self.is_deleted == false)
+  end
 end
