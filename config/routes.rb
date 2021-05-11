@@ -8,10 +8,10 @@ Rails.application.routes.draw do
   }
 
   namespace :farmers do
-    resources :recipes, only: [:new, :create, :edit, :update, :destroy]
-      get 'recipes/confirm'
-    resources :events, only: [:new, :create, :edit, :update, :destroy]
-      get 'events/confirm'
+    resources :recipes, only: [:new, :create, :show, :edit, :update, :destroy]
+      post 'recipes/confirm'
+    resources :events, only: [:new, :create, :show, :edit, :update, :destroy]
+      post 'events/confirm'
     resources :news, only: [:create, :destroy]
   end
 

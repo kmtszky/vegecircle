@@ -16,7 +16,7 @@
           <tr>
             <td class="cell-pl">評価（〇件）</td>
             <td class="cell-pl">
-              <% if @farmer == current_farmer %>
+              <% if current_farmer == @farmer %>
                 <%= link_to "編集する", edit_farmer_path(current_farmer), class: "btn btn-sm btn-success" %>
               <% end %>
             </td>
@@ -39,19 +39,27 @@
       <h6>お知らせ</h6>
       <%= render 'layouts/error_messages', validation: @news %>
       <%= render 'farmers/news/index', news: @news_last3, news_left: @news_left %>
-      <%= form_with model: [:farmers, @news], local: true do |f| %>
-        <div class="form-group">
-          <%= f.text_area :news, class: "form-control form-control-sm" %>
-          <%= f.attachment_field :news_image %>
-        </div>
-        <%= f.submit '送信', class: "btn btn-sm btn-success" %>
+      <% if current_farmer == @farmer %>
+        <%= form_with model: [:farmers, @news], local: true do |f| %>
+          <div class="form-group">
+            <%= f.text_area :news, class: "form-control form-control-sm" %>
+            <%= f.attachment_field :news_image %>
+          </div>
+          <%= f.submit '送信', class: "btn btn-sm btn-success" %>
+        <% end %>
       <% end %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-12 col-md-8 mx-auto mt-3">
-      <h6>予約受付中の農業体験</h6>
+      <h6>予約受付中の農業体験<%= link_to "作成", new_farmers_event_path, class: "btn btn-sm btn-success ml-2" %></h6>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-8 mx-auto mt-3">
+      <h6>農家ご飯<%= link_to "作成", new_farmers_recipe_path, class: "btn btn-sm btn-success ml-2" %></h6>
     </div>
   </div>
 

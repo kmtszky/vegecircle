@@ -1,8 +1,11 @@
 class Farmers::FarmersController < ApplicationController
+  before_action :authenticate_farmer!, exept: [:show]
   before_action :set_farmer
 
   def show
-    @news = News.new
+    if current_farmer == @farmer
+      @news = News.new
+    end
     @news_index = News.where(farmer_id: @farmer.id).order('created_at DESC')
     @news_last3 = @news_index.first(3)
     @news_left = @news_index.offset(3)

@@ -13,4 +13,6 @@ class Recipe < ApplicationRecord
     validates :ingredient
     validates :recipe
   end
+
+  attachment :recipe_image
 end
