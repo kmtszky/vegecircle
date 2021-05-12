@@ -34,6 +34,6 @@ https://docs.google.com/spreadsheets/d/1bIgC1-iJJmsfqf6DTCR6UrqdrwCA4VTcVI3CknJv
 - IDE：Cloud9
 
 ## 使用素材
-- 写真素材：[PAKUDASO](https://www.pakutaso.com/)
+- 写真素材：[PAKUDASO（](https://www.pakutaso.com/)
 - 写真素材：[photoAC](https://www.photo-ac.com/)
 - ロゴ：[Canva](https://www.canva.com/ja_jp/)
