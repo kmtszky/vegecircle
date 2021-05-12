@@ -136,11 +136,6 @@ footer {
   height: auto;
 }
 
-.recipe_image {
-  width: 80%;
-  height: auto;
-}
-
 // タグ
 .tag p {
 	position: relative;
@@ -169,4 +164,9 @@ footer {
 	left: 0;
 	content: '●';
 	color: #fff;
+}
+
+// index
+.list-box {
+  width: 20%;
 }

@@ -1,0 +1,15 @@
+<div class="d-flex flex-row flex-wrap">
+  <% recipes.each do |recipe| %>
+    <div class="list-box mb-3 mr-4">
+      <div class="image_top">
+        <%= link_to recipe_path(recipe.id) do %>
+          <%= attachment_image_tag recipe, :recipe_image, :fill, 100, 70, class: "card-img-top" %>
+        <% end %></div>
+      <div class="recipe_title">
+        <%= link_to recipe_path(recipe.id) do %>
+          <h6 class="text-body"><%= recipe.title %></h6>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

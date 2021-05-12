@@ -1,6 +1,11 @@
 class Farmers::RecipesController < ApplicationController
-  before_action :authenticate_farmer!, exept: [:show]
-  before_action :set_recipe, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_farmer!
+  before_action :set_recipe, only: [:edit, :update, :destroy]
+
+  def recipe_index
+    @farmer = Farmer.find(params[:id])
+    @recipes = @farmer.recipes
+  end
 
   def new
     @recipe = Recipe.new
@@ -15,10 +20,6 @@ class Farmers::RecipesController < ApplicationController
     else
       render :new
     end
-  end
-
-  def show
-    @tag_list = @recipe.tags.pluck(:tag)
   end
 
   def edit
@@ -36,9 +37,8 @@ class Farmers::RecipesController < ApplicationController
   end
 
   def destroy
-    if @recipe.destroy
-      redirect_to farmer_path(current_farmer), flash: {success: "レシピを削除しました"}
-    end
+    @recipe.destroy
+    redirect_to farmer_path(current_farmer), flash: {success: "レシピを削除しました"}
   end
 
   private
