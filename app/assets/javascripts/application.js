@@ -21,3 +21,19 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+
+// top => skippr
+$(document).ready(function () {
+  $("#theTarget").skippr({
+    transition : 'fade',
+    speed : 1800,
+    easing : 'easeOutQuart',
+    navType : 'block',
+    childrenElementType : 'div',
+    arrows : false,
+    autoPlay : true,
+    autoPlayDuration : 4300,
+    keyboardOnAlways : true,
+    hidePrevious : false
+  });
+});

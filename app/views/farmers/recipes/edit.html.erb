@@ -1,2 +1,48 @@
-<h1>Farmers::Recipes#edit</h1>
-<p>Find me in app/views/farmers/recipes/edit.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-6 mx-auto bg-gray p-5">
+      <h4>レシピの編集</h4>
+      <%= render 'layouts/error_messages', validation: @recipe %><br>
+      <%= form_with model: [:farmers, @recipe], local: true do |f| %>
+
+        <div class="field form-group">
+          <%= f.label :title, "料理名" %><string class="required"> *</string><br />
+          <%= f.text_field :title, class: "form-control form-control-sm" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :recipe_image, "料理の画像" %><string class="required"> *</string><br />
+          <%= f.attachment_field :recipe_image %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :duration, "調理時間（半角数字）" %><string class="required"> *</string><br />
+          約<%= f.text_field :duration %>分
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :amount, "分量" %><string class="required"> *</string><br />
+          <%= f.select :amount, [1,2,3,4,5,6,7,8,9,10], :include_blank => "--" %>人前
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :ingredient, "材料" %><string class="required"> *</string><br />
+          <%= f.text_area :ingredient, rows: '5', class: "form-control form-control-sm" %>
+          <p>＜書き方＞<br>・大根の葉 … 4本<br>・豚肉 … 100g</p>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :recipe, "レシピ" %><string class="required"> *</string><br />
+          <%= f.text_area :recipe, rows: '5', class: "form-control form-control-sm" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :tag_ids, "タグ" %><string class="required"> *</string><br />
+          <%= f.text_field :tag_ids, value: "", placeholder: '複数入力する場合は「,（半角カンマ）」で区切ってください。', id: "tag_ids", class: "form-control form-control-sm" %>
+        </div>
+
+        <%= f.submit '更新する', class: "btn btn-success text-light mr-3" %>
+      <% end %>
+    </div>
+  </div>
+</div>

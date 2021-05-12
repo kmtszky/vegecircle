@@ -3,7 +3,7 @@
     <div class="col-12 col-md-6 mx-auto bg-gray p-5">
       <h4>レシピの作成</h4>
       <%= render 'layouts/error_messages', validation: @recipe %><br>
-      <%= form_with model: [:farmers, @recipe], url: farmers_recipes_confirm_path, local: true do |f| %>
+      <%= form_with model: [:farmers, @recipe], local: true do |f| %>
 
         <div class="field form-group">
           <%= f.label :title, "料理名" %><string class="required"> *</string><br />
@@ -37,11 +37,11 @@
         </div>
 
         <div class="field form-group">
-          <%= f.label :tags, "タグ" %><string class="required"> *</string><br />
-          <%= f.text_field :tags, placeholder: "複数つけるには「,（半角カンマ）」で区切ってください", id: "tag_ids", class: "form-control form-control-sm" %>
+          <%= f.label :tag_ids, "タグ" %><string class="required"> *</string><br />
+          <%= f.text_field :tag_ids, value: "", placeholder: '複数入力する場合は「,（半角カンマ）」で区切ってください。', id: "tag_ids", class: "form-control form-control-sm" %>
         </div>
 
-        <%= f.submit '確認する', class: "btn btn-success text-light mr-3" %>
+        <%= f.submit '作成する', class: "btn btn-success text-light mr-3" %>
       <% end %>
     </div>
   </div>
