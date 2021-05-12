@@ -3,14 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 // top
-.slick-slide img {
-  margin: 0 auto;
-}
-
-.slick-slide {
-  width: auto !important;
-}
-
 #mv {
   width: 100%;
   height: 650px;
@@ -32,4 +24,45 @@
   max-width: 100%;
   height: auto;
   margin: 0 auto;
+}
+
+#main-contents {
+  width: 100%;
+  font-size: 17px;
+  font-family: "Times New Roman", "YuMincho", "Hiragino Mincho ProN", "Yu Mincho", "MS PMincho", serif;
+}
+
+//side-bar
+.side-bar {
+  width: 25%;
+  float: left;
+  overflow: hidden;
+}
+
+.main-content {
+  width: 75%;
+  float: right;
+  padding-left: 3%;
+}
+
+// about => skippr
+#container {
+  width: 80%;
+  height: 500px;
+}
+
+.image1 {
+  background-image: image-url("about/image1.jpg");
+}
+.image2 {
+  background-image: image-url("about/image2.jpg");
+}
+.image3 {
+  background-image: image-url("about/image3.jpg");
+}
+.image4 {
+  background-image: image-url("about/image4.jpg");
+}
+.image5 {
+  background-image: image-url("about/image5.jpg");
 }
