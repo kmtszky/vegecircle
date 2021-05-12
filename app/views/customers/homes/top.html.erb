@@ -21,9 +21,12 @@
   <div class="main-content">
     <div class="form-group mb-4">
       <h5>新着農家</h5>
+
     </div>
     <div class="form-group mb-4">
-      <h5>おすすめレシピ</h5>
+      <h5>新着レシピ</h5>
+      <%= render 'farmers/recipes/index', recipes: @recipes %>
+      <%= link_to ">> もっと見る", recipes_path, class: "ml-auto text-dark" %>
     </div>
     <div class="form-group mb-4">
       <h5>新着農業体験</h5>

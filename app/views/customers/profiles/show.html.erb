@@ -1,2 +1,17 @@
-<h1>Customers::Profiles#show</h1>
-<p>Find me in app/views/customers/profiles/show.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto pt-4">
+      <h4>マイページ</h4>
+    </div>
+    <div class="col-6 col-md-3 offset-1 offset-md-4 mt-4 text-center">
+      <%= attachment_image_tag @customer, :customer_image, :fill, 200, 200, class: "rounded-circle", fallback: asset_path('logo/customer_default_icon.jpg'), size: '200x200' %>
+    </div>
+    <div class="col-5 col-md-5 mt-4 m-auto">
+      <h6>ニックネーム</h6>
+      <%= @customer.nickname %>
+      <h6 class="mt-2">メールアドレス</h6>
+      <%= @customer.email %><br>
+      <%= link_to '編集する',  edit_profiles_path(@customer), class: "btn btn-sm btn-success mt-3" %>
+    </div>
+  </div>
+</div>

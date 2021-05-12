@@ -60,8 +60,8 @@
     <div class="col-12 col-md-8 mx-auto mt-3">
       <h6>農家ご飯<%= link_to "作成", new_farmers_recipe_path, class: "btn btn-sm btn-success ml-2" %></h6>
       <%= render 'farmers/recipes/index', recipes: @recipes %>
-      <% if @farmer.recipes.count >= 2 %>
-        <%= link_to ">> もっと見る", farmers_recipe_index_path, class: "ml-auto" %>
+      <% if @farmer.recipes.count >= 5 %>
+        <%= link_to ">> もっと見る", farmers_recipe_index_path, class: "ml-auto text-dark" %>
       <% end %>
     </div>
   </div>
