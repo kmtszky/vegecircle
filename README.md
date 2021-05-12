@@ -21,7 +21,7 @@
 ## 設計書
 - フレームワーク：設計中
 - データ定義書：設計中
-- アプリケーション設計書：設計中
+- アプリケーション設計書：[こちら（編集中）](https://docs.google.com/spreadsheets/d/1z2WgE_4dlXlCPx2sSBPhIXnWF-vRFV9kOiznjupi8p8/edit#gid=1370324779)
 
 ## チャレンジ要素一覧
 https://docs.google.com/spreadsheets/d/1bIgC1-iJJmsfqf6DTCR6UrqdrwCA4VTcVI3CknJvFFs/edit#gid=233246220
@@ -34,6 +34,6 @@ https://docs.google.com/spreadsheets/d/1bIgC1-iJJmsfqf6DTCR6UrqdrwCA4VTcVI3CknJv
 - IDE：Cloud9
 
 ## 使用素材
-- 写真素材：[PAKUDASO（](https://www.pakutaso.com/)
+- 写真素材：[PAKUDASO（ぱくたそ）](https://www.pakutaso.com/)
 - 写真素材：[photoAC](https://www.photo-ac.com/)
 - ロゴ：[Canva](https://www.canva.com/ja_jp/)
