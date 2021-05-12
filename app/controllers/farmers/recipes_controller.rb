@@ -3,35 +3,17 @@ class Farmers::RecipesController < ApplicationController
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
 
   def new
-    session.delete(:tag_list)
-    session.delete(:recipe)
     @recipe = Recipe.new
   end
 
-  def confirm
+  def create
     @recipe = current_farmer.recipes.new(recipe_params)
     @tag_list = params[:recipe][:tag_ids].split(',')
-    session[:recipe] = @recipe
-    session[:tag_list] = @tag_list
-    if @recipe.invalid? || @tag_list.blank?
-      render :new
-    end
-  end
-
-  def back
-    @recipe = current_farmer.recipes.new(session[:recipe])
-    session.delete(:recipe)
-    session.delete(:tag_list)
-    render :new
-  end
-
-  def create
-    @recipe = Recipe.new(session[:recipe])
     if @recipe.save
-      @recipe.save_tags(session[:tag_list])
-      session.delete(:recipe)
-      session.delete(:tag_list)
-      redirect_to farmers_recipe_path(params[:id]), flash: {success: "レシピを作成しました"}
+      @recipe.save_tags(@tag_list)
+      redirect_to farmers_recipe_path(@recipe), flash: {success: "レシピを作成しました"}
+    else
+      render :new
     end
   end
 
@@ -66,6 +48,6 @@ class Farmers::RecipesController < ApplicationController
   end
 
   def recipe_params
-    params.require(:recipe).permit(:title, :recipe_image, :duration, :amount, :ingredient, :recipe)
+    params.require(:recipe).permit(:title, :recipe_image, :duration, :amount, :ingredient, :recipe, :tag_ids)
   end
 end

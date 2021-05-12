@@ -1,11 +1,10 @@
 <div class="container">
   <div class="row">
     <div class="col-12 col-md-5 offset-md-2 my-2">
-      <%= render 'layouts/flash_for_devise' %>
       <table>
         <tbody>
           <tr>
-            <td rowspan="3"><%= attachment_image_tag @farmer, :farmer_image, :fill, 100, 100, class: "circle-icon", fallback: asset_path('logo/farmer_default_icon.jpg'), size: '100x100' %></td>
+            <td rowspan="3"><%= attachment_image_tag @farmer, :farmer_image, :fill, 100, 100, class: "rounded-circle", fallback: asset_path('logo/farmer_default_icon.jpg'), size: '100x100' %></td>
             <td class="cell-pl"><%= @farmer.farm_address %></td>
             <td></td>
           </tr>

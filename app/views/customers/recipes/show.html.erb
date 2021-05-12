@@ -1,2 +1,39 @@
-<h1>Customers::Recipes#show</h1>
-<p>Find me in app/views/customers/recipes/show.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-8 mx-auto mb-2">
+      <h4 class="text-left"><%= recipe.title %>のレシピ / 作り方</h4>
+      <div class="tag my-3">
+        <% tag_list.each do |tag| %>
+          <p><%= tag %></p>
+        <% end %>
+      </div>
+      <%= attachment_image_tag recipe, :recipe_image, class: "recipe_image", fallback: asset_path('no_images/no_image_lg.png') %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-8 mx-auto mb-2">
+      <h6 class="my-3">調理時間：約<%= recipe.duration %>分</h6>
+
+      <h4 class="text-left mb-3"><%= recipe.title %>の材料（<%= recipe.amount %>人分）</h4>
+      <%= safe_join(recipe.ingredient.split("\n"),tag(:br)) %><br>
+
+      <h4 class="text-left my-3"><%= recipe.title %>のつくりかた</h4>
+      <%= safe_join(recipe.recipe.split("\n"),tag(:br)) %>
+    </div>
+  </div>
+
+  <% if current_farmer.id == @recipe.farmer_id %>
+    <div class="row">
+      <div class="col-12 col-md-8 mx-auto mt-2 mb-4">
+        <table>
+          <tbody>
+            <tr>
+              <td><%= link_to "編集する", edit_farmers_recipe_path(@recipe), class: "btn btn-sm btn-success mr-3" %></td>
+              <td><%= link_to "削除する", farmers_recipe_path(@recipe), method: :delete, data: { confirm: "レシピを削除しますか?" }, class: "btn btn-sm btn-danger" %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>

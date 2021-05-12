@@ -1,5 +1,7 @@
 class Recipe < ApplicationRecord
 
+  attr_accessor :tag_ids
+
   belongs_to :farmer
   has_many :recipe_tags, dependent: :destroy
   has_many :tags, through: :recipe_tags
@@ -12,6 +14,7 @@ class Recipe < ApplicationRecord
     validates :amount, numericality: true
     validates :ingredient
     validates :recipe
+    validates :tag_ids, presence: true
   end
 
   attachment :recipe_image
