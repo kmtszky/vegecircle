@@ -19,6 +19,6 @@ class Event < ApplicationRecord
   end
 
   def favorited_by?(customer)
-    favorites.where(customer_id: customer.id).exists?
+    event_favorites.where(customer_id: customer.id).exists?
   end
 end

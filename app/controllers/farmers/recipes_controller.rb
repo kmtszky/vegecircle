@@ -1,6 +1,6 @@
 class Farmers::RecipesController < ApplicationController
   before_action :authenticate_farmer!
-  before_action :set_recipe, only: [:edit, :update, :destroy]
+  before_action :set_recipe, only: [:show, :edit, :update, :destroy]
 
   def recipe_index
     @farmer = Farmer.find(params[:id])
@@ -20,6 +20,10 @@ class Farmers::RecipesController < ApplicationController
     else
       render :new
     end
+  end
+
+  def show
+    @tag_list = @recipe.tags.pluck(:tag)
   end
 
   def edit

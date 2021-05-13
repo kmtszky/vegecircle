@@ -1,0 +1,5 @@
+<% if recipe.favorited_by?(current_customer) %>
+  <%= link_to recipe.recipe_favorites.count, recipe_favorite_recipes_path(recipe), method: :delete, remote: true, class: "fas fa-heart required" %>
+<% else %>
+  <%= link_to recipe.recipe_favorites.count, recipe_favorite_recipes_path(recipe), method: :post, remote: true, class: "far fa-heart text-secondary" %>
+<% end %>
