@@ -8,14 +8,11 @@ Rails.application.routes.draw do
   }
 
   namespace :farmers do
-    resources :recipes, except: [:index]
+    resources :recipes, except: [:index, :show]
       get '/:id/recipes' => 'recipes#recipe_index', as: 'recipe_index'
-    resources :events, except: [:index]
+    resources :events, except: [:index, :show]
       get '/:id/events' => 'events#event_index', as: 'event_index'
     resources :news, only: [:create, :destroy]
-  end
-
-  scope module: :farmers do
     resources :farmers, only: [:show, :edit, :update]
     get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe', as: 'farmers_unsubscribe'
     patch 'farmers/:id/withdraw'  => 'farmers#withdraw',    as: 'farmers_withdraw'

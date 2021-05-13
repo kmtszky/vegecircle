@@ -22,10 +22,6 @@ class Farmers::RecipesController < ApplicationController
     end
   end
 
-  def show
-    @tag_list = @recipe.tags.pluck(:tag)
-  end
-
   def edit
     @tag_list = @recipe.tags.pluck(:tag).join(",")
   end
