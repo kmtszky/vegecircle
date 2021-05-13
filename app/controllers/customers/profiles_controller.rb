@@ -24,7 +24,10 @@ class Customers::ProfilesController < ApplicationController
     redirect_to root_path, flash: {success: "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。"}
   end
 
-  def favorite
+  def favorites
+  end
+
+  def follows
   end
 
   private
