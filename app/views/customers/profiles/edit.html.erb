@@ -1,2 +1,24 @@
-<h1>Customers::Profiles#edit</h1>
-<p>Find me in app/views/customers/profiles/edit.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-5 mx-auto">
+      <h4>基本情報の変更</h4>
+      <%= render 'layouts/error_messages', validation: @customer %><br>
+
+      <%= form_with model: @customer, url: profiles_path, method: :patch, local: true do |f| %>
+
+        <div class="field form-group">
+          <%= f.label :nickname, "ニックネーム" %><string class="required"> *</string><br />
+          <%= f.text_field :nickname, class: "form-control form-control-sm" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :customer_image, "プロフィール画像" %><br />
+          <%= f.attachment_field :customer_image %>
+        </div>
+
+        <%= f.submit '変更を保存', class: "btn btn-success text-light mr-3" %>
+        <%= link_to  "退会する", customer_unsubscribe_path(@customer), class: "btn btn-danger" %>
+      <% end %>
+    </div>
+  </div>
+</div>

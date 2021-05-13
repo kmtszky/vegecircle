@@ -17,4 +17,8 @@ class Event < ApplicationRecord
     validates :location
     validates :access
   end
+
+  def favorited_by?(customer)
+    event_favorites.where(customer_id: customer.id).exists?
+  end
 end

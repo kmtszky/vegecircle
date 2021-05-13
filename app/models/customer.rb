@@ -12,6 +12,7 @@ class Customer < ApplicationRecord
   has_many :reservations, dependent: :destroy
 
   validates :nickname, uniqueness: true, presence: true
+  attachment :customer_image
 
   def active_for_authentication?
     super && (self.is_deleted == false)

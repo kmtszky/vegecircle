@@ -1,0 +1,16 @@
+<div class="d-flex flex-row flex-wrap">
+  <% farmers.each do |farmer| %>
+    <div class="list-box mr-4 card">
+      <div class="image_top">
+        <%= link_to farmer_path(farmer.id) do %>
+          <%= attachment_image_tag farmer, :farmer_image, :fill, 100, 100, class: "card-img-top", fallback: asset_path('no_images/no_image_md.png'), size: '100x150' %>
+        <% end %></div>
+      <div class="farmer">
+        <%= link_to farmer_path(farmer.id), class: "text-center text-body" do %>
+          <h6 class="mt-1 mb-0"><%= farmer.name %></h6>
+          <p><%= farmer.farm_address %></p>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
