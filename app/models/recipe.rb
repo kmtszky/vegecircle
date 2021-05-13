@@ -33,4 +33,8 @@ class Recipe < ApplicationRecord
       self.tags << recipe_tag
     end
   end
+
+  def favorited_by?(customer)
+    favorites.where(customer_id: customer.id).exists?
+  end
 end
