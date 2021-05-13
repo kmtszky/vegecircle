@@ -36,8 +36,9 @@ Rails.application.routes.draw do
       resource :favorite_events, only: [:create, :destroy]
     end
 
-    resources :farmers, only: [:index, :show]
-    resources :follows, only: [:index, :create, :destroy]
+    resources :farmers, only: [:index, :show] do
+      resources :follows, only: [:index, :create, :destroy]
+    end
     resources :reservations, only: [:new, :index, :show, :create, :destroy]
       post 'reservations/confirm'
       get 'reservations/thanx'

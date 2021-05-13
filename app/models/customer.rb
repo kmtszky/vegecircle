@@ -17,4 +17,8 @@ class Customer < ApplicationRecord
   def active_for_authentication?
     super && (self.is_deleted == false)
   end
+
+  def following?(farmer)
+    follows.where(farmer_id: farmer.id).exists?
+  end
 end
