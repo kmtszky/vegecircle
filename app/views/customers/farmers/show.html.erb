@@ -6,19 +6,23 @@
           <tr>
             <td rowspan="3"><%= attachment_image_tag @farmer, :farmer_image, :fill, 100, 100, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '100x100' %></td>
             <td class="cell-pl"><%= @farmer.farm_address %></td>
-            <td></td>
           </tr>
           <tr>
             <td class="cell-pl"><h3><%= @farmer.name %></h3></td>
-            <td></td>
           </tr>
           <tr>
             <td class="cell-pl">評価（〇件）</td>
-            <td></td>
           </tr>
         </tbody>
       </table><br>
       <%= @farmer.introduction %>
+      <% if customer_signed_in? %>
+        <% if current_customer.following?(@farmer) %>
+          <%= link_to "フォローを外す", farmer_follow_path(@farmer.id), method: :delete, class: "btn btn-sm btn-danger" %>
+        <% else %>
+          <%= link_to "フォローする", farmer_follows_path(@farmer.id), method: :post, class: "btn btn-sm btn-success" %>
+        <% end %>
+      <% end %>
     </div>
     <div class="col-12 col-md-4 mr-auto my-2">
       <%= attachment_image_tag @farmer, :image_1, class: "farm_pictures", fallback: asset_path('no_images/no_image_md.png'), size: '300x300' %>
