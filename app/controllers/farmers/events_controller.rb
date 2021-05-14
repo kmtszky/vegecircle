@@ -2,13 +2,13 @@ class Farmers::EventsController < ApplicationController
   before_action :authenticate_farmer!, exept: [:event]
   before_action :set_event, except: [:new, :create]
 
+  require "date"
+
   def new
     @event = Event.new
   end
 
   def create
-    require "date"
-
     start_d = Data.parse(params[:event][:start_date])
     end_d = Data.parse(params[:event][:start_date])
     number_of_days = end_d - start_d
@@ -25,25 +25,24 @@ class Farmers::EventsController < ApplicationController
   end
 
   def edit
-    unless @event.date > Data.today
+    if @event.date < Data.today
       redirect_to request.referer, flash: { danger: 'イベント日以降のため編集できません'}
     end
   end
 
   def update
-    if @event.date > Data.today
-      if params
-        if @event.update(event_params)
-
-          redirect_to event_path(@event), flash: { success: '農業体験を更新しました' }
-        else
-          render :edit
-        end
+    unless  @event.date < Data.today
+      updated_date = Date.parse(params[:event][:date])
+      if @event.update(event_params) || @event.update(date: updated_date)
+        redirect_to event_path(@event), flash: { success: '農業体験を更新しました' }
+      else
+        render :edit
+      end
     end
   end
 
   def withdraw
-    if @event.update(is_deleted :true)
+    if @event.update(is_deleted: true)
       redirect_to event_path(@event), flash: { success: '農業体験の受付を終了しました' }
     else
       render :edit
@@ -51,13 +50,16 @@ class Farmers::EventsController < ApplicationController
   end
 
   def destroy
-    unless @event.date < Data.today
+    if @event.date > Data.today
       @event.destroy
       redirect_to farmers_recipe_index_path, flash: { success: '農業体験を削除しました'}
+    else
+      render :edit
     end
   end
 
   def event_index
+    @events = Event.where(farmer_id: @farmer.id)
   end
 
   private
