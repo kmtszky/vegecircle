@@ -13,7 +13,7 @@
 
         <div class="field form-group">
           <%= f.label :farmer_image, "プロフィール画像" %><br />
-          <%= f.attachment_field :farmer_image %>
+          <%= f.attachment_field :farmer_image, class: "form-control-file" %>
         </div>
 
         <div class="field form-group">
@@ -33,9 +33,9 @@
 
         <div class="field form-group">
           <p>農家さん紹介画像（最大3つ）</p>
-          <%= f.attachment_field :image_1 %><br />
-          <%= f.attachment_field :image_2, class: "my-2" %><br />
-          <%= f.attachment_field :image_3 %><br />
+          <%= f.attachment_field :image_1, class: "form-control-file" %><br />
+          <%= f.attachment_field :image_2, class: "form-control-file my-2" %><br />
+          <%= f.attachment_field :image_3, class: "form-control-file"  %><br />
         </div>
 
         <%= f.submit '変更を保存', class: "btn btn-success text-light mr-3" %>

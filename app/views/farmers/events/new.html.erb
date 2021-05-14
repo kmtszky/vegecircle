@@ -22,67 +22,68 @@
           <%= f.text_area :body, rows: '5', class: "form-control form-control-sm" %>
         </div>
 
-        <div class="field form-group">
-          <%= f.label :fee, "イベント参加費（税込）" %><string class="required"> *</string><br />
-          <%= f.text_field :fee, class: "form-control form-control-sm" %>円
+        <div class="form-row align-items-end">
+          <div class="form-group col-6">
+            <%= f.label :fee, "イベント参加費（税込）" %><string class="required"> *</string><br />
+            <%= f.text_field :fee, class: "form-control form-control-sm" %>
+          </div>
+          <div class="form-group col-6">円</div>
         </div>
 
         <div class="field form-group">
           <%= f.label :cancel_change, "キャンセル・変更ポリシー" %><string class="required"> *</string><br />
-          <p>キャンセルや変更を何日前まで受け付けるかなどご記入ください。</p>
-          <%= f.text_area :cancel_change, rows: '5', class: "form-control form-control-sm" %>
+          <%= f.text_area :cancel_change, rows: '5', class: "form-control form-control-sm", placeholder: 'キャンセルや変更を何日前まで受け付けるかなどご記入ください。' %>
         </div>
 
-        <h5 class="mb-1">スケジュール</h5>
-        <h6>記入方法</h6>
-        <nav class="mb-2">
-          <ul>
-            <li>1日のみ開催する場合：開始日、終了日は同日をご選択ください。</li>
-            <li>連日開催する場合：開始日、終了日はそれぞれ別日を選択ください。</li>
-          </ul>
-        </nav>
+        <h5 class="mb-2">スケジュール</h5>
+          <strong>【 記入方法 】</strong>
+          <p class="ml-4">●　１日のみ開催する場合：開始日、終了日は<span class="required">同日を選択</span>してください。<br>
+             ●　連日開催する場合：開始日、終了日はそれぞれ<span class="required">別日を選択</span>してください。</p>
 
-        <div class="field form-group">
-          <%= f.label :start_date, "開始日" %><string class="required"> *</string><br />
-          <%= f.date_field :start_date %>
+        <div class="form-row align-items-end">
+          <div class="form-group col-5">
+            <%= f.label :start_date, "開始日" %><string class="required"> *</string><br />
+            <%= f.date_field :start_date, class: "form-control form-control-sm" %>
+          </div>
+
+          <div class="form-group col-5 ml-3">
+            <%= f.label :start_date, "終了日" %><string class="required"> *</string><br />
+            <%= f.date_field :start_date, class: "form-control form-control-sm" %>
+          </div>
         </div>
 
+        <div class="form-row align-items-end">
+          <div class="form-group col-5">
+            <%= f.label :start_time, "開始時刻" %><string class="required"> *</string><br />
+            <%= f.time_field :start_time, class: "form-control form-control-sm" %>
+          </div>
 
-        <div class="field form-group">
-          <%= f.label :start_date, "終了日" %><string class="required"> *</string><br />
-          <%= f.date_field :start_date %>
-        </div>
-
-        <div class="field form-group">
-          <%= f.label :start_time, "開始時刻" %><string class="required"> *</string><br />
-          <%= f.time_field :start_time %>
-        </div>
-
-        <div class="field form-group">
-          <%= f.label :end_time, "終了時刻" %><string class="required"> *</string><br />
-          <%= f.time_field :end_time %>
+          <div class="form-group col-5 ml-3">
+            <%= f.label :end_time, "終了時刻" %><string class="required"> *</string><br />
+            <%= f.time_field :end_time, class: "form-control form-control-sm" %>
+          </div>
         </div>
 
         <h5 class="mb-2">アクセス</h5>
         <div class="field form-group">
-          <%= f.label :location, "集合場所" %><string class="required"> *</string><br />
+          <%= f.label :location, "集合場所（住所）" %><string class="required"> *</string><br />
           <%= f.text_field :location, class: "form-control form-control-sm" %>
         </div>
 
         <div class="field form-group">
           <%= f.label :access, "アクセス方法" %><string class="required"> *</string><br />
-          <%= f.text_area :access, rows: '5', class: "form-control form-control-sm" %>
+          <%= f.text_area :access, rows: 3, class: "form-control form-control-sm" %>
         </div>
 
         <div class="field form-group">
           <%= f.label :parking, "駐車場" %><string class="required"> *</string><br />
-          <%= f.select :parking, Event.parking.keys.map {|k| [k, k]}, { selected: Event.parking }, class: "form-control form-control-sm" %>
+          <%= f.select :parking, Event.parkings.keys.map {|k| [k, k]}, { selected: @event.parking }, class: "form-control form-control-sm" %>
         </div>
 
         <h5 class="mb-2">そのほか</h5>
         <div class="field form-group">
-          <%= f.label :etc, "持ち物など追記事項" %><br />
-          <%= f.text_area :etc, class: "form-control form-control-sm" %>
+          <%= f.label :etc, "持ち物など、追記事項がございましたらご記入をお願いいたします。" %><br />
+          <%= f.text_area :etc, rows: 3, class: "form-control form-control-sm" %>
         </div>
 
         <%= f.submit '作成する', class: "btn btn-success text-light mr-3" %>
