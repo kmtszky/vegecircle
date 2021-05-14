@@ -1,2 +1,92 @@
-<h1>Farmers::Events#new</h1>
-<p>Find me in app/views/farmers/events/new.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-6 mx-auto bg-gray p-5">
+      <h4>農業体験イベントの作成</h4>
+
+      <%= render 'layouts/error_messages', validation: @event %><br>
+      <%= form_with model: [:farmers, @event], local: true do |f| %>
+
+        <h5 class="mb-2">イベント概要</h5>
+        <div class="field form-group">
+          <%= f.label :title, "イベント名" %><string class="required"> *</string><br />
+          <%= f.text_field :title, class: "form-control form-control-sm" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :plan_image, "イベント紹介画像" %><string class="required"> *</string><br />
+          <%= f.attachment_field :plan_image, class: "form-control-file" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :body, "イベント概要" %><string class="required"> *</string><br />
+          <%= f.text_area :body, rows: '5', class: "form-control form-control-sm" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :fee, "イベント参加費（税込）" %><string class="required"> *</string><br />
+          <%= f.text_field :fee, class: "form-control form-control-sm" %>円
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :cancel_change, "キャンセル・変更ポリシー" %><string class="required"> *</string><br />
+          <p>キャンセルや変更を何日前まで受け付けるかなどご記入ください。</p>
+          <%= f.text_area :cancel_change, rows: '5', class: "form-control form-control-sm" %>
+        </div>
+
+        <h5 class="mb-1">スケジュール</h5>
+        <h6>記入方法</h6>
+        <nav class="mb-2">
+          <ul>
+            <li>1日のみ開催する場合：開始日、終了日は同日をご選択ください。</li>
+            <li>連日開催する場合：開始日、終了日はそれぞれ別日を選択ください。</li>
+          </ul>
+        </nav>
+
+        <div class="field form-group">
+          <%= f.label :start_date, "開始日" %><string class="required"> *</string><br />
+          <%= f.date_field :start_date %>
+        </div>
+
+
+        <div class="field form-group">
+          <%= f.label :start_date, "終了日" %><string class="required"> *</string><br />
+          <%= f.date_field :start_date %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :start_time, "開始時刻" %><string class="required"> *</string><br />
+          <%= f.time_field :start_time %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :end_time, "終了時刻" %><string class="required"> *</string><br />
+          <%= f.time_field :end_time %>
+        </div>
+
+        <h5 class="mb-2">アクセス</h5>
+        <div class="field form-group">
+          <%= f.label :location, "集合場所" %><string class="required"> *</string><br />
+          <%= f.text_field :location, class: "form-control form-control-sm" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :access, "アクセス方法" %><string class="required"> *</string><br />
+          <%= f.text_area :access, rows: '5', class: "form-control form-control-sm" %>
+        </div>
+
+        <div class="field form-group">
+          <%= f.label :parking, "駐車場" %><string class="required"> *</string><br />
+          <%= f.select :parking, Event.parking.keys.map {|k| [k, k]}, { selected: Event.parking }, class: "form-control form-control-sm" %>
+        </div>
+
+        <h5 class="mb-2">そのほか</h5>
+        <div class="field form-group">
+          <%= f.label :etc, "持ち物など追記事項" %><br />
+          <%= f.text_area :etc, class: "form-control form-control-sm" %>
+        </div>
+
+        <%= f.submit '作成する', class: "btn btn-success text-light mr-3" %>
+      <% end %>
+    </div>
+  </div>
+</div>

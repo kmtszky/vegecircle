@@ -9,7 +9,7 @@ class Event < ApplicationRecord
 
   with_options presence: true do
     validates :title
-    validates :plan_image_id
+    validates :plan_image
     validates :body
     validates :fee, numericality: { only_integer: true }
     validates :cancel_change
@@ -34,8 +34,15 @@ class Event < ApplicationRecord
     unless (start_date == nil) && (end_date == nil)
       errors.add(:start_date, 'は本日以降の日付を選択してください') if (start_date < Date.today)
       errors.add(:end_date,   'は本日以降の日付を選択してください') if (end_date < Date.today)
+      errors.add(:end_date,   'は開始日以降の日付を選択してください') if (end_date < start_date)
     end
   end
+
+  enum parking: {
+    "駐車場あり、予約不要": 0,
+    "駐車場あり、予約要": 1,
+    "駐車場なし": 2,
+  }
 
   def favorited_by?(customer)
     event_favorites.where(customer_id: customer.id).exists?
