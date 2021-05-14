@@ -21,4 +21,9 @@ class Event < ApplicationRecord
   def favorited_by?(customer)
     event_favorites.where(customer_id: customer.id).exists?
   end
+
+  def updated_date_passed?(event_date)
+    require "date"
+    event_date < Data.today
+  end
 end
