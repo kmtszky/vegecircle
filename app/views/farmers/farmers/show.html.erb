@@ -16,7 +16,7 @@
             <td class="cell-pl">評価（〇件）</td>
             <td class="cell-pl">
               <% if current_farmer == @farmer %>
-                <%= link_to "編集する", edit_farmer_path(current_farmer), class: "btn btn-sm btn-success" %>
+                <%= link_to "編集する", edit_farmers_farmer_path(current_farmer), class: "btn btn-sm btn-success" %>
               <% end %>
             </td>
           </tr>
