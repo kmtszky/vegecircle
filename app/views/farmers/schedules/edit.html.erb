@@ -1,2 +1,43 @@
-<h1>Farmers::Schedules#edit</h1>
-<p>Find me in app/views/farmers/schedules/edit.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-8 mx-auto bg-gray p-5">
+      <h4><%= @event.title %>の日程編集</h4>
+
+      <%= render 'layouts/error_messages', validation: @schedule %><br>
+      <%= form_with model: [:farmers, @event, @schedule], local: true do |f| %>
+
+        <h5 class="mb-2">スケジュール</h5>
+        <div class="form-row align-items-start strong">
+          <div class="col-8 col-md-5 mb-3">
+            <h6>◆ 現在のスケジュール</h6>
+            <%= @schedule.date.strftime('%Y/%m/%d') %><br><%= @schedule.start_time.strftime('%H:%M') %> ～ <%= @schedule.end_time.strftime('%H:%M') %>
+          </div>
+          <div class="col-8 col-md-5 mb-3">
+            <h6>◆ 変更後のスケジュール</h6>
+            <div class="form-group form-row">
+              <%= f.label :date, "日程" %><string class="required"> *</string><br />
+              <%= f.date_field :date, class: "form-control form-control-sm" %>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <%= f.label :start_time, "開始時刻" %><string class="required"> *</string><br />
+                <%= f.time_field :start_time, class: "form-control form-control-sm" %>
+              </div>
+              <div class="form-group">
+                <%= f.label :end_time, "終了時刻" %><string class="required"> *</string><br />
+                <%= f.time_field :end_time, class: "form-control form-control-sm" %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group d-flex">
+          <%= f.submit '更新する', class: "btn btn-success text-light mr-3" %>
+          <%= link_to '受付を終了する', farmers_event_schedule_withdraw_path(@schedule), data: { confirm: "#{@schedule.date.strftime('%Y/%m/%d')}の受付を終了しますか？" }, class: "btn btn-warning mr-3" %>
+          <%= link_to '削除する', farmers_event_schedule_path(@schedule), data: { confirm: "#{@schedule.date.strftime('%Y/%m/%d')}のイベントを削除しますか？" }, class: "btn btn-danger mr-3" %>
+          <%= link_to "戻る", farmers_event_schedule_path(@schedule), class: "btn btn-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

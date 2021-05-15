@@ -11,8 +11,9 @@ Rails.application.routes.draw do
     resources :recipes, except: [:index, :show]
       get '/:id/recipes' => 'recipes#recipe_index', as: 'recipe_index'
     resources :events, except: [:index] do
-      resources :schedules, only: [:edit, :update, :destroy]
+      resources :schedules, only: [:show, :edit, :update, :destroy]
       patch 'schedules/:id/withdraw' => 'schedules#withdraw', as: 'schedule_withdraw'
+      patch 'schedules/:id/restart' => 'schedules#restart', as: 'schedule_restart'
     end
       get '/:id/events'           => 'events#event_index', as: 'event_index'
     resources :news, only: [:create, :destroy]
@@ -37,6 +38,7 @@ Rails.application.routes.draw do
     end
     resources :events, only: [:index, :show] do
       resource :favorite_events, only: [:create, :destroy]
+      resources :schedules, only: [:index, :show]
     end
 
     resources :farmers, only: [:index, :show] do

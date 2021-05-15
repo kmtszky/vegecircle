@@ -1,0 +1,16 @@
+<% if reservations.count == 0 %>
+  <h6>予約なし</h6>
+<% else %>
+  <h6>現在のご予約数：<%= reservations.count %></h6>
+
+  <table class="table">
+    <tbody>
+      <% reservations.each do |reservation| %>
+        <tr>
+          <td><%= attachment_image_tag reservation.customer, :customer_image, :fill, 80, 80, class: "rounded-circle", fallback: asset_path('logo/customer_default_icon.jpg'), size: '80x80' %></td>
+          <td><%= reservation.customer.nickname %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

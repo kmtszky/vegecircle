@@ -2,6 +2,9 @@ class Farmers::SchedulesController < ApplicationController
   before_action :authenticate_farmer!
   before_action :set_schedule
 
+  def show
+  end
+
   def edit
     if @schedule.date < Date.today
       redirect_to farmers_event_path(@event)
@@ -21,18 +24,21 @@ class Farmers::SchedulesController < ApplicationController
     redirect_to farmers_event_path(@event), flash: { success: "イベントの受付を終了しました" }
   end
 
+  def restart
+    @schedule.update(is_deleted: false)
+    redirect_to farmers_event_path(@event), flash: { success: "イベントの受付を再開しました" }
+  end
+
   def destroy
-    if @schedule.date > Date.today
-      @schedule.destroy
-      redirect_to farmers_event_path(@event), flash: { success: "イベントを削除しますか？"}
-    end
+    @schedule.destroy
+    redirect_to farmers_event_path(@event), flash: { success: "イベントを削除しました"}
   end
 
   private
 
   def set_schedule
-    @event = Event.find(id: params[:farmer_id])
     @schedule = Schedule.find(params[:id])
+    @event = Event.find_by(id: @schedule.event_id)
   end
 
   def schedule_params

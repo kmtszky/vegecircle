@@ -5,7 +5,7 @@
     </div>
     <div class="col-12 col-md-5 mr-auto my-2">
       <h4 class="text-left mb-3"><%= @event.title %></h4>
-      <h6><i class="fas fa-bookmark text-success"></i> <%= @event.event_favorites.count %></h6>
+      <h6><i class="fas fa-heart text-danger"></i> <%= @event.event_favorites.count %></h6>
       <%= safe_join(@event.body.split("\n"),tag(:br)) %>
     </div>
   </div>
@@ -18,10 +18,10 @@
           <tr>
             <th>イベント期間</th>
             <td>
-              個別に日時を編集する場合、以下のボタンから日程を選択してください：<br>
-              <% @schedules.each do |day| %>
-                <%= link_to edit_farmers_event_schedule_path(@event), class: "btn btn-success btn-sm mr-3" do %>
-                  <%= day.strftime("%Y/%m/%d") %>
+              <p>各日の日程詳細や予約状況の確認、日時・予約受付状況を更新する場合、<br>以下のボタンから希望の日程を選択してください：</p>
+              <% @schedules.each do |schedule| %>
+                <%= link_to farmers_event_schedule_path(schedule), class: "btn btn-success btn-sm mr-3" do %>
+                  <%= schedule.date.strftime("%Y/%m/%d") %>
                 <% end %>
               <% end %>
               </td>
@@ -51,7 +51,7 @@
     <div class="col-12 col-md-10 mx-auto mb-2 event">
       <%= render "farmers/events/access", event: @event %>
       </table>
-      <% unless @schedule.date > Data.today %>
+      <% unless @schedule.date > Date.today %>
         <div class="form-group d-flex mt-3">
           <%= link_to "編集する", edit_farmers_event_path(@event), class: "btn btn-success mr-3" %>
           <%= link_to "削除する", farmers_event_path(@event), method: :delete, data: { confirm: "このイベントを全日程まとめて削除しますか？"},class: "btn btn-danger" %>

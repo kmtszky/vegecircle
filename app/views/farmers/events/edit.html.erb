@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-8 mx-auto bg-gray p-5">
-      <h4>農業体験イベントの編集</h4>
+    <div class="col-12 col-md-10 mx-auto bg-gray p-5">
+      <h4><%= @event.title %>の編集</h4>
 
       <%= render 'layouts/error_messages', validation: @event %><br>
       <%= form_with model: [:farmers, @event], url: , local: true do |f| %>

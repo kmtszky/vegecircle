@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-5 offset-md-1 mb-4">
+      <%= attachment_image_tag @event, :plan_image, class: "farm_pictures", fallback: asset_path('no_images/no_image_md.png'), size: '300x300' %>
+    </div>
+    <div class="col-12 col-md-5 mr-auto my-2">
+      <h4 class="text-left mb-3"><%= @event.title %></h4>
+      <h6><i class="fas fa-heart text-danger"></i> <%= @event.event_favorites.count %></h6>
+      <%= safe_join(@event.body.split("\n"),tag(:br)) %>
+    </div>
+  </div>
+
+  <%= render "farmers/schedules/show", event: @event, schedule: @schedule %>
+
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto mb-2 event">
+      <%= render "farmers/events/access", event: @event %>
+    </div>
+  </div>
+</div>

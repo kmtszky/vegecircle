@@ -27,9 +27,8 @@ class Farmers::EventsController < ApplicationController
   end
 
   def show
-    event_schedule = Schedule.where(event_id: @event.id)
-    @schedules = event_schedule.pluck(:date)
-    @schedule = event_schedule.first
+    @schedules = Schedule.where(event_id: @event.id)
+    @schedule = @schedules.first
   end
 
   def edit
