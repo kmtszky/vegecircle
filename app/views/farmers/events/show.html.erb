@@ -22,11 +22,18 @@
           <tr>
             <th>イベント期間</th>
             <td>
-              <% if @event.start_date == @event.end_date %>
-                <%= @schedule.date.strftime("%Y/%m/%d") %>
+              <p><% if @schedules.count == 1 %>
+                <%= @schedules.date.strftime("%Y/%m/%d") %>
               <% else %>
                 <%= @event.start_date.strftime("%Y/%m/%d") %> ～ <%= @event.end_date.strftime("%Y/%m/%d") %>まで1日毎
-              <% end %></td>
+              <% end %></p>
+              個別に日時を編集する場合、以下のボタンから日程を選択してください：<br>
+              <% @schedules.each do |day| %>
+                <%= link_to edit_farmers_event_schedule_path(@event), class: "btn btn-success btn-sm mr-3" do %>
+                  <%= day.strftime("%Y/%m/%d") %>
+                <% end %>
+              <% end %>
+              </td>
           </tr>
           <tr>
             <th>開催時刻</th>
@@ -52,7 +59,7 @@
   <div class="row">
     <div class="col-12 col-md-10 mx-auto mb-2 event">
       <h5 class="mb-2">アクセス</h5>
-      <table class="table">
+      <table class="table mb-2">
         <tbody>
           <tr>
             <th>集合場所</th>
@@ -68,6 +75,10 @@
           </tr>
         </tbody>
       </table>
+      <div class="form-group d-flex mt-3">
+        <%= link_to "編集する", edit_farmers_event_path(@event), class: "btn btn-success mr-3" %>
+        <%= link_to "削除する", farmers_event_path(@event), method: :delete, class: "btn btn-danger" %>
+      </div>
     </div>
   </row>
 </div>

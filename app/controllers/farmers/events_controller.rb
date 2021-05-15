@@ -1,6 +1,7 @@
 class Farmers::EventsController < ApplicationController
   before_action :authenticate_farmer!, exept: [:event_index]
   before_action :set_event, only: [:show, :edit, :update, :destroy, :withdraw]
+  before_action :set_schedule, only: [:edit, :update, :destroy, :withdraw]
 
   def new
     @event = Event.new
@@ -11,7 +12,7 @@ class Farmers::EventsController < ApplicationController
     if @event.save
       start_d = @event.start_date
       end_d = @event.end_date
-      number_of_days = end_d - start_d + 1
+      number_of_days = end_d - start_d
 
       start_d.step(start_d + number_of_days, 1) do |day|
         @schedule = Schedule.new(date: day, event_id: @event.id)
@@ -27,11 +28,16 @@ class Farmers::EventsController < ApplicationController
 
   def show
     @schedule = Schedule.find_by(event_id: @event.id)
+    @schedules = Schedule.where(event_id: @event.id).pluck(:date)
   end
 
   def edit
-    if @event.date < Date.today
-      redirect_to request.referer, flash: { danger: 'イベント日以降のため編集できません'}
+    @schedules = Schedule.where(event_id: @event.id)
+    start_date = @schedules.pluck(:date).first
+    if start_date < Date.today
+      redirect_to request.referer, flash: { danger: 'イベント開始日以降のため編集できません'}
+    else
+
     end
   end
 
@@ -46,14 +52,6 @@ class Farmers::EventsController < ApplicationController
     end
   end
 
-  def withdraw
-    if @event.update(is_deleted: true)
-      redirect_to event_path(@event), flash: { success: '農業体験の受付を終了しました' }
-    else
-      render :edit
-    end
-  end
-
   def destroy
     if @event.date > Date.today
       @event.destroy
@@ -63,14 +61,14 @@ class Farmers::EventsController < ApplicationController
     end
   end
 
-  def event_index
-    @events = Event.where(farmer_id: @farmer.id)
-  end
-
   private
 
   def set_event
     @event = Event.find(params[:id])
+  end
+
+  def set_schedule
+    @schedules = Schedule.where(event_id: @event.id)
   end
 
   def event_params

@@ -36,10 +36,19 @@
         </div>
 
         <h5 class="mb-2">スケジュール</h5>
+          <strong>【 記入方法 】</strong>
+          <p class="ml-4">●　１日のみ開催する場合：開始日、終了日は<span class="required">同日を選択</span>してください。<br>
+             ●　連日開催する場合：開始日、終了日はそれぞれ<span class="required">別日を選択</span>してください。</p>
+
         <div class="form-row align-items-end">
           <div class="form-group col-5">
-            <%= f.label :date, "開催日" %><string class="required"> *</string><br />
-            <%= f.date_field :date, class: "form-control form-control-sm" %>
+            <%= f.label :start_date, "開始日" %><string class="required"> *</string><br />
+            <%= f.date_field :start_date, class: "form-control form-control-sm" %>
+          </div>
+
+          <div class="form-group col-5 ml-3">
+            <%= f.label :end_date, "終了日" %><string class="required"> *</string><br />
+            <%= f.date_field :end_date, class: "form-control form-control-sm" %>
           </div>
         </div>
 

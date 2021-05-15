@@ -2,7 +2,6 @@ class Event < ApplicationRecord
 
   belongs_to :farmer
   has_many :event_favorites, dependent: :destroy
-  has_many :reservations, dependent: :destroy
   has_many :schedules, dependent: :destroy
   attr_accessor :start_time
   attr_accessor :end_time
