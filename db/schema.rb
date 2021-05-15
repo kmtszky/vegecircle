@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_12_170147) do
+ActiveRecord::Schema.define(version: 2021_05_15_083957) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -76,9 +76,6 @@ ActiveRecord::Schema.define(version: 2021_05_12_170147) do
     t.text "body", null: false
     t.integer "fee", null: false
     t.text "cancel_change", null: false
-    t.date "date", null: false
-    t.time "start_time", null: false
-    t.time "end_time", null: false
     t.string "location", null: false
     t.text "access", null: false
     t.integer "parking", default: 0, null: false
@@ -86,6 +83,8 @@ ActiveRecord::Schema.define(version: 2021_05_12_170147) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_deleted", default: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
     t.index ["farmer_id"], name: "index_events_on_farmer_id"
     t.index ["location"], name: "index_events_on_location", unique: true
   end
@@ -171,6 +170,16 @@ ActiveRecord::Schema.define(version: 2021_05_12_170147) do
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_reservations_on_customer_id"
     t.index ["event_id"], name: "index_reservations_on_event_id"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.integer "event_id", null: false
+    t.date "date", null: false
+    t.time "start_time", null: false
+    t.time "end_time", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_schedules_on_event_id"
   end
 
   create_table "tags", force: :cascade do |t|

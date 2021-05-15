@@ -15,7 +15,7 @@ class Farmers::EventsController < ApplicationController
       render :new
     else
       start_d = Date.parse(params[:event][:start_date])
-      end_d = Date.parse(params[:event][:start_date])
+      end_d = Date.parse(params[:event][:end_date])
       number_of_days = end_d - start_d
 
       start_d.step(start_d + number_of_days, 1) do |day|
