@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   namespace :farmers do
     resources :recipes, except: [:index, :show]
       get '/:id/recipes' => 'recipes#recipe_index', as: 'recipe_index'
-    resources :events, except: [:index, :show]
+    resources :events, except: [:index]
       patch 'events/:id/withdraw' => 'events#withdraw',    as: 'event_withdraw'
       get '/:id/events'           => 'events#event_index', as: 'event_index'
     resources :news, only: [:create, :destroy]

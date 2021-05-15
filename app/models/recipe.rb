@@ -1,11 +1,10 @@
 class Recipe < ApplicationRecord
 
-  attr_accessor :tag_ids
-
   belongs_to :farmer
   has_many :recipe_tags, dependent: :destroy
   has_many :tags, through: :recipe_tags
   has_many :recipe_favorites, dependent: :destroy
+  attr_accessor :tag_ids
 
   with_options presence: true do
     validates :title
