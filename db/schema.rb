@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_15_083957) do
+ActiveRecord::Schema.define(version: 2021_05_15_100607) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 2021_05_15_083957) do
     t.date "start_date", null: false
     t.date "end_date", null: false
     t.index ["farmer_id"], name: "index_events_on_farmer_id"
-    t.index ["location"], name: "index_events_on_location", unique: true
+    t.index ["location"], name: "index_events_on_location"
   end
 
   create_table "farmers", force: :cascade do |t|
