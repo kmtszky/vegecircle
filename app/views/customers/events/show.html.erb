@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-5 offset-md-1 mb-4">
+      <%= attachment_image_tag @event, :plan_image, class: "farm_pictures", fallback: asset_path('no_images/no_image_md.png'), size: '300x300' %>
+    </div>
+    <div class="col-12 col-md-5 mr-auto my-2">
+      <h4 class="text-left mb-3"><%= @event.title %></h4>
+      <% if customer_signed_in? %>
+        <h6 class="favorite-btn"><%= render 'customers/favorite_events/favorite-btn', event: @event %></h6>
+      <% else %>
+        <h6><i class="fas fa-bookmark text-success"></i> <%= @event.event_favorites.count %></h6>
+      <% end %>
+      <%= safe_join(@event.body.split("\n"),tag(:br)) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto mb-2 event">
+      <h5 class="mb-2">イベント概要</h5>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>イベント期間</th>
+            <td class="d-flex">
+              <% @schedules.each do |day| %>
+                <p class="mr-3"><%= day.strftime("%Y/%m/%d") %></p>
+              <% end %>
+              </td>
+          </tr>
+          <tr>
+            <th>開催時刻</th>
+            <td><%= @schedule.start_time.strftime("%H:%M") %> ～ <%= @schedule.end_time.strftime("%H:%M") %></td>
+          </tr>
+          <tr>
+            <th>イベント参加費（税込）</th>
+            <td><%= @event.fee %></td>
+          </tr>
+          <tr>
+            <th>キャンセル・変更ポリシー</th>
+            <td><%= @event.cancel_change %></td>
+          </tr>
+          <tr>
+            <th>そのほか</th>
+            <td><%= @event.etc %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto mb-2 event">
+      <%= render "farmers/events/access", event: @event %>
+    </div>
+  </row>
+</div>
