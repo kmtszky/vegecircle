@@ -9,8 +9,8 @@ class Farmers::FarmersController < ApplicationController
     news_index = News.where(farmer_id: @farmer.id).order('created_at DESC')
     @news_last3 = news_index.first(3)
     @news_left = news_index.offset(3)
-    recipe_index = Recipe.where(farmer_id: @farmer.id).order('created_at DESC')
-    @recipes = recipe_index.first(5)
+    @recipes = Recipe.where(farmer_id: @farmer.id).order('created_at DESC').first(5)
+    @events = Event.where(farmer_id: @farmer.id).order('created_at DESC').first(5)
   end
 
   def edit

@@ -17,8 +17,8 @@ class Event < ApplicationRecord
     validates :access
     validates :start_date
     validates :end_date
-    validates :start_time
-    validates :end_time
+    validates :start_time, on: :create
+    validates :end_time, on: :create
   end
 
   validate do

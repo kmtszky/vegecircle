@@ -4,7 +4,7 @@
       <h4>農業体験イベントの編集</h4>
 
       <%= render 'layouts/error_messages', validation: @event %><br>
-      <%= form_with model: [:farmers, @event], local: true do |f| %>
+      <%= form_with model: [:farmers, @event], url: , local: true do |f| %>
 
         <h5 class="mb-2">イベント概要</h5>
         <div class="field form-group">
@@ -36,32 +36,13 @@
         </div>
 
         <h5 class="mb-2">スケジュール</h5>
-          <strong>【 記入方法 】</strong>
-          <p class="ml-4">●　１日のみ開催する場合：開始日、終了日は<span class="required">同日を選択</span>してください。<br>
-             ●　連日開催する場合：開始日、終了日はそれぞれ<span class="required">別日を選択</span>してください。</p>
-
-        <div class="form-row align-items-end">
-          <div class="form-group col-5">
-            <%= f.label :start_date, "開始日" %><string class="required"> *</string><br />
-            <%= f.date_field :start_date, class: "form-control form-control-sm" %>
-          </div>
-
-          <div class="form-group col-5 ml-3">
-            <%= f.label :end_date, "終了日" %><string class="required"> *</string><br />
-            <%= f.date_field :end_date, class: "form-control form-control-sm" %>
-          </div>
-        </div>
-
-        <div class="form-row align-items-end">
-          <div class="form-group col-5">
-            <%= f.label :start_time, "開始時刻" %><string class="required"> *</string><br />
-            <%= f.time_field :start_time, class: "form-control form-control-sm" %>
-          </div>
-
-          <div class="form-group col-5 ml-3">
-            <%= f.label :end_time, "終了時刻" %><string class="required"> *</string><br />
-            <%= f.time_field :end_time, class: "form-control form-control-sm" %>
-          </div>
+        <div class="field form-group">
+          以下のボタンからスケジュールを変更したい日程を選択してください：<br>
+          <% @schedules.each do |day| %>
+            <%= link_to edit_farmers_event_schedule_path(@event), class: "btn btn-success btn-sm mr-3" do %>
+              <%= day.strftime("%Y/%m/%d") %>
+            <% end %>
+          <% end %>
         </div>
 
         <h5 class="mb-2">アクセス</h5>
@@ -86,7 +67,11 @@
           <%= f.text_area :etc, rows: 3, class: "form-control form-control-sm" %>
         </div>
 
-        <%= f.submit '更新する', class: "btn btn-success text-light mr-3" %>
+        <h6 class="required mt-2">※更新ボタンを押されますと、全日程のイベント概要、アクセスが更新されます※</h6>
+        <div class="form-group d-flex mt-3">
+          <%= f.submit '更新する', class: "btn btn-success text-light mr-3" %>
+          <%= link_to "戻る", farmers_event_path(@event), class: "btn btn-secondary" %>
+        </div>
       <% end %>
     </div>
   </div>
