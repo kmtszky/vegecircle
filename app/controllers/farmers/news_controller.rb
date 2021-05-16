@@ -3,9 +3,7 @@ class Farmers::NewsController < ApplicationController
 
   def create
     @news = current_farmer.news.new(news_params)
-    if @news.save
-      redirect_to farmer_path(current_farmer)
-    else
+    unless @news.save
       @farmer = current_farmer
       render template: "farmers/farmers/show"
     end
@@ -13,11 +11,7 @@ class Farmers::NewsController < ApplicationController
 
   def destroy
     news = News.find(params[:id])
-    if news.destroy
-      redirect_to farmer_path(current_farmer)
-    else
-      render template: "farmers/farmers/show"
-    end
+    news.destroy
   end
 
   private

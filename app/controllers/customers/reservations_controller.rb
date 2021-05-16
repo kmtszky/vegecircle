@@ -1,7 +1,6 @@
 class Customers::ReservationsController < ApplicationController
-  def index
-    @reservations = Reservation.where(customer_id: current_customer.id)
-  end
+  before_action :authenticate_customer!
+  before_action :set_reservation, only: [:show, :destroy]
 
   def new
     @reservation = Reservation.new
@@ -15,6 +14,10 @@ class Customers::ReservationsController < ApplicationController
   end
 
   def show
+  end
+
+  def index
+    @reservations = Reservation.where(customer_id: current_customer.id)
   end
 
   def destroy

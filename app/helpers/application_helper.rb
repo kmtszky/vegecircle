@@ -10,4 +10,8 @@ module ApplicationHelper
   def show_time(time)
     time.strftime("%H:%M")
   end
+
+  def create_time(time)
+    time.strftime("%Y/%m/%d %H:%M")
+  end
 end

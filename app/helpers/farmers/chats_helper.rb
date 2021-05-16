@@ -1,0 +1,2 @@
+module Farmers::ChatsHelper
+end
