@@ -17,11 +17,9 @@
       </table><br>
       <%= @farmer.introduction %>
       <% if customer_signed_in? %>
-        <% if current_customer.following?(@farmer) %>
-          <%= link_to "フォローを外す", farmer_follow_path(@farmer.id), method: :delete, class: "btn btn-sm btn-danger" %>
-        <% else %>
-          <%= link_to "フォローする", farmer_follows_path(@farmer.id), method: :post, class: "btn btn-sm btn-success" %>
-        <% end %>
+        <div class="follow-btn-<%= @farmer.id %>">
+          <%= render "customers/follows/follow", farmer: @farmer %>
+        </div>
       <% end %>
     </div>
     <div class="col-12 col-md-5 mr-auto my-2">
