@@ -29,9 +29,9 @@
       <div class="d-flex mb-4">
         <h5 class="mr-3">予約状況</h5>
         <% if @schedule.is_deleted == false %>
-          <%= link_to "予約受付を終了する", farmers_event_schedule_withdraw_path(@schedule),data: { confirm: "#{@schedule.date.strftime('%Y/%m/%d')}の受付を終了しますか？" }, data: { confirm: "#{@schedule.date.strftime('%Y/%m/%d')}の予約受付を終了しますか？"}, class: "btn btn-danger" %>
+          <%= link_to "予約受付を終了する", farmers_event_schedule_withdraw_path(@schedule), method: :patch, data: { confirm: "#{show_date(@schedule.date)}の予約受付を終了しますか？" }, class: "btn btn-danger" %>
         <% else %>
-          <%= link_to "予約受付を再開する", farmers_event_schedule_restart_path(@schedule), data: { confirm: "#{@schedule.date.strftime('%Y/%m/%d')}の受付を再開しますか？" }, data: { confirm: "#{@schedule.date.strftime('%Y/%m/%d')}の予約受付を終了しますか？"}, class: "btn btn-success" %>
+          <%= link_to "予約受付を再開する", farmers_event_schedule_restart_path(@schedule), method: :patch, data: { confirm: "#{show_date(@schedule.date)}の予約受付を再開しますか？" }, class: "btn btn-success" %>
         <% end %>
       </div>
       <%= render "customers/reservations/index", reservations: @schedule.reservations %>

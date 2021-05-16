@@ -40,7 +40,7 @@
           以下のボタンからスケジュールを変更したい日程を選択してください：<br>
           <% @schedules.each do |day| %>
             <%= link_to edit_farmers_event_schedule_path(@event), class: "btn btn-success btn-sm mr-3" do %>
-              <%= day.strftime("%Y/%m/%d") %>
+              <%= show_date(day) %>
             <% end %>
           <% end %>
         </div>

@@ -21,12 +21,12 @@ class Farmers::SchedulesController < ApplicationController
 
   def withdraw
     @schedule.update(is_deleted: true)
-    redirect_to farmers_event_path(@event), flash: { success: "イベントの受付を終了しました" }
+    redirect_to farmers_event_schedule_path(@event), flash: { success: "イベントの受付を終了しました" }
   end
 
   def restart
     @schedule.update(is_deleted: false)
-    redirect_to farmers_event_path(@event), flash: { success: "イベントの受付を再開しました" }
+    redirect_to farmers_event_schedule_path(@event), flash: { success: "イベントの受付を再開しました" }
   end
 
   def destroy
@@ -38,7 +38,7 @@ class Farmers::SchedulesController < ApplicationController
 
   def set_schedule
     @schedule = Schedule.find(params[:id])
-    @event = Event.find_by(id: @schedule.event_id)
+    @event = Event.find(params[:event_id])
   end
 
   def schedule_params

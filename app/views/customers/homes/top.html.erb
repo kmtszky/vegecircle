@@ -21,15 +21,24 @@
   <div class="main-content">
     <div class="form-group mb-4">
       <h5>新着農家</h5>
-
+      <%= render 'farmers/farmers/index', farmers: @farmers %>
+      <% if @farmers.count > 5 %>
+        <%= link_to ">> もっと見る", farmers_path, class: "ml-auto text-dark" %>
+      <% end %>
     </div>
     <div class="form-group mb-4">
       <h5>新着レシピ</h5>
       <%= render 'farmers/recipes/index', recipes: @recipes %>
-      <%= link_to ">> もっと見る", recipes_path, class: "ml-auto text-dark" %>
+      <% if @recipes.count > 5 %>
+        <%= link_to ">> もっと見る", recipes_path, class: "ml-auto text-dark" %>
+      <% end %>
     </div>
     <div class="form-group mb-4">
       <h5>新着農業体験</h5>
+      <%= render 'farmers/events/index', events: @events %>
+      <% if @events.count > 5 %>
+        <%= link_to ">> もっと見る", events_path, class: "ml-auto text-dark" %>
+      <% end %>
     </div>
   </div>
 </section>

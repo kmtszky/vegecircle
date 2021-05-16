@@ -6,16 +6,16 @@
         <tr>
           <th>イベント開催日時</th>
           <td class="d-flex align-items-center">
-            <%= schedule.date.strftime("%Y/%m/%d") %>
-            <div class="mx-3"><%= schedule.start_time.strftime("%H:%M") %> ～ <%= schedule.end_time.strftime("%H:%M") %></div>
+            <%= show_date(schedule.date) %>
+            <div class="mx-3"><%= show_time(schedule.start_time) %> ～ <%= show_time(schedule.end_time) %></div>
             <% if schedule.date > Date.today %>
-              <%= link_to "編集する", edit_farmers_event_schedule_path(@schedule), class: "btn btn-success" %>
+              <%= link_to "編集する", edit_farmers_event_schedule_path(@event.id, @schedule), class: "btn btn-success" %>
             <% end %>
           </td>
         </tr>
         <tr>
           <th>イベント参加費（税込）</th>
-          <td><%= event.fee %>円</td>
+          <td><%= converting_to_jpy(event.fee) %></td>
         </tr>
         <tr>
           <th>キャンセル・変更ポリシー</th>

@@ -10,7 +10,7 @@
         <div class="form-row align-items-start strong">
           <div class="col-8 col-md-5 mb-3">
             <h6>◆ 現在のスケジュール</h6>
-            <%= @schedule.date.strftime('%Y/%m/%d') %><br><%= @schedule.start_time.strftime('%H:%M') %> ～ <%= @schedule.end_time.strftime('%H:%M') %>
+            <%= show_date(@schedule.date) %><br><%= show_time(@schedule.start_time) %> ～ <%= show_time(@schedule.end_time) %>
           </div>
           <div class="col-8 col-md-5 mb-3">
             <h6>◆ 変更後のスケジュール</h6>
@@ -33,8 +33,7 @@
 
         <div class="form-group d-flex">
           <%= f.submit '更新する', class: "btn btn-success text-light mr-3" %>
-          <%= link_to '受付を終了する', farmers_event_schedule_withdraw_path(@schedule), data: { confirm: "#{@schedule.date.strftime('%Y/%m/%d')}の受付を終了しますか？" }, class: "btn btn-warning mr-3" %>
-          <%= link_to '削除する', farmers_event_schedule_path(@schedule), data: { confirm: "#{@schedule.date.strftime('%Y/%m/%d')}のイベントを削除しますか？" }, class: "btn btn-danger mr-3" %>
+          <%= link_to '削除する', farmers_event_schedule_path(@schedule), method: :delete, data: { confirm: "#{show_date(@schedule.date)}のイベントを削除しますか？" }, class: "btn btn-danger mr-3" %>
           <%= link_to "戻る", farmers_event_schedule_path(@schedule), class: "btn btn-secondary" %>
         </div>
       <% end %>

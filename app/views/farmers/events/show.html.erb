@@ -18,21 +18,21 @@
           <tr>
             <th>イベント期間</th>
             <td>
-              <p>各日の日程詳細や予約状況の確認、日時・予約受付状況を更新する場合、<br>以下のボタンから希望の日程を選択してください：</p>
+              <p>各日の日程詳細確認や、予約状況の確認・変更を行う場合、<br>以下のボタンから希望の日程を選択してください：</p>
               <% @schedules.each do |schedule| %>
-                <%= link_to farmers_event_schedule_path(schedule), class: "btn btn-success btn-sm mr-3" do %>
-                  <%= schedule.date.strftime("%Y/%m/%d") %>
+                <%= link_to farmers_event_schedule_path(@event.id, schedule), class: "btn btn-success btn-sm mr-3" do %>
+                  <%= show_date(schedule.date) %>
                 <% end %>
               <% end %>
               </td>
           </tr>
           <tr>
             <th>開催時刻</th>
-            <td><%= @schedule.start_time.strftime("%H:%M") %> ～ <%= @schedule.end_time.strftime("%H:%M") %></td>
+            <td><%= show_time(@schedule.start_time) %> ～ <%= show_time(@schedule.end_time) %></td>
           </tr>
           <tr>
             <th>イベント参加費（税込）</th>
-            <td><%= @event.fee %></td>
+            <td><%= converting_to_jpy(@event.fee) %></td>
           </tr>
           <tr>
             <th>キャンセル・変更ポリシー</th>
