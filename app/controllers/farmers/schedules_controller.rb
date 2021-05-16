@@ -1,44 +1,47 @@
-class Customers::SchedulesController < ApplicationController
+class Farmers::SchedulesController < ApplicationController
   before_action :authenticate_farmer!
-  before_action :set_schedule, only: [:show, :edit, :update, :destroy]
+  before_action :set_schedule
 
-  def create
-    @recipe = current_farmer.recipes.new(recipe_params)
-    @tag_list = params[:recipe][:tag_ids].split(',')
-    if @recipe.save
-      @recipe.save_tags(@tag_list)
-      redirect_to farmers_recipe_path(@recipe), flash: {success: "レシピを作成しました"}
-    else
-      render :new
-    end
+  def show
   end
 
   def edit
-    @tag_list = @recipe.tags.pluck(:tag).join(",")
+    if @schedule.date < Date.today
+      redirect_to farmers_event_path(@event)
+    end
   end
 
   def update
-    tag_list = params[:recipe][:tag_ids].split(',')
-    if @recipe.update_attributes(recipe_params)
-      @recipe.save_tags(tag_list)
-      redirect_to farmers_recipe_path(params[:id]), flash: {success: "レシピを更新しました"}
+    if @schedule.update(schedule_params)
+      redirect_to farmers_event_path(@event), flash: { success: "イベントの日程を更新しました" }
     else
       render :edit
     end
   end
 
+  def withdraw
+    @schedule.update(is_deleted: true)
+    redirect_to farmers_event_schedule_path(@event), flash: { success: "イベントの受付を終了しました" }
+  end
+
+  def restart
+    @schedule.update(is_deleted: false)
+    redirect_to farmers_event_schedule_path(@event), flash: { success: "イベントの受付を再開しました" }
+  end
+
   def destroy
-    @recipe.destroy
-    redirect_to farmer_path(current_farmer), flash: {success: "レシピを削除しました"}
+    @schedule.destroy
+    redirect_to farmers_event_path(@event), flash: { success: "イベントを削除しました"}
   end
 
   private
 
-  def set_recipe
-    @recipe = Recipe.find(params[:id])
+  def set_schedule
+    @schedule = Schedule.find(params[:id])
+    @event = Event.find(params[:event_id])
   end
 
-  def recipe_params
-    params.require(:recipe).permit(:title, :recipe_image, :duration, :amount, :ingredient, :recipe, :tag_ids)
+  def schedule_params
+    params.require(:schedule).permit(:date, :start_time, :end_time, :is_deleted)
   end
 end
