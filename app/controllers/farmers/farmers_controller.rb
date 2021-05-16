@@ -3,6 +3,7 @@ class Farmers::FarmersController < ApplicationController
   before_action :set_farmer
 
   def show
+    @farmer = Farmer.find(params[:id])
     if current_farmer == @farmer
       @news = News.new
     end

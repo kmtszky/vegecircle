@@ -36,11 +36,11 @@
     </div>
     <div class="col-12 col-md-4 mr-auto my-2">
       <h6>お知らせ</h6>
-      <div class="news">
+      <div class="news-index">
         <%= render 'farmers/news/index', news: @news_last3, news_left: @news_left %>
       </div>
       <% if current_farmer == @farmer %>
-        <%= form_with model: [:farmers, @news] do |f| %>
+        <%= form_with model: [:farmers, @news], local: true do |f| %>
           <div class="form-group">
             <%= f.text_area :news, class: "form-control form-control-sm" %>
             <%= f.attachment_field :news_image, class: "form-control-file" %>
