@@ -53,7 +53,7 @@
   <div class="row">
     <div class="col-12 col-md-8 mx-auto mt-3">
       <h6>予約受付中の農業体験<%= link_to "作成", new_farmers_event_path, class: "btn btn-sm btn-success ml-2" %></h6>
-      <%= render 'farmers/events/index', recipes: @events %>
+      <%= render 'farmers/events/index', events: @events %>
     </div>
   </div>
 
