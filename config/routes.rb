@@ -45,7 +45,6 @@ Rails.application.routes.draw do
       resources :follows, only: [:create, :destroy]
     end
     resources :reservations, only: [:new, :index, :show, :create, :destroy]
-      post 'reservations/confirm'
       get 'reservations/thanx'
     resource :profiles, only: [:show, :edit, :update]
       get 'customer/followings' => 'profiles#followings', as: 'followings'

@@ -25,9 +25,11 @@ class Customers::ProfilesController < ApplicationController
   end
 
   def favorites
+    @favorites = current_customer.favorites
   end
 
   def followings
+    @followings = current_customer.farmers.where(is_deleted: false)
   end
 
   private

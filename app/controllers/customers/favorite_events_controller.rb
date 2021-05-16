@@ -1,4 +1,4 @@
-class Customers::FavoriteeventsController < ApplicationController
+class Customers::FavoriteEventsController < ApplicationController
   before_action :authenticate_customer!
   before_action :set_event
 
@@ -15,6 +15,6 @@ class Customers::FavoriteeventsController < ApplicationController
   private
 
   def set_event
-    @event = event.find(params[:event_id])
+    @event = Event.find(params[:event_id])
   end
 end

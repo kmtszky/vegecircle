@@ -1,6 +1,6 @@
 class Customers::FarmersController < ApplicationController
   def index
-    @farmers = Farmer.page(params[:page]).reverse_order
+    @farmers = Farmer.where(is_deleted: false).page(params[:page]).reverse_order
   end
 
   def show

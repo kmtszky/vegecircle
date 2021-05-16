@@ -2,10 +2,6 @@ class Customers::FollowsController < ApplicationController
   before_action :authenticate_customer!
   before_action :set_farmer, except: [:followings]
 
-  def followings
-    @follows = Follow.where(customer_id: current_customer.id)
-  end
-
   def create
     follow = @farmer.follows.new(customer_id: current_customer.id)
     follow.save
