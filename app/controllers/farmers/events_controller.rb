@@ -1,6 +1,7 @@
 class Farmers::EventsController < ApplicationController
-  before_action :authenticate_farmer!, exept: [:event_index]
+  before_action :authenticate_farmer!
   before_action :set_event, only: [:show, :edit, :update, :destroy, :withdraw]
+  before_action :set_schedule, only: [:edit, :update, :destroy, :withdraw]
 
   def new
     @event = Event.new
@@ -11,7 +12,7 @@ class Farmers::EventsController < ApplicationController
     if @event.save
       start_d = @event.start_date
       end_d = @event.end_date
-      number_of_days = end_d - start_d + 1
+      number_of_days = end_d - start_d
 
       start_d.step(start_d + number_of_days, 1) do |day|
         @schedule = Schedule.new(date: day, event_id: @event.id)
@@ -26,51 +27,45 @@ class Farmers::EventsController < ApplicationController
   end
 
   def show
-    @schedule = Schedule.find_by(event_id: @event.id)
+    @schedules = Schedule.where(event_id: @event.id)
+    @schedule = @schedules.first
   end
 
   def edit
-    if @event.date < Date.today
-      redirect_to request.referer, flash: { danger: 'イベント日以降のため編集できません'}
+    @schedules = Schedule.where(event_id: @event.id).pluck(:date)
+    start_date = @schedules.first
+    if start_date < Date.today
+      redirect_to request.referer, flash: { danger: 'イベント開始日以降のため編集できません'}
     end
   end
 
   def update
-    unless  @event.date < Date.today
-      updated_date = Date.parse(params[:event][:date])
-      if @event.update(event_params) || @event.update(date: updated_date)
-        redirect_to event_path(@event), flash: { success: '農業体験を更新しました' }
-      else
-        render :edit
-      end
-    end
-  end
-
-  def withdraw
-    if @event.update(is_deleted: true)
-      redirect_to event_path(@event), flash: { success: '農業体験の受付を終了しました' }
+    if @event.update(event_params)
+      redirect_to farmers_event_path(@event), flash: { success: '農業体験を更新しました' }
     else
+      @schedules = Schedule.where(event_id: @event.id).pluck(:date)
       render :edit
     end
   end
 
   def destroy
-    if @event.date > Date.today
+    if @event.start_date > Date.today
       @event.destroy
-      redirect_to farmers_recipe_index_path, flash: { success: '農業体験を削除しました'}
+      redirect_to farmers_farmer_path, flash: { success: '農業体験を削除しました'}
     else
+      @schedules = Schedule.where(event_id: @event.id).pluck(:date)
       render :edit
     end
-  end
-
-  def event_index
-    @events = Event.where(farmer_id: @farmer.id)
   end
 
   private
 
   def set_event
     @event = Event.find(params[:id])
+  end
+
+  def set_schedule
+    @schedules = Schedule.where(event_id: @event.id)
   end
 
   def event_params

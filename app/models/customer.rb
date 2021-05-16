@@ -8,6 +8,7 @@ class Customer < ApplicationRecord
   has_many :evaluation, dependent: :destroy
   has_many :event_favorites, dependent: :destroy
   has_many :follows, dependent: :destroy
+  has_many :farmers, through: :events
   has_many :recipe_favorites, dependent: :destroy
   has_many :reservations, dependent: :destroy
 

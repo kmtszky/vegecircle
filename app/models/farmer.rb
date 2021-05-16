@@ -5,7 +5,7 @@ class Farmer < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :chats, dependent: :destroy
-  has_many :evaluation, dependent: :destroy
+  has_many :evaluations, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :follows, dependent: :destroy
   has_many :news, dependent: :destroy

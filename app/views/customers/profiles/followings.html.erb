@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto">
+      <h4 class="mb-4">フォローしている農家さん</h4>
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th>農家さんのお名前</th>
+            <th>直売所の住所</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @followings.each do |farmer| %>
+            <tr>
+              <td><%= attachment_image_tag farmer, :farmer_image, :fill, 60, 60, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '60x60' %></td>
+              <td>
+                <%= link_to farmer_path(farmer) do %><%= farmer.name %><% end %></td>
+              <td><%= farmer.store_address %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

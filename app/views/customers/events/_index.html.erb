@@ -2,11 +2,11 @@
   <% events.each do |event| %>
     <div class="list-box mr-4">
       <div class="image_top">
-        <%= link_to farmers_event_path(event.id) do %>
+        <%= link_to event_path(event.id) do %>
           <%= attachment_image_tag event, :plan_image, :fill, 100, 70, class: "card-img-top" %>
         <% end %></div>
       <div class="title">
-        <%= link_to farmers_event_path(event.id) do %>
+        <%= link_to event_path(event.id) do %>
           <h6 class="text-body"><%= event.title %></h6>
         <% end %>
       </div>

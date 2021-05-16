@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-12 col-md-10 mx-auto mb-2 event">
+    <h5 class="mb-2">イベント概要</h5>
+    <table class="table">
+      <tbody>
+        <tr>
+          <th>イベント開催日時</th>
+          <td class="d-flex align-items-center">
+            <%= show_date(schedule.date) %>
+            <div class="mx-3"><%= show_time(schedule.start_time) %> ～ <%= show_time(schedule.end_time) %></div>
+            <% if current_farmer.id == @event.farmer_id %>
+              <% if schedule.date > Date.today %>
+                <%= link_to "編集する", edit_farmers_event_schedule_path(@event.id, @schedule), class: "btn btn-success" %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <th>イベント参加費（税込）</th>
+          <td><%= converting_to_jpy(event.fee) %></td>
+        </tr>
+        <tr>
+          <th>キャンセル・変更ポリシー</th>
+          <td><%= event.cancel_change %></td>
+        </tr>
+        <tr>
+          <th>そのほか</th>
+          <td><%= event.etc %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

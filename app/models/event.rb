@@ -2,7 +2,6 @@ class Event < ApplicationRecord
 
   belongs_to :farmer
   has_many :event_favorites, dependent: :destroy
-  has_many :reservations, dependent: :destroy
   has_many :schedules, dependent: :destroy
   attr_accessor :start_time
   attr_accessor :end_time
@@ -18,8 +17,8 @@ class Event < ApplicationRecord
     validates :access
     validates :start_date
     validates :end_date
-    validates :start_time
-    validates :end_time
+    validates :start_time, on: :create
+    validates :end_time, on: :create
   end
 
   validate do
@@ -44,5 +43,9 @@ class Event < ApplicationRecord
 
   def favorited_by?(customer)
     event_favorites.where(customer_id: customer.id).exists?
+  end
+
+  def all_ended?(schedule)
+    schedules.where()
   end
 end

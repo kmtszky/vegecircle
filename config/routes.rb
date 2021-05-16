@@ -10,8 +10,11 @@ Rails.application.routes.draw do
   namespace :farmers do
     resources :recipes, except: [:index, :show]
       get '/:id/recipes' => 'recipes#recipe_index', as: 'recipe_index'
-    resources :events, except: [:index]
-      patch 'events/:id/withdraw' => 'events#withdraw',    as: 'event_withdraw'
+    resources :events, except: [:index] do
+      resources :schedules, only: [:show, :edit, :update, :destroy]
+      patch 'schedules/:id/withdraw' => 'schedules#withdraw', as: 'schedule_withdraw'
+      patch 'schedules/:id/restart' => 'schedules#restart', as: 'schedule_restart'
+    end
       get '/:id/events'           => 'events#event_index', as: 'event_index'
     resources :news, only: [:create, :destroy]
     resources :farmers, only: [:show, :edit, :update]
@@ -35,17 +38,17 @@ Rails.application.routes.draw do
     end
     resources :events, only: [:index, :show] do
       resource :favorite_events, only: [:create, :destroy]
+      resources :schedules, only: [:show]
     end
 
     resources :farmers, only: [:index, :show] do
       resources :follows, only: [:create, :destroy]
     end
     resources :reservations, only: [:new, :index, :show, :create, :destroy]
-      post 'reservations/confirm'
       get 'reservations/thanx'
     resource :profiles, only: [:show, :edit, :update]
-      get 'customer/favorites' => 'profiles#favorites'
-      get 'customer/follows' => 'profiles#follows'
+      get 'customer/followings' => 'profiles#followings', as: 'followings'
+      get 'customer/favorites' => 'profiles#favorites', as: 'favorites'
       get 'customer/unsubscribe' => 'profiles#unsubscribe'
       patch 'customer/withdraw'  => 'profiles#withdraw'
   end

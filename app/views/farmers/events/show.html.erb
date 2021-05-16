@@ -5,11 +5,7 @@
     </div>
     <div class="col-12 col-md-5 mr-auto my-2">
       <h4 class="text-left mb-3"><%= @event.title %></h4>
-      <% if customer_signed_in? %>
-        <h6 class="favorite-btn"><%= render 'customers/favorite_events/favorite-btn', event: @event %></h6>
-      <% else %>
-        <h6><i class="fas fa-bookmark text-success"></i> <%= @event.event_favorites.count %></h6>
-      <% end %>
+      <h6><i class="fas fa-heart text-danger"></i> <%= @event.event_favorites.count %></h6>
       <%= safe_join(@event.body.split("\n"),tag(:br)) %>
     </div>
   </div>
@@ -22,19 +18,23 @@
           <tr>
             <th>イベント期間</th>
             <td>
-              <% if @event.start_date == @event.end_date %>
-                <%= @schedule.date.strftime("%Y/%m/%d") %>
-              <% else %>
-                <%= @event.start_date.strftime("%Y/%m/%d") %> ～ <%= @event.end_date.strftime("%Y/%m/%d") %>まで1日毎
-              <% end %></td>
+              <% if current_farmer.id = @event.farmer_id %>
+                <p>各日の日程詳細確認や、予約状況の確認・変更を行う場合、<br>以下のボタンから希望の日程を選択してください：</p>
+              <% end %>
+              <% @schedules.each do |schedule| %>
+                <%= link_to farmers_event_schedule_path(@event.id, schedule), class: "btn btn-success btn-sm mr-3" do %>
+                  <%= show_date(schedule.date) %>
+                <% end %>
+              <% end %>
+              </td>
           </tr>
           <tr>
             <th>開催時刻</th>
-            <td><%= @schedule.start_time.strftime("%H:%M") %> ～ <%= @schedule.end_time.strftime("%H:%M") %></td>
+            <td><%= show_time(@schedule.start_time) %> ～ <%= show_time(@schedule.end_time) %></td>
           </tr>
           <tr>
             <th>イベント参加費（税込）</th>
-            <td><%= @event.fee %></td>
+            <td><%= converting_to_jpy(@event.fee) %></td>
           </tr>
           <tr>
             <th>キャンセル・変更ポリシー</th>
@@ -51,23 +51,13 @@
 
   <div class="row">
     <div class="col-12 col-md-10 mx-auto mb-2 event">
-      <h5 class="mb-2">アクセス</h5>
-      <table class="table">
-        <tbody>
-          <tr>
-            <th>集合場所</th>
-            <td><%= @event.location %></td>
-          </tr>
-          <tr>
-            <th>アクセス方法</th>
-            <td><%= @event.access %></td>
-          </tr>
-          <tr>
-            <th>駐車場</th>
-            <td><%= @event.parking %></td>
-          </tr>
-        </tbody>
-      </table>
+      <%= render "farmers/events/access", event: @event %>
+      <% if (@schedule.date > Date.today) && (current_farmer.id == @event.farmer_id) %>
+        <div class="form-group d-flex mt-3">
+          <%= link_to "編集する", edit_farmers_event_path(@event), class: "btn btn-success mr-3" %>
+          <%= link_to "削除する", farmers_event_path(@event), method: :delete, data: { confirm: "このイベントを全日程まとめて削除しますか？"},class: "btn btn-danger" %>
+        </div>
+      <% end %>
     </div>
   </row>
 </div>
