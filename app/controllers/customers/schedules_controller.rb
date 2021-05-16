@@ -1,7 +1,6 @@
 class Customers::SchedulesController < ApplicationController
-  def index
-  end
-
   def show
+    @event = Event.find(params[:event_id])
+    @schedule = @event.schedules.find(params[:id])
   end
 end

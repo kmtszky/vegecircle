@@ -1,9 +1,9 @@
 class Customers::FollowsController < ApplicationController
   before_action :authenticate_customer!
-  before_action :set_farmer, except: [:index]
+  before_action :set_farmer, except: [:followings]
 
-  def index
-    @follows = Follow.all
+  def followings
+    @follows = Follow.where(customer_id: current_customer.id)
   end
 
   def create

@@ -44,4 +44,8 @@ class Event < ApplicationRecord
   def favorited_by?(customer)
     event_favorites.where(customer_id: customer.id).exists?
   end
+
+  def all_ended?(schedule)
+    schedules.where()
+  end
 end

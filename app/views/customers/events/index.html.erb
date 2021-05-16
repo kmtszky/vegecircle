@@ -1,2 +1,9 @@
-<h1>Customers::Events#index</h1>
-<p>Find me in app/views/customers/events/index.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto">
+      <h4 class="mb-4">予約受付中の農業体験一覧</h4>
+      <%= render 'customers/events/index', events: @events %>
+      <%= paginate @events %>
+    </div>
+  </div>
+</div>

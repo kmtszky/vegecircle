@@ -1,10 +1,12 @@
 class Customers::EventsController < ApplicationController
   def index
-    @events = Event.all
+    @events = Event.where("end_date > ?", Date.today).page(params[:page]).reverse_order
   end
 
   def show
     @event = Event.find(params[:id])
-    @schedule = Schedule.where(event_id: params[:event_id], is_deleted: false)
+    bookable_schedules = @event.schedules.where(is_deleted: false)
+    @schedules = bookable_schedules.where("date > ?", Date.today)
+    @schedule = @schedules.first
   end
 end

@@ -6,7 +6,9 @@
     <div class="col-12 col-md-5 mr-auto my-2">
       <h4 class="text-left mb-3"><%= @event.title %></h4>
       <h6><i class="fas fa-heart text-danger"></i> <%= @event.event_favorites.count %></h6>
-      <h6><i class="fas fa-bookmark text-success"></i> 予約数： <%= @schedule.reservations.count %></h6>
+      <% if current_farmer.id == @event.farmer_id %>
+        <h6><i class="fas fa-bookmark text-success"></i> 予約数： <%= @schedule.reservations.count %></h6>
+      <% end %>
       <%= safe_join(@event.body.split("\n"),tag(:br)) %>
     </div>
   </div>
@@ -17,25 +19,29 @@
     <div class="col-12 col-md-10 mx-auto mb-2 event">
       <%= render "farmers/events/access", event: @event %>
       <div class="form-group d-flex mt-3">
-        <% if @schedule.date > Date.today %>
-          <%= link_to "日時以外の項目を編集する", edit_farmers_event_path(@event), class: "btn btn-success mr-3" %>
+        <% if current_farmer.id == @event.farmer_id %>
+          <% if @schedule.date > Date.today %>
+            <%= link_to "日時以外の項目を編集する", edit_farmers_event_path(@event), class: "btn btn-success mr-3" %>
+          <% end %>
         <% end %>
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-12 col-md-10 mx-auto mb-2 event">
-      <div class="d-flex mb-4">
-        <h5 class="mr-3">予約状況</h5>
-        <% if @schedule.is_deleted == false %>
-          <%= link_to "予約受付を終了する", farmers_event_schedule_withdraw_path(@schedule), method: :patch, data: { confirm: "#{show_date(@schedule.date)}の予約受付を終了しますか？" }, class: "btn btn-danger" %>
-        <% else %>
-          <%= link_to "予約受付を再開する", farmers_event_schedule_restart_path(@schedule), method: :patch, data: { confirm: "#{show_date(@schedule.date)}の予約受付を再開しますか？" }, class: "btn btn-success" %>
+    <div class="row">
+      <div class="col-12 col-md-10 mx-auto mb-2 event">
+        <% if current_farmer.id == @event.farmer_id %>
+          <div class="d-flex mb-4">
+            <h5 class="mr-3">予約状況</h5>
+            <% if @schedule.is_deleted == false %>
+              <%= link_to "予約受付を終了する", farmers_event_schedule_withdraw_path(@schedule), method: :patch, data: { confirm: "#{show_date(@schedule.date)}の予約受付を終了しますか？" }, class: "btn btn-danger" %>
+            <% else %>
+              <%= link_to "予約受付を再開する", farmers_event_schedule_restart_path(@schedule), method: :patch, data: { confirm: "#{show_date(@schedule.date)}の予約受付を再開しますか？" }, class: "btn btn-success" %>
+            <% end %>
+          </div>
+          <%= render "customers/reservations/index", reservations: @schedule.reservations %>
         <% end %>
+        <%= link_to "イベント概要へ戻る", farmers_event_path(@event), class: "btn btn-secondary mt-3" %>
       </div>
-      <%= render "customers/reservations/index", reservations: @schedule.reservations %>
-      <%= link_to "イベント概要へ戻る", farmers_event_path(@event), class: "btn btn-secondary mt-3" %>
     </div>
-  </div>
 </div>
