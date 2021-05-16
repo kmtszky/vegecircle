@@ -23,7 +23,7 @@
 //= require_tree .
 
 // top => skippr
-$(document).ready(function () {
+$(document).on('turbolinks:load', function () {
   $("#theTarget").skippr({
     transition : 'fade',
     speed : 1800,

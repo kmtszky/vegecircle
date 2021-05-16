@@ -1,7 +1,8 @@
 class Customers::HomesController < ApplicationController
   def top
-    recipe_index = Recipe.all.order('created_at DESC')
-    @recipes = recipe_index.first(4)
+    @farmers = Farmer.order('created_at DESC').first(4)
+    @recipes = Recipe.order('created_at DESC').first(4)
+    @events = Event.order('created_at DESC').first(4)
   end
 
   def about

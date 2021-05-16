@@ -21,19 +21,23 @@
         <tbody>
           <tr>
             <th>イベント期間</th>
-            <td class="d-flex">
-              <% @schedules.each do |day| %>
-                <p class="mr-3"><%= day.strftime("%Y/%m/%d") %></p>
+            <td>
+              <p>ご予約の際は、以下より希望の日程をお選びください</p>
+              <% @schedules.each do |schedule| %>
+                <%= link_to event_schedule_path(@event.id, schedule), class: "btn btn-success btn-sm mr-3" do %>
+                  <%= show_date(schedule.date) %>
+                <% end %>
               <% end %>
               </td>
           </tr>
           <tr>
             <th>開催時刻</th>
-            <td><%= @schedule.start_time.strftime("%H:%M") %> ～ <%= @schedule.end_time.strftime("%H:%M") %></td>
+            <td><%= show_time(@schedule.start_time) %> ～ <%= show_time(@schedule.end_time) %><br>
+                <span class="required">日程により個別に変更されている可能性がございますので、詳細は上記リンク先よりご確認ください。</span></td>
           </tr>
           <tr>
             <th>イベント参加費（税込）</th>
-            <td><%= @event.fee %></td>
+            <td><%= converting_to_jpy(@event.fee) %></td>
           </tr>
           <tr>
             <th>キャンセル・変更ポリシー</th>
