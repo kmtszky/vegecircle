@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   }
 
   namespace :farmers do
+    resources :farmers, only: [:show, :edit, :update]
+      get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe', as: 'farmers_unsubscribe'
+      patch 'farmers/:id/withdraw'  => 'farmers#withdraw',    as: 'farmers_withdraw'
     resources :recipes, except: [:index, :show]
       get '/:id/recipes' => 'recipes#recipe_index', as: 'recipe_index'
     resources :events, except: [:index] do
@@ -17,9 +20,7 @@ Rails.application.routes.draw do
     end
       get '/:id/events'           => 'events#event_index', as: 'event_index'
     resources :news, only: [:create, :destroy]
-    resources :farmers, only: [:show, :edit, :update]
-      get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe', as: 'farmers_unsubscribe'
-      patch 'farmers/:id/withdraw'  => 'farmers#withdraw',    as: 'farmers_withdraw'
+    resources :chats, only: [:create, :destroy]
   end
 
   # customer
@@ -52,9 +53,6 @@ Rails.application.routes.draw do
       get 'customer/unsubscribe' => 'profiles#unsubscribe'
       patch 'customer/withdraw'  => 'profiles#withdraw'
   end
-
-  # farmer-customer
-  resources :chat, only: [:create, :destroy]
 
   # admin
   devise_for :admins, controllers: {

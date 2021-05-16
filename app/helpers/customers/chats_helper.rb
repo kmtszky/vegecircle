@@ -1,0 +1,2 @@
+module Customers::ChatsHelper
+end
