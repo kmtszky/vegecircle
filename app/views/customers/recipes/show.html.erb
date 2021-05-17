@@ -1,14 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-8 mx-auto mb-2">
-      <h4 class="text-left"><%= @recipe.title %>のレシピ / 作り方</h4>
-      <div class="tag my-3">
-        <% @tag_list.each do |tag| %>
-          <p><%= tag %></p>
-        <% end %>
-      </div>
-      <%= attachment_image_tag @recipe, :recipe_image, class: "recipe_image_sizing", fallback: asset_path('no_images/no_image_lg.png') %>
-    </div>
+    <%= render 'farmers/recipes/recipe-top', recipe: @recipe, tag_list: @tag_list %>
   </div>
   <div class="row">
     <div class="col-12 col-md-8 mx-auto my-3 d-flex align-items-center" id="recipe_<%= @recipe.id %>">
@@ -19,8 +11,10 @@
         <h6><i class="fas fa-heart text-danger"></i> <%= @recipe.recipe_favorites.count %></h6>
       <% end %>
     </div>
+    <%= render 'farmers/recipes/recipe-detail', recipe: @recipe %>
 
     <div class="col-12 col-md-8 mx-auto mb-2">
+
       <h4 class="text-left mb-3"><%= @recipe.title %>の材料（<%= @recipe.amount %>人分）</h4>
       <%= safe_join(@recipe.ingredient.split("\n"),tag(:br)) %><br>
 
@@ -28,19 +22,4 @@
       <%= safe_join(@recipe.recipe.split("\n"),tag(:br)) %>
     </div>
   </div>
-
-  <% if farmer_signed_in? && (current_farmer.id == @recipe.farmer_id) %>
-    <div class="row">
-      <div class="col-12 col-md-8 mx-auto mb-4">
-        <table>
-          <tbody>
-            <tr>
-              <td><%= link_to "編集する", edit_farmers_recipe_path(@recipe), class: "btn btn-sm btn-success mr-3" %></td>
-              <td><%= link_to "削除する", farmers_recipe_path(@recipe), method: :delete, data: { confirm: "レシピを削除しますか?" }, class: "btn btn-sm btn-danger" %></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  <% end %>
 </div>

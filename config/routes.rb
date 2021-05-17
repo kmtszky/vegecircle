@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :farmers, only: [:show, :edit, :update]
       get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe', as: 'farmers_unsubscribe'
       patch 'farmers/:id/withdraw'  => 'farmers#withdraw',    as: 'farmers_withdraw'
-    resources :recipes, except: [:index, :show]
+    resources :recipes, except: [:index]
       get '/:id/recipes' => 'recipes#recipe_index', as: 'recipe_index'
     resources :events, except: [:index] do
       resources :schedules, only: [:show, :edit, :update, :destroy]
