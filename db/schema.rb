@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2021_05_17_075057) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "comment"
-    t.string "evaluation_image"
+    t.string "evaluation_image_id"
     t.index ["customer_id"], name: "index_evaluations_on_customer_id"
     t.index ["farmer_id"], name: "index_evaluations_on_farmer_id"
   end

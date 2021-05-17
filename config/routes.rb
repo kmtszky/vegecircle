@@ -40,8 +40,8 @@ Rails.application.routes.draw do
       patch 'customer/withdraw'  => 'profiles#withdraw'
     resources :farmers, only: [:index, :show] do
       resources :follows, only: [:create, :destroy]
+      resources :evaluations, only: [:index, :create, :destroy]
     end
-    resources :evaluations, only: [:create, :destroy]
     resources :chats, only: [:create, :destroy]
     resources :recipes, only: [:index, :show] do
       resource :favorite_recipes, only: [:create, :destroy]
