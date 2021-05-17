@@ -30,7 +30,7 @@ class Customers::ProfilesController < ApplicationController
   end
 
   def followings
-    @followings = current_customer.farmers.where(is_deleted: false)
+    @followings = current_customer.follow_farmers.where(is_deleted: false)
   end
 
   private
