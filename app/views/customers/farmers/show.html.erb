@@ -41,14 +41,14 @@
   <div class="row">
     <div class="col-12 col-md-8 mx-auto mt-3">
       <h6>予約受付中の農業体験</h6>
-      <%= render 'farmers/events/index', events: @events %>
+      <%= render 'customers/events/index', events: @events %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-12 col-md-8 mx-auto mt-3">
       <h6>農家ご飯</h6>
-      <%= render 'farmers/recipes/index', recipes: @recipes %>
+      <%= render 'customers/recipes/index', recipes: @recipes %>
       <% if @farmer.recipes.count >= 5 %>
         <%= link_to ">> もっと見る", farmers_recipe_index_path, class: "ml-auto text-dark" %>
       <% end %>
