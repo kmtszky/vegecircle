@@ -33,7 +33,16 @@ Rails.application.routes.draw do
   scope module: :customers do
     root 'homes#top'
     get 'about' => 'homes#about'
-
+    resource :profiles, only: [:show, :edit, :update]
+      get 'customer/followings' => 'profiles#followings', as: 'followings'
+      get 'customer/favorites' => 'profiles#favorites', as: 'favorites'
+      get 'customer/unsubscribe' => 'profiles#unsubscribe'
+      patch 'customer/withdraw'  => 'profiles#withdraw'
+    resources :farmers, only: [:index, :show] do
+      resources :follows, only: [:create, :destroy]
+    end
+    resources :evaluations, only: [:create, :destroy]
+    resources :chats, only: [:create, :destroy]
     resources :recipes, only: [:index, :show] do
       resource :favorite_recipes, only: [:create, :destroy]
     end
@@ -41,17 +50,8 @@ Rails.application.routes.draw do
       resource :favorite_events, only: [:create, :destroy]
       resources :schedules, only: [:show]
     end
-
-    resources :farmers, only: [:index, :show] do
-      resources :follows, only: [:create, :destroy]
-    end
     resources :reservations, only: [:new, :index, :show, :create, :destroy]
       get 'reservations/thanx'
-    resource :profiles, only: [:show, :edit, :update]
-      get 'customer/followings' => 'profiles#followings', as: 'followings'
-      get 'customer/favorites' => 'profiles#favorites', as: 'favorites'
-      get 'customer/unsubscribe' => 'profiles#unsubscribe'
-      patch 'customer/withdraw'  => 'profiles#withdraw'
   end
 
   # admin

@@ -57,7 +57,19 @@
 
   <div class="row">
     <div class="col-12 col-md-8 mx-auto">
-      <h6>この農家さんに関するコメント</h6>
+      <h6 class="text-center">この農家さんに関するレビュー</h6>
+      <div class="chats">
+        <%= render 'farmers/chats/index', chat_last5: @chat_last5, chat_left: @chat_left %>
+      </div>
+      <% if customer_signed_in? %>
+        <%= form_with model: [:customers, @evaluation], local: true do |f| %>
+          <div class="form-group">
+            <%= f.text_area :comment, class: "form-control form-control-sm" %>
+            <%= f.attachment_field :review_image, class: "form-control-file" %>
+          </div>
+          <%= f.submit '送信', class: "btn btn-sm btn-success" %>
+        <% end %>
+      <% end %>
     </div>
   </div>
 

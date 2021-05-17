@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_15_124353) do
+ActiveRecord::Schema.define(version: 2021_05_17_075057) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 2021_05_15_124353) do
     t.integer "customer_id"
     t.integer "farmer_id"
     t.text "chat", null: false
-    t.string "chat_image_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_chats_on_customer_id"
@@ -56,6 +55,8 @@ ActiveRecord::Schema.define(version: 2021_05_15_124353) do
     t.float "evaluation", default: 0.0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "comment"
+    t.string "evaluation_image"
     t.index ["customer_id"], name: "index_evaluations_on_customer_id"
     t.index ["farmer_id"], name: "index_evaluations_on_farmer_id"
   end
