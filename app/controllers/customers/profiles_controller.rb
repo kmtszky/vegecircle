@@ -25,7 +25,8 @@ class Customers::ProfilesController < ApplicationController
   end
 
   def favorites
-    @favorites = current_customer.favorites
+    @favorite_recipes = current_customer.favorite_recipes
+    @favorite_events = current_customer.favorite_events
   end
 
   def followings

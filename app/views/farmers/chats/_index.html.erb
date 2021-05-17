@@ -1,0 +1,37 @@
+<table>
+  <tbody>
+    <% chat_last5.each do |chat| %>
+      <tr>
+        <td><%= create_time(chat.created_at) %>
+            <% if chat.farmer == current_farmer %>
+              <%= link_to "削除", farmers_chat_path(chat), method: :delete, class: "btn btn-danger btn-sm", remote: true, data: { confirm: "お知らせを削除しますか？"} %>
+            <% end %></td>
+      </tr>
+      <tr>
+        <td><%= chat.chat %></td>
+      </tr>
+      <tr>
+        <td><%= attachment_image_tag chat, :chat_image, :fill, 200, 200 %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% if chat_left.any? %>
+  <details>
+    <summary>全てのコメントを表示</summary>
+    <table class="table">
+      <tbody>
+        <% chat_left.each do |chat| %>
+          <tr>
+            <td><%= attachment_image_tag chat, :chat_image, :fill, 50, 50, fallback: asset_path('no_images/no_image_sm.png'), size: '50x50' %></td>
+            <td><%= create_time(chat.created_at) %>
+                <% if chat.farmer == current_farmer %>
+                  <%= link_to "削除", farmers_chat_path(chat), method: :delete, class: "btn btn-danger btn-sm", remote: true,data: { confirm: "お知らせを削除しますか？"} %>
+                <% end %><br>
+                <%= chat.chat %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </details>
+<% end %>

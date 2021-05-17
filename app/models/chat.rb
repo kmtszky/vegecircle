@@ -1,8 +1,6 @@
 class Chat < ApplicationRecord
-  belongs_to :customer
-  belongs_to :farmer
+  belongs_to :customer, optional: true
+  belongs_to :farmer, optional: true
 
   validates :chat, presence: true
-
-  attachment :chat_image
 end

@@ -13,7 +13,7 @@
             <td></td>
           </tr>
           <tr>
-            <td class="cell-pl">評価（〇件）</td>
+            <td class="cell-pl average-rating" data-score=<%= @average_rating %>></td>
             <td class="cell-pl">
               <% if current_farmer == @farmer %>
                 <%= link_to "編集する", edit_farmers_farmer_path(current_farmer), class: "btn btn-sm btn-success" %>
@@ -36,11 +36,11 @@
     </div>
     <div class="col-12 col-md-4 mr-auto my-2">
       <h6>お知らせ</h6>
-      <div class="news">
+      <div class="news-index">
         <%= render 'farmers/news/index', news: @news_last3, news_left: @news_left %>
       </div>
       <% if current_farmer == @farmer %>
-        <%= form_with model: [:farmers, @news] do |f| %>
+        <%= form_with model: [:farmers, @news], local: true do |f| %>
           <div class="form-group">
             <%= f.text_area :news, class: "form-control form-control-sm" %>
             <%= f.attachment_field :news_image, class: "form-control-file" %>
@@ -61,7 +61,7 @@
   <div class="row">
     <div class="col-12 col-md-8 mx-auto mt-3">
       <h6>農家ご飯<%= link_to "作成", new_farmers_recipe_path, class: "btn btn-sm btn-success ml-2" %></h6>
-      <%= render 'farmers/recipes/index', recipes: @recipes %>
+      <%= render 'customers/recipes/index', recipes: @recipes %>
       <% if @farmer.recipes.count >= 5 %>
         <%= link_to ">> もっと見る", farmers_recipe_index_path, class: "ml-auto text-dark" %>
       <% end %>
@@ -70,8 +70,11 @@
 
   <div class="row">
     <div class="col-12 col-md-8 mx-auto">
-      <h6>この農家さんに関するコメント</h6>
+      <h6 class="text-center">この農家さんに関するレビュー</h6>
+      <div class="evaluations">
+        <%= render 'customers/evaluations/index', evaluations: @evaluations %>
+      </div>
+      <%= render 'farmers/farmers/raty-js' %>
     </div>
   </div>
-
 </div>
