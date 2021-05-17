@@ -1,0 +1,9 @@
+<div class="col-12 col-md-8 mx-auto mb-2">
+  <h4 class="text-left"><%= recipe.title %>のレシピ / 作り方</h4>
+  <div class="tag my-3">
+    <% tag_list.each do |tag| %>
+      <p><%= tag %></p>
+    <% end %>
+  </div>
+  <%= attachment_image_tag recipe, :recipe_image, class: "recipe_image_sizing", fallback: asset_path('no_images/no_image_lg.png') %>
+</div>
