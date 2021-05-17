@@ -13,7 +13,7 @@
             <td></td>
           </tr>
           <tr>
-            <td class="cell-pl">評価（〇件）</td>
+            <td class="cell-pl average-rating" data-score=<%= @average_rating %>></td>
             <td class="cell-pl">
               <% if current_farmer == @farmer %>
                 <%= link_to "編集する", edit_farmers_farmer_path(current_farmer), class: "btn btn-sm btn-success" %>
@@ -71,10 +71,10 @@
   <div class="row">
     <div class="col-12 col-md-8 mx-auto">
       <h6 class="text-center">この農家さんに関するレビュー</h6>
-      <%= render 'layouts/error_messages', validation: @chat %>
-      <div class="chats mt-3">
-        <%= render 'farmers/chats/index', chat_last5: @chat_last5, chat_left: @chat_left %>
+      <div class="evaluations">
+        <%= render 'customers/evaluations/index', evaluations: @evaluations %>
       </div>
+      <%= render 'farmers/farmers/raty-js' %>
     </div>
   </div>
 </div>
