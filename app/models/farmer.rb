@@ -14,7 +14,6 @@ class Farmer < ApplicationRecord
 
   with_options presence: true do
     validates :farm_address
-    validates :prefecture
     validates :store_address, uniqueness: true
   end
 
@@ -37,5 +36,13 @@ class Farmer < ApplicationRecord
 
   def active_for_authentication?
     super && (self.is_deleted == false)
+  end
+
+  def self.search_for(content, method)
+    if method == 'forward'
+      Farmer.where(is_deleted: false).where('store_address like ?', content + '%')
+    else
+      Farmer.where(is_deleted: false).where('name like ?', '%' + content + '%')
+    end
   end
 end

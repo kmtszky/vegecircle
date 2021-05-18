@@ -106,10 +106,8 @@ ActiveRecord::Schema.define(version: 2021_05_18_031811) do
     t.boolean "is_deleted", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "prefecture", null: false
     t.index ["email"], name: "index_farmers_on_email", unique: true
     t.index ["name"], name: "index_farmers_on_name"
-    t.index ["prefecture"], name: "index_farmers_on_prefecture"
     t.index ["reset_password_token"], name: "index_farmers_on_reset_password_token", unique: true
     t.index ["store_address"], name: "index_farmers_on_store_address", unique: true
   end

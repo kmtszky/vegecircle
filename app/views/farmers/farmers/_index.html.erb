@@ -7,10 +7,11 @@
         <% end %></div>
       <div class="farmer">
         <%= link_to farmers_farmer_path(farmer.id), class: "text-body" do %>
-          <h6 class="mt-1 mb-0"><%= farmer.name %></h6>
+          <h6 class="mt-1"><%= farmer.name %></h6>
           <p><%= farmer.farm_address %></p>
         <% end %>
       </div>
     </div>
   <% end %>
+  <%= paginate farmers %>
 </div>

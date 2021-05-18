@@ -36,4 +36,8 @@ class Recipe < ApplicationRecord
   def favorited_by?(customer)
     recipe_favorites.where(customer_id: customer.id).exists?
   end
+
+  def self.search_for(content)
+    Recipe.where('title like ?', '%' + content + '%')
+  end
 end

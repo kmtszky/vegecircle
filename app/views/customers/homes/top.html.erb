@@ -14,31 +14,36 @@
   </div>
 </section>
 
-<section id="main-contents" class="my-4">
-  <div class="side-bar">
-    <h5 class="text-center">エリアから探す</h5>
-  </div>
-  <div class="main-content">
-    <div class="form-group mb-4">
-      <h5>新着農家</h5>
-      <%= render 'customers/farmers/index', farmers: @farmers %>
-      <% if @farmers.count > 4 %>
-        <%= link_to ">> もっと見る", farmers_path, class: "ml-auto text-dark" %>
-      <% end %>
-    </div>
-    <div class="form-group mb-4">
-      <h5>新着レシピ</h5>
-      <%= render 'customers/recipes/index', recipes: @recipes %>
-      <% if @recipes.count > 4 %>
-        <%= link_to ">> もっと見る", recipes_path, class: "ml-auto text-dark" %>
-      <% end %>
-    </div>
-    <div class="form-group mb-4">
-      <h5>新着農業体験</h5>
-      <%= render 'farmers/events/index', events: @events %>
-      <% if @events.count > 4 %>
-        <%= link_to ">> もっと見る", events_path, class: "ml-auto text-dark" %>
-      <% end %>
+<section id="main-contents" class="mt-5">
+  <div class="conatiner">
+    <div class="row">
+      <div class="col-10 mx-auto col-md-3 offset-md-1 side-bar">
+        <h5 class="text-center">エリアから農家を探す</h5>
+        <%= render 'customers/homes/area', northern: @northern, kanto: @kanto, middle: @middle, kansai: @kansai, western: @western, southern: @southern %>
+      </div>
+      <div class="col-md-8 main-content d-none d-md-block">
+        <div class="form-group mb-4">
+          <h5>新着農家</h5>
+          <%= render 'customers/farmers/index', farmers: @farmers %>
+          <% if @farmers.count > 4 %>
+            <%= link_to ">> もっと見る", farmers_path, class: "ml-auto text-dark" %>
+          <% end %>
+        </div>
+        <div class="form-group mb-4">
+          <h5>新着レシピ</h5>
+          <%= render 'customers/recipes/index', recipes: @recipes %>
+          <% if @recipes.count > 4 %>
+            <%= link_to ">> もっと見る", recipes_path, class: "ml-auto text-dark" %>
+          <% end %>
+        </div>
+        <div class="form-group mb-4">
+          <h5>新着農業体験</h5>
+          <%= render 'farmers/events/index', events: @events %>
+          <% if @events.count > 4 %>
+            <%= link_to ">> もっと見る", events_path, class: "ml-auto text-dark" %>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </section>

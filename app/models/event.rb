@@ -45,7 +45,7 @@ class Event < ApplicationRecord
     event_favorites.where(customer_id: customer.id).exists?
   end
 
-  def all_ended?(schedule)
-    schedules.where()
+  def self.search_for(content)
+    Event.where('location like ?', content + '%')
   end
 end
