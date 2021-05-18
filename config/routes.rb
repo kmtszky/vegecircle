@@ -8,12 +8,12 @@ Rails.application.routes.draw do
   }
 
   namespace :farmers do
-    resources :farmers, only: [:show, :edit, :update]
+    resources :farmers, only: [:index, :show, :edit, :update]
       get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe', as: 'farmers_unsubscribe'
       patch 'farmers/:id/withdraw'  => 'farmers#withdraw',    as: 'farmers_withdraw'
-    resources :recipes, except: [:index]
+    resources :recipes
       get '/:id/recipes' => 'recipes#recipe_index', as: 'recipe_index'
-    resources :events, except: [:index] do
+    resources :events do
       resources :schedules, only: [:show, :edit, :update, :destroy]
       patch 'schedules/:id/withdraw' => 'schedules#withdraw', as: 'schedule_withdraw'
       patch 'schedules/:id/restart' => 'schedules#restart', as: 'schedule_restart'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_17_075057) do
+ActiveRecord::Schema.define(version: 2021_05_18_031811) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -106,8 +106,10 @@ ActiveRecord::Schema.define(version: 2021_05_17_075057) do
     t.boolean "is_deleted", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "prefecture", null: false
     t.index ["email"], name: "index_farmers_on_email", unique: true
     t.index ["name"], name: "index_farmers_on_name"
+    t.index ["prefecture"], name: "index_farmers_on_prefecture"
     t.index ["reset_password_token"], name: "index_farmers_on_reset_password_token", unique: true
     t.index ["store_address"], name: "index_farmers_on_store_address", unique: true
   end
@@ -168,6 +170,7 @@ ActiveRecord::Schema.define(version: 2021_05_17_075057) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "schedule_id", null: false
+    t.integer "people", null: false
     t.index ["customer_id"], name: "index_reservations_on_customer_id"
     t.index ["schedule_id"], name: "index_reservations_on_schedule_id"
   end
@@ -180,6 +183,7 @@ ActiveRecord::Schema.define(version: 2021_05_17_075057) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_deleted", default: false
+    t.integer "people", null: false
     t.index ["event_id"], name: "index_schedules_on_event_id"
   end
 

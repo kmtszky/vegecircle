@@ -31,6 +31,10 @@ class Farmers::EventsController < ApplicationController
     @schedule = @schedules.first
   end
 
+  def index
+    @events = Event.where("end_date > ?", Date.today).page(params[:page]).reverse_order
+  end
+
   def edit
     @schedules = Schedule.where(event_id: @event.id).pluck(:date)
     start_date = @schedules.first
