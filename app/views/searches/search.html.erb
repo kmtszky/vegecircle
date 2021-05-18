@@ -9,7 +9,7 @@
             <%= render 'farmers/recipes/index', recipes: @records %>
           <% elsif @model == 'event' %>
             <%= render 'farmers/events/index', events: @records %>
-          <% elsif @model == 'farmer' %>
+          <% else %>
             <%= render 'farmers/farmers/index', farmers: @records %>
           <% end %>
         <% else %>
@@ -19,7 +19,7 @@
             <%= render 'customers/recipes/index', recipes: @records %>
           <% elsif @model == 'event' %>
             <%= render 'customers/events/index', events: @records %>
-          <% elsif @model == 'farmer' %>
+          <% else %>
             <%= render 'customers/farmers/index', farmers: @records %>
           <% end %>
         <% end %>

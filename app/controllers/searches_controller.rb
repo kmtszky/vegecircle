@@ -13,9 +13,11 @@ class SearchesController < ApplicationController
 			@records = Event.search_for(@content)
 		else
 			if params.has_key?(:prefecture)
-				@records = Farmer.search_for(params[:prefecture], 'forward')
+				@content = params[:prefecture]
+				@records = Farmer.search_for(@content, 'forward')
 			else
-				@records = Farmer.search_for(params[:name], 'partial')
+				@content = params[:content]
+				@records = Farmer.search_for(@content, 'partial')
 			end
 		end
 	end
