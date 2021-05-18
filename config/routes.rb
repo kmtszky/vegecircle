@@ -54,7 +54,7 @@ Rails.application.routes.draw do
       get 'reservations/thanx'
   end
 
-  get 'searches/search'
+  get 'search'=> 'searches#search', as: 'search'
 
   # admin
   devise_for :admins, controllers: {

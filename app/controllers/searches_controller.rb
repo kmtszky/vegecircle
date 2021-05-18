@@ -5,9 +5,14 @@ class SearchesController < ApplicationController
 		if @model == 'recipe'
 			@content = params[:content]
 			@records = Recipe.search_for(@content)
-		elsif @model == 'Tag'
-			@content = params[:content]
-			@records = Tag.search_for(@content)
+			tags = Tag.search_for(@content)
+			if tags.present?
+				recipe_tags = RecipeTag.where(tag_id: tags.ids).pluck(:recipe_id)
+				taged_recipes = Recipe.where(id: recipe_tags)
+				sub_records = @records + taged_recipes
+				sub_records_ids = sub_records.pluck(:id).uniq
+				@records = Recipe.where(id: sub_records_ids)
+			end
 		elsif @model == 'event'
 			@content = params[:content]
 			@records = Event.search_for(@content)

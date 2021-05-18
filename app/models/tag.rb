@@ -6,6 +6,6 @@ class Tag < ApplicationRecord
   validates :tag, uniqueness: true, presence: true
 
   def self.search_for(content)
-    Tag.where(tag: content)
+    Tag.where('tag like ?', '%' + content + '%')
   end
 end
