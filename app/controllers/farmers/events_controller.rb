@@ -10,14 +10,15 @@ class Farmers::EventsController < ApplicationController
   def create
     @event = current_farmer.events.new(event_params)
     if @event.save
-      start_d = @event.start_date
-      end_d = @event.end_date
-      number_of_days = end_d - start_d
+      start_date = @event.start_date
+      end_date = @event.end_date
+      number_of_days = end_date - start_date
 
-      start_d.step(start_d + number_of_days, 1) do |day|
+      start_date.step(start_date + number_of_days, 1) do |day|
         @schedule = Schedule.new(date: day, event_id: @event.id)
         @schedule.start_time = @event.start_time
         @schedule.end_time = @event.end_time
+        @schedule.people = @event.number_of_participants
         @schedule.save
       end
       redirect_to farmers_event_path(@event)
@@ -55,7 +56,7 @@ class Farmers::EventsController < ApplicationController
   def destroy
     if @event.start_date > Date.today
       @event.destroy
-      redirect_to farmers_farmer_path, flash: { success: '農業体験を削除しました'}
+      redirect_to farmers_farmer_path(current_farmer), flash: { success: '農業体験を削除しました'}
     else
       @schedules = Schedule.where(event_id: @event.id).pluck(:date)
       render :edit
@@ -73,6 +74,6 @@ class Farmers::EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :plan_image, :body, :fee, :cancel_change, :start_date, :end_date, :location, :access, :parking, :etc, :is_deleted, :start_time, :end_time)
+    params.require(:event).permit(:title, :plan_image, :body, :fee, :cancel_change, :start_date, :end_date, :location, :access, :parking, :etc, :is_deleted, :start_time, :end_time, :number_of_participants)
   end
 end

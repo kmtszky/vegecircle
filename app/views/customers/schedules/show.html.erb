@@ -42,7 +42,10 @@
   <div class="row">
     <div class="col-12 col-md-10 mx-auto mb-2 event">
       <%= render "farmers/events/access", event: @event %>
-      <%= link_to "イベントページへ戻る", event_path(@event), class: "btn btn-secondary mt-3" %>
+      <div class="form-group d-flex mt-3 mt-3">
+        <%= link_to "予約する", new_event_schedule_reservation_path(@event, @schedule), class: "btn btn-success mr-3" %>
+        <%= link_to "イベントページへ戻る", event_path(@event), class: "btn btn-secondary" %>
+      </div>
     </div>
   </div>
 </div>

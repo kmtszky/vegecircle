@@ -5,6 +5,7 @@ class Event < ApplicationRecord
   has_many :schedules, dependent: :destroy
   attr_accessor :start_time
   attr_accessor :end_time
+  attr_accessor :number_of_participants
   attachment :plan_image
 
   with_options presence: true do
@@ -19,6 +20,7 @@ class Event < ApplicationRecord
     validates :end_date
     validates :start_time, on: :create
     validates :end_time, on: :create
+    validates :number_of_participants, numericality: { only_integer: true }, on: :create
   end
 
   validate do

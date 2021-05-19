@@ -7,13 +7,13 @@ class Farmers::SchedulesController < ApplicationController
 
   def edit
     if @schedule.date < Date.today
-      redirect_to farmers_event_path(@event)
+      render :show
     end
   end
 
   def update
     if @schedule.update(schedule_params)
-      redirect_to farmers_event_path(@event), flash: { success: "イベントの日程を更新しました" }
+      redirect_to farmers_event_schedule_path(@schedule), flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}の日程を更新しました" }
     else
       render :edit
     end
@@ -21,12 +21,12 @@ class Farmers::SchedulesController < ApplicationController
 
   def withdraw
     @schedule.update(is_deleted: true)
-    redirect_to farmers_event_schedule_path(@event), flash: { success: "イベントの受付を終了しました" }
+    redirect_to farmers_event_schedule_path(@schedule), flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}の予約受付を終了しました" }
   end
 
   def restart
     @schedule.update(is_deleted: false)
-    redirect_to farmers_event_schedule_path(@event), flash: { success: "イベントの受付を再開しました" }
+    redirect_to farmers_event_schedule_path(@schedule), flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}の予約受付を再開しました" }
   end
 
   def destroy
@@ -42,6 +42,6 @@ class Farmers::SchedulesController < ApplicationController
   end
 
   def schedule_params
-    params.require(:schedule).permit(:date, :start_time, :end_time, :is_deleted)
+    params.require(:schedule).permit(:date, :start_time, :end_time, :people, :is_deleted)
   end
 end

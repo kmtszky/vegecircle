@@ -46,12 +46,16 @@ Rails.application.routes.draw do
     resources :recipes, only: [:index, :show] do
       resource :favorite_recipes, only: [:create, :destroy]
     end
+    resources :reservations, only: [:index]
     resources :events, only: [:index, :show] do
       resource :favorite_events, only: [:create, :destroy]
-      resources :schedules, only: [:show]
+      resources :schedules, only: [:show] do
+        resources :reservations, only: [:new, :show, :create, :edit, :update, :destroy]
+        post 'reservations/confirm'
+        post 'reservations/back'
+        get 'reservations/:id/thanx' => 'reservations#thanx'
+      end
     end
-    resources :reservations, only: [:new, :index, :show, :create, :destroy]
-      get 'reservations/thanx'
   end
 
   get 'search'=> 'searches#search', as: 'search'

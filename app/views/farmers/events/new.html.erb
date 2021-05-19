@@ -25,9 +25,17 @@
         <div class="form-row align-items-end">
           <div class="form-group col-6">
             <%= f.label :fee, "イベント参加費（税込）" %><string class="required"> *</string><br />
-            <%= f.text_field :fee, class: "form-control form-control-sm" %>
+            <%= f.number_field :fee, class: "form-control form-control-sm", min: 0, size: 100 %>
           </div>
           <div class="form-group col-6">円</div>
+        </div>
+
+        <div class="form-row align-items-end">
+          <div class="form-group col-6">
+            <%= f.label :number_of_participants, "1日あたりの予約可能人数" %><string class="required"> *</string><br />
+            <%= f.number_field :number_of_participants, class: "form-control form-control-sm", min: 1, size: 100 %>
+          </div>
+          <div class="form-group col-6">人</div>
         </div>
 
         <div class="field form-group">
