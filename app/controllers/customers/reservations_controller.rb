@@ -1,12 +1,12 @@
 class Customers::ReservationsController < ApplicationController
   before_action :authenticate_customer!
   before_action :set_schedule, only: [:new, :confirm, :back]
-  before_action :set_reservation, only: [:show, :thanx, :edit, :update, :destroy]
+  before_action :set_reservation, only: [:show, :thanx, :destroy]
 
   def new
-    if current_customer.reservations.where(schedule_id: params[:schedule_id]).exist?
-      @reservation = Reservation.find(params[:id])
-      redirect_to edit_event_schedule_reservation_path(@event, @schedule, @reservation), flash: { warning: "予約済みのため編集ページへ移動します" }
+    if current_customer.reservations.where(schedule_id: params[:schedule_id]).exists?
+      @reservation = current_customer.reservations.where(schedule_id: params[:schedule_id])
+      redirect_to profiles_path(current_customer), flash: { warning: "予約済みのためマイページへ移動しました。" }
     end
     session.delete(:reservation)
     @reservation = Reservation.new
@@ -51,21 +51,6 @@ class Customers::ReservationsController < ApplicationController
 
   def index
     @reservations = current_customer.reservations
-  end
-
-  def edit
-  end
-
-  def update
-    reserved_number = @schedule.reservations.pluck(:people).sum
-    reservable_number = @schedule.people - reserved_number
-    if params[:event][:schedule][:reservation][:people].to_i > reservable_number
-      if params@reservations.update(reservation_params)
-        redirect_to event_schedule_reservation_path(@reservation)
-      else
-        render :edit
-      end
-    end
   end
 
   def destroy

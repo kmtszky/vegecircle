@@ -1,2 +1,8 @@
-<h1>Customers::Reservations#index</h1>
-<p>Find me in app/views/customers/reservations/index.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-11 col-md-10 mx-auto">
+      <h4 class="mb-4">予約中の農業体験一覧</h4>
+      <%= render 'customers/reservations/reserved_index', reservations: @reservations %>
+    </div>
+  </div>
+</div>
