@@ -54,7 +54,7 @@ class Customers::ReservationsController < ApplicationController
   end
 
   def destroy
-    @resevation.destroy
+    Reservation.find(params[:id]).destroy
     redirect_to reservations_path(current_customer), flash: { success: "ご予約をキャンセルしました" }
   end
 
