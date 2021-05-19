@@ -1,12 +1,12 @@
 class Customers::ReservationsController < ApplicationController
   before_action :authenticate_customer!
-  before_action :set_schedule, only: [:new, :confirm, :back]
+  before_action :set_schedule, only: [:new, :confirm, :back, :show, :destroy]
   before_action :set_reservation, only: [:show, :thanx, :destroy]
 
   def new
     if current_customer.reservations.where(schedule_id: params[:schedule_id]).exists?
       @reservation = current_customer.reservations.where(schedule_id: params[:schedule_id])
-      redirect_to profiles_path(current_customer), flash: { warning: "予約済みのためマイページへ移動しました。" }
+      redirect_to reservations_path(current_customer), flash: { warning: "予約済みのため予約一覧ページへ移動しました。" }
     end
     session.delete(:reservation)
     @reservation = Reservation.new
@@ -55,7 +55,7 @@ class Customers::ReservationsController < ApplicationController
 
   def destroy
     @resevation.destroy
-    redirect_to profiles_path(current_customer), flash: { success: "ご予約をキャンセルしました" }
+    redirect_to reservations_path(current_customer), flash: { success: "ご予約をキャンセルしました" }
   end
 
   private
