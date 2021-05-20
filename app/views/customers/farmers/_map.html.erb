@@ -1,0 +1,27 @@
+<script>
+  function initMap() {
+    const store_address = { lat: <%= farmer.store_latitude %>, lng: <%= farmer.store_longitude %> };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 15,
+      center: store_address,
+    });
+    const transitLayer = new google.maps.TransitLayer();
+          transitLayer.setMap(map);
+    const contentString = '直売所：<%= farmer.store_address %>';
+    const marker = new google.maps.Marker({
+      position: store_address,
+      map: map,
+      title: contentString,
+    });
+    const infowindow = new google.maps.InfoWindow({
+      content: contentString,
+    });
+    marker.addListener("click", () => {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+
+<div id="map"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap&libraries=&v=weekly" async defer></script>

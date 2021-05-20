@@ -18,7 +18,7 @@ class Farmer < ApplicationRecord
   end
 
   geocoded_by :store_address, latitude: :store_latitude, longitude: :store_longitude
-  after_validation :geocode, if: :store_address_changed?
+  after_validation :geocode
 
   attachment :farmer_image
   attachment :image_1

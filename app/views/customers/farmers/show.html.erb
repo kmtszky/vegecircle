@@ -31,6 +31,7 @@
     <div class="col-12 col-md-5 offset-md-2 my-2">
       <h6>直売所へのアクセス</h6>
       <%= @farmer.store_address %>
+      <%= render 'customers/farmers/map', farmer: @farmer %>
     </div>
     <div class="col-12 col-md-4 mr-auto my-2">
       <h6>お知らせ</h6>

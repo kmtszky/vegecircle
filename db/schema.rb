@@ -87,8 +87,8 @@ ActiveRecord::Schema.define(version: 2021_05_20_062832) do
     t.datetime "updated_at", null: false
     t.date "start_date", null: false
     t.date "end_date", null: false
-    t.float "latitude", null: false
-    t.float "longitude", null: false
+    t.float "latitude"
+    t.float "longitude"
     t.index ["farmer_id"], name: "index_events_on_farmer_id"
     t.index ["location"], name: "index_events_on_location"
   end
@@ -110,8 +110,8 @@ ActiveRecord::Schema.define(version: 2021_05_20_062832) do
     t.boolean "is_deleted", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.float "store_latitude", null: false
-    t.float "store_longitude", null: false
+    t.float "store_latitude"
+    t.float "store_longitude"
     t.index ["email"], name: "index_farmers_on_email", unique: true
     t.index ["name"], name: "index_farmers_on_name"
     t.index ["reset_password_token"], name: "index_farmers_on_reset_password_token", unique: true

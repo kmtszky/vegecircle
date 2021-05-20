@@ -1,0 +1,27 @@
+<script>
+  function initMap() {
+    const location = { lat: <%= event.latitude %>, lng: <%= event.longitude %> };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 15,
+      center: location,
+    });
+    const transitLayer = new google.maps.TransitLayer();
+          transitLayer.setMap(map);
+    const contentString = '集合場所：<%= event.location %>';
+    const marker = new google.maps.Marker({
+      position: location,
+      map: map,
+      title: contentString,
+    });
+    const infowindow = new google.maps.InfoWindow({
+      content: contentString,
+    });
+    marker.addListener("click", () => {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+
+<div id="map"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap&libraries=&v=weekly" async defer></script>

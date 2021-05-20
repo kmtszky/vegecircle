@@ -3,7 +3,8 @@
   <tbody>
     <tr>
       <th>集合場所</th>
-      <td><%= event.location %></td>
+      <td><%= event.location %><br>
+          <%= render 'customers/events/map' %></td>
     </tr>
     <tr>
       <th>アクセス方法</th>
@@ -11,7 +12,7 @@
     </tr>
     <tr>
       <th>駐車場</th>
-      <td><%= @event.parking %></td>
+      <td><%= event.parking %></td>
     </tr>
   </tbody>
 </table>

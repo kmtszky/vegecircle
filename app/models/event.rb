@@ -38,7 +38,7 @@ class Event < ApplicationRecord
   end
 
   geocoded_by :location
-  after_validation :geocode, if: :location_changed?
+  after_validation :geocode
 
   enum parking: {
     "駐車場あり、予約不要": 0,
