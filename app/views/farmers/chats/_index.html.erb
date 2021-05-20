@@ -1,11 +1,11 @@
 <% chats.each do |chat| %>
-  <%= if chat.farmer_id.exist? %>
+  <% if chat.farmer_id.exist? %>
     <div class="balloon left">
       <figure class="icon"><%= attachment_image_tag chat.farmer :farmer_image, :fill, 100, 100, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '100x100' %>
         <figcaption class="name"><%= chat.farmer.name %></figcaption>
       </figure>
       <div class="chatting">
-        <p class="text"><%= chat.chat %></p>
+        <p class="text"><%= safe_join(chat.chat.split("\n"),tag(:br)) %></p>
       </div>
       <div class=><%= time_ago_in_words(alertDate)+"前" %></div>
     </div>
@@ -15,7 +15,7 @@
         <figcaption class="name"><%= chat.customer.name %></figcaption>
       </figure>
       <div class="chatting">
-        <p class="text"><%= chat.chat %></p>
+        <p class="text"<%= safe_join(chat.chat.split("\n"),tag(:br)) %></p>
       </div>
       <div class=><%= time_ago_in_words(alertDate)+"前" %></div
     </div>

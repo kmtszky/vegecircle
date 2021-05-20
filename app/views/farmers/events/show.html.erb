@@ -58,16 +58,18 @@
         </div>
       <% end %>
     </div>
-  </row>
+  </div>
 
   <div class="row">
     <div class="col-12 col-md-10 mx-auto mb-2 event">
+      <h5 class="mb-2">ご相談、ご連絡フォーム</h5>
       <% if @event.farmer_id == current_farmer.id %>
-        <%= form_with [@event, @chat], local: true do |f| %>
-          <%= f.text_area :chat, row: 4, class: "form-control form-control-sm", autofocus: true, placeholder: "Chat" %>
-          <%= f.submit "送信", class: "btn btn-success" %>
+        <%= form_with moedl: [@event, @chat], local: true do |f| %>
+          <%= f.text_area :chat, class: "form-control form-control-sm", autofocus: true, placeholder: "Chat" %>
+          <%= f.submit "送信", class: "btn btn-success btn-sm mt-2" %>
+        <% end %>
       <% end %>
       <%= render "farmers/chats/index", chats: @chats %>
     </div>
-  </row>
+  </div>
 </div>
