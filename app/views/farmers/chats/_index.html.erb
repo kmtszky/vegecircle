@@ -1,23 +1,29 @@
-<% chats.each do |chat| %>
-  <% if chat.farmer_id.exist? %>
-    <div class="balloon left">
-      <figure class="icon"><%= attachment_image_tag chat.farmer :farmer_image, :fill, 100, 100, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '100x100' %>
-        <figcaption class="name"><%= chat.farmer.name %></figcaption>
-      </figure>
-      <div class="chatting">
-        <p class="text"><%= safe_join(chat.chat.split("\n"),tag(:br)) %></p>
+<div class="mt-3">
+  <% chats.each do |chat| %>
+    <% if chat.farmer_id.present? %>
+      <div class="balloon right">
+        <figure class="icon">
+          <%= attachment_image_tag chat.farmer, :farmer_image, :fill, 80, 80, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '80x80' %>
+          <figcaption class="name text-center"><%= chat.farmer.name %></figcaption>
+        </figure>
+        <div class="chat-group">
+          <div class="chatting">
+            <p class="text"><%= safe_join(chat.chat.split("\n"),tag(:br)) %></p>
+          </div>
+          <div class="created_at"><%= time_ago_in_words(chat.created_at)+"前" %></div>
+        </div>
       </div>
-      <div class=><%= time_ago_in_words(alertDate)+"前" %></div>
-    </div>
-  <% else %>
-    <div class="balloon right">
-      <figure class="icon"><%= attachment_image_tag chat.customer :customer_image, :fill, 100, 100, class: "rounded-circle", fallback: asset_path('logo/customer_default_icon.jpg'), size: '100x100' %>
-        <figcaption class="name"><%= chat.customer.name %></figcaption>
-      </figure>
-      <div class="chatting">
-        <p class="text"<%= safe_join(chat.chat.split("\n"),tag(:br)) %></p>
+    <% else %>
+      <div class="balloon left">
+        <figure class="icon">
+          <%= attachment_image_tag chat.customer, :customer_image, :fill, 80, 80, class: "rounded-circle", fallback: asset_path('logo/customer_default_icon.jpg'), size: '80x80' %>
+          <figcaption class="name"><%= chat.customer.name %></figcaption>
+        </figure>
+        <div class="chatting">
+          <p class="text"<%= safe_join(chat.chat.split("\n"),tag(:br)) %></p>
+        </div>
+        <div class="created_at"><%= time_ago_in_words(chat.created_at)+"前" %></div
       </div>
-      <div class=><%= time_ago_in_words(alertDate)+"前" %></div
-    </div>
+    <% end %>
   <% end %>
-<% end %>
+</div>

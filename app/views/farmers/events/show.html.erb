@@ -61,14 +61,17 @@
   </div>
 
   <div class="row">
-    <div class="col-12 col-md-10 mx-auto mb-2 event">
-      <h5 class="mb-2">ご相談、ご連絡フォーム</h5>
+    <div class="col-12 col-md-8 mx-auto mb-2">
+      <h5 class="mb-2 text-center">ご相談、ご連絡フォーム</h5>
+      <%= render 'layouts/error_messages', validation: @chat %>
       <% if @event.farmer_id == current_farmer.id %>
-        <%= form_with moedl: [@event, @chat], local: true do |f| %>
+        <%= form_with model: [@event, @chat], url: farmers_event_chats_path(@event, @chat), local: true do |f| %>
           <%= f.text_area :chat, class: "form-control form-control-sm", autofocus: true, placeholder: "Chat" %>
           <%= f.submit "送信", class: "btn btn-success btn-sm mt-2" %>
         <% end %>
       <% end %>
+    </div>
+    <div class="col-12 col-md-8 mx-auto mb-2">
       <%= render "farmers/chats/index", chats: @chats %>
     </div>
   </div>

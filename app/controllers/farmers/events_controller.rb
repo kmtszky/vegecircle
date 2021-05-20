@@ -29,7 +29,7 @@ class Farmers::EventsController < ApplicationController
 
   def show
     @schedule = @schedules.first
-    @chats = Chat.where(event_id: params[:event_id]).order('created_at DESC')
+    @chats = Chat.where(event_id: params[:id])
     if current_farmer.id == @event.farmer_id
       @chat = Chat.new
     end
