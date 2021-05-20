@@ -3,70 +3,68 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 // chat
-.balloon-color {
+.balloon {
   display: flex;
   flex-wrap: wrap;
 }
-.balloon-color figure img {
-  border-radius: 0;
-  margin: 0;
-}
-
-.icon-color {
-  width: 100px;
-  height: 100px;
-}
-
-.name-color {
-  width: 100px;
+.name, .created_at{
   font-size: 12px;
-  text-align: center;
 }
-.text-color {
+.text {
   color: #fff;
   font-size: 16px;
 }
+.chat-group {
+  display: block;
+}
 
 // chat_left (customer)
-.balloon-color.left {
+.balloon.left {
   flex-direction: row;
 }
-.left .chatting-color {
+.left .chatting {
   position: relative;
   display: inline-block;
-  margin: 15px 20px 20px;
   padding: 10px 20px;
   background: #696969;
   text-align: left;
   border-radius: 15px;
 }
-.left .chatting-color::after {
+.left .chatting::after {
   content: "";
-  border: 15px solid transparent;
-  border-top-color: #696969;
+  border: 8px solid transparent;
+  border-right: 18px solid #696969;
   position: absolute;
   top: 15px;
   left: -15px;
 }
+.left .created_at {
+  margin: 15px 20px 20px;
+  text-align: left;
+}
 
 // chat_right (farmer)
-.balloon-color.right {
+.balloon.right {
   flex-direction: row-reverse;
 }
-.right .chatting-color {
+.right .chatting {
   position: relative;
   display: inline-block;
-  margin: 15px 20px 20px;
+  margin: 15px 20px 0 0;
   padding: 10px 20px;
-  background: #2f4f4f;
+  background: #6f4b3e;
   text-align: left;
   border-radius: 15px;
 }
-.right .chatting-color::after {
+.right .chatting::after {
   content: "";
-  border: 15px solid transparent;
-  border-top-color: #2f4f4f;
+  border: 8px solid transparent;
+  border-left: 18px solid #6f4b3e;
   position: absolute;
   top: 15px;
-  right: -15px;
+  right: -22px;
+}
+.right .created_at {
+  margin: 0 23px 20px 0;
+  text-align: right;
 }

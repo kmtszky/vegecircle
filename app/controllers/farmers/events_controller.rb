@@ -36,13 +36,13 @@ class Farmers::EventsController < ApplicationController
   end
 
   def index
-    @events = Event.where("end_date > ?", Date.today).page(params[:page]).reverse_order
+    @events = Event.where("end_date >= ?", Date.today).page(params[:page]).reverse_order
   end
 
   def edit
     @schedules = Schedule.where(event_id: @event.id).pluck(:date)
     start_date = @schedules.first
-    if start_date < Date.today
+    if start_date <= Date.today
       redirect_to request.referer, flash: { danger: '農業体験期間中のため編集できません'}
     end
   end

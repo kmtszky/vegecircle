@@ -17,12 +17,14 @@
       <div class="balloon left">
         <figure class="icon">
           <%= attachment_image_tag chat.customer, :customer_image, :fill, 80, 80, class: "rounded-circle", fallback: asset_path('logo/customer_default_icon.jpg'), size: '80x80' %>
-          <figcaption class="name"><%= chat.customer.name %></figcaption>
+          <figcaption class="name text-center"><%= chat.customer.nickname %></figcaption>
         </figure>
-        <div class="chatting">
-          <p class="text"<%= safe_join(chat.chat.split("\n"),tag(:br)) %></p>
+        <div class="chat-group">
+          <div class="chatting">
+            <p class="text"><%= safe_join(chat.chat.split("\n"),tag(:br)) %></p>
+          </div>
+          <div class="created_at"><%= time_ago_in_words(chat.created_at)+"前" %></div>
         </div>
-        <div class="created_at"><%= time_ago_in_words(chat.created_at)+"前" %></div
       </div>
     <% end %>
   <% end %>

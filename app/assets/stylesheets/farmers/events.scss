@@ -25,8 +25,8 @@
 .left .chatting {
   position: relative;
   display: inline-block;
-  margin: 15px 20px 20px;
-  padding: 10px 20px;
+  margin: 7px 20px 0;
+  padding: 10px 20px 5px;
   background: #696969;
   text-align: left;
   border-radius: 15px;
@@ -37,12 +37,10 @@
   border-right: 18px solid #696969;
   position: absolute;
   top: 15px;
-  left: -15px;
+  left: -22px;
 }
 .left .created_at {
-  display: inline-block;
-  margin: 15px 20px 20px;
-  padding: 10px 20px;
+  margin: 0 0 20px 23px;
   text-align: left;
 }
 
@@ -53,8 +51,8 @@
 .right .chatting {
   position: relative;
   display: inline-block;
-  margin: 15px 20px 0 0;
-  padding: 10px 20px;
+  margin: 7px 20px 0;
+  padding: 10px 20px 5px;
   background: #6f4b3e;
   text-align: left;
   border-radius: 15px;

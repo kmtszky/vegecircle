@@ -9,8 +9,10 @@ class Farmers::ChatsController < ApplicationController
       if @chat.save
         redirect_to request.referer
       else
+        @event = Event.find(params[:event_id])
         @schedules = Schedule.where(event_id: @event.id)
         @schedule = @schedules.first
+        @chats = Chat.where(event_id: params[:event_id])
         render template: "farmers/events/show"
       end
     end
