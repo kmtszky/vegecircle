@@ -6,11 +6,11 @@ class Customers::EvaluationsController < ApplicationController
     @evaluation = current_customer.evaluation.new(evaluation_params)
     @evaluation.farmer_id = @farmer.id
     if Evaluation.where(customer_id: current_customer.id, farmer_id: @farmer.id).exists?
-      redirect_to farmer_path(@farmer), flash: { alart: "評価は一回までです。" }
+      redirect_to farmer_path(@farmer), flash: { alert: "評価は一回までです。" }
     elsif @evaluation.save
       redirect_to farmer_path(@farmer)
     else
-      redirect_to farmer_path(@farmer), flash: { alart: "星評価かコメントのいずれかを必ず入力してください。" }
+      redirect_to farmer_path(@farmer), flash: { alert: "星評価かコメントのいずれかを必ず入力してください。" }
     end
   end
 

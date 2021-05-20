@@ -66,7 +66,7 @@
       <%= render 'layouts/error_messages', validation: @chat %>
       <% if @event.farmer_id == current_farmer.id %>
         <%= form_with model: [@event, @chat], url: farmers_event_chats_path(@event, @chat), local: true do |f| %>
-          <%= f.text_area :chat, class: "form-control form-control-sm", autofocus: true, placeholder: "Chat" %>
+          <%= f.text_area :chat, class: "form-control form-control-sm", placeholder: "Chat" %>
           <%= f.submit "送信", class: "btn btn-success btn-sm mt-2" %>
         <% end %>
       <% end %>

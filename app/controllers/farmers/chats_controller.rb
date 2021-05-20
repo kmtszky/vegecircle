@@ -18,14 +18,6 @@ class Farmers::ChatsController < ApplicationController
     end
   end
 
-  def destroy
-    chat = Chat.find(params[:id])
-    if chat.farmer_id == current_farmer.id
-      chat.destroy
-      redirect_to request.referer
-    end
-  end
-
   private
 
   def set_farmer

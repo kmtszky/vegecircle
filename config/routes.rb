@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       resources :schedules, only: [:show, :edit, :update, :destroy]
       patch 'schedules/:id/withdraw' => 'schedules#withdraw', as: 'schedule_withdraw'
       patch 'schedules/:id/restart' => 'schedules#restart', as: 'schedule_restart'
-      resources :chats, only: [:create, :destroy]
+      resources :chats, only: [:create]
     end
       get '/:id/events'           => 'events#event_index', as: 'event_index'
     resources :news, only: [:create, :destroy]
@@ -48,7 +48,7 @@ Rails.application.routes.draw do
     resources :reservations, only: [:index]
     resources :events, only: [:index, :show] do
       resource :favorite_events, only: [:create, :destroy]
-      resources :chats, only: [:create, :destroy]
+      resources :chats, only: [:create]
       resources :schedules, only: [:show] do
         resources :reservations, only: [:new, :show, :create, :edit, :update, :destroy]
         post 'reservations/confirm'
