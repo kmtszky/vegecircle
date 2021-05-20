@@ -6,7 +6,7 @@ class Farmers::SchedulesController < ApplicationController
   end
 
   def edit
-    if @schedule.date < Date.today
+    if @schedule.date <= Date.today
       render :show
     end
   end
