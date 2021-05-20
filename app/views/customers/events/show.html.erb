@@ -22,9 +22,9 @@
           <tr>
             <th>イベント期間</th>
             <td>
-              <p>ご予約の際は、以下より希望の日程をお選びください</p>
+              <p>ご予約の際は、以下より希望の日程をお選びください。</p>
               <% @schedules.each do |schedule| %>
-                <%= link_to event_schedule_path(@event.id, schedule), class: "btn btn-success btn-sm mr-3" do %>
+                <%= link_to event_schedule_path(event_id: @event.id, id: schedule.id), class: "btn btn-success btn-sm mr-3" do %>
                   <%= show_date(schedule.date) %>
                 <% end %>
               <% end %>

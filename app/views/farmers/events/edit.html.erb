@@ -1,10 +1,10 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-10 mx-auto bg-gray p-5">
+    <div class="col-11 col-md-8 mx-auto bg-gray p-5">
       <h4><%= @event.title %>の編集</h4>
 
       <%= render 'layouts/error_messages', validation: @event %><br>
-      <%= form_with model: [:farmers, @event], url: , local: true do |f| %>
+      <%= form_with model: [:farmers, @event], local: true do |f| %>
 
         <h5 class="mb-2">イベント概要</h5>
         <div class="field form-group">
@@ -25,7 +25,7 @@
         <div class="form-row align-items-end">
           <div class="form-group col-6">
             <%= f.label :fee, "イベント参加費（税込）" %><string class="required"> *</string><br />
-            <%= f.text_field :fee, class: "form-control form-control-sm" %>
+            <%= f.number_field :fee, class: "form-control form-control-sm", min: 0 %>
           </div>
           <div class="form-group col-6">円</div>
         </div>
@@ -37,7 +37,7 @@
 
         <h5 class="mb-2">スケジュール</h5>
         <div class="field form-group">
-          以下のボタンからスケジュールを変更したい日程を選択してください：<br>
+          以下のボタンからスケジュールや予約可能人数を変更したい日程を選択してください：<br>
           <% @schedules.each do |day| %>
             <%= link_to edit_farmers_event_schedule_path(@event), class: "btn btn-success btn-sm mr-3" do %>
               <%= show_date(day) %>
@@ -70,6 +70,7 @@
         <h6 class="required mt-2">※更新ボタンを押されますと、全日程のイベント概要、アクセスが更新されます※</h6>
         <div class="form-group d-flex mt-3">
           <%= f.submit '更新する', class: "btn btn-success text-light mr-3" %>
+          <%= link_to "削除する", farmers_event_path(@event), method: :delete, data: { confirm: "このイベントを全日程まとめて削除しますか？"}, class: "btn btn-danger mr-3" %>
           <%= link_to "戻る", farmers_event_path(@event), class: "btn btn-secondary" %>
         </div>
       <% end %>

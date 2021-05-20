@@ -1,0 +1,30 @@
+<% if reservations.count == 0 %>
+  <h6>予約している農業体験はありません</h6>
+<% else %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>イベント名</th>
+        <th>イベント日時</th>
+        <th>予約人数</th>
+        <th>料金</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% reservations.each do |reservation| %>
+        <tr>
+          <td><%= link_to event_schedule_reservation_path(id: reservation.id, schedule_id: reservation.schedule_id, event_id: reservation.schedule.event_id) do %>
+                <%= attachment_image_tag reservation.schedule.event, :plan_image, :fill, 80, 80, class: "rounded-circle" %></td>
+              <% end %></div>
+          <td><%= link_to event_schedule_reservation_path(id: reservation.id, schedule_id: reservation.schedule_id, event_id: reservation.schedule.event_id) do %>
+                <%= reservation.schedule.event.title %></td>
+              <% end %></td>
+          <td><%= show_date(reservation.schedule.date) %>　<%= show_time(reservation.schedule.start_time) %> ～ <%= show_time(reservation.schedule.end_time) %></td>
+          <td><%= reservation.people %>人</td>
+          <td><%= converting_to_jpy(reservation.people * reservation.schedule.event.fee) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

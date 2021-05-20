@@ -8,12 +8,12 @@ Rails.application.routes.draw do
   }
 
   namespace :farmers do
-    resources :farmers, only: [:show, :edit, :update]
+    resources :farmers, only: [:index, :show, :edit, :update]
       get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe', as: 'farmers_unsubscribe'
       patch 'farmers/:id/withdraw'  => 'farmers#withdraw',    as: 'farmers_withdraw'
-    resources :recipes, except: [:index]
+    resources :recipes
       get '/:id/recipes' => 'recipes#recipe_index', as: 'recipe_index'
-    resources :events, except: [:index] do
+    resources :events do
       resources :schedules, only: [:show, :edit, :update, :destroy]
       patch 'schedules/:id/withdraw' => 'schedules#withdraw', as: 'schedule_withdraw'
       patch 'schedules/:id/restart' => 'schedules#restart', as: 'schedule_restart'
@@ -46,13 +46,19 @@ Rails.application.routes.draw do
     resources :recipes, only: [:index, :show] do
       resource :favorite_recipes, only: [:create, :destroy]
     end
+    resources :reservations, only: [:index]
     resources :events, only: [:index, :show] do
       resource :favorite_events, only: [:create, :destroy]
-      resources :schedules, only: [:show]
+      resources :schedules, only: [:show] do
+        resources :reservations, only: [:new, :show, :create, :edit, :update, :destroy]
+        post 'reservations/confirm'
+        post 'reservations/back'
+        get 'reservations/:id/thanx' => 'reservations#thanx'
+      end
     end
-    resources :reservations, only: [:new, :index, :show, :create, :destroy]
-      get 'reservations/thanx'
   end
+
+  get 'search'=> 'searches#search', as: 'search'
 
   # admin
   devise_for :admins, controllers: {

@@ -1,9 +1,19 @@
 class Farmers::FarmersController < ApplicationController
-  before_action :authenticate_farmer!, exept: [:show]
-  before_action :set_farmer
+  before_action :authenticate_farmer!
+  before_action :set_farmer, except: [:index]
+
+  def index
+    @farmers = Farmer.where(is_deleted: false).page(params[:page]).reverse_order
+
+    @northern = [ "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県" ]
+    @kanto = [ "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県" ]
+    @middle = [ "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県", "静岡県", "愛知県", "三重県" ]
+    @kansai = [ "滋賀県", "京都府", "大阪府", "兵庫県", "奈良県", "和歌山県" ]
+    @western = [ "鳥取県", "島根県", "岡山県", "広島県", "山口県", "徳島県", "香川県", "愛媛県", "高知県" ]
+    @southern = [ "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県" ]
+  end
 
   def show
-    @farmer = Farmer.find(params[:id])
     if current_farmer == @farmer
       @news = News.new
       @chat = Chat.new
@@ -17,6 +27,7 @@ class Farmers::FarmersController < ApplicationController
     chat_index = Chat.where(farmer_id: @farmer.id).order('created_at DESC')
     @chat_last5 = chat_index.first(5)
     @chat_left = chat_index.offset(5)
+    @evaluations = Evaluation.where(farmer_id: @farmer.id).order('created_at DESC').first(3)
   end
 
   def edit
@@ -24,7 +35,7 @@ class Farmers::FarmersController < ApplicationController
 
   def update
     if @farmer.update(farmer_params)
-      redirect_to farmer_path(current_farmer), flash: {success: "登録情報を更新しました"}
+      redirect_to farmers_farmer_path(current_farmer), flash: {success: "登録情報を更新しました"}
     else
       render :edit
     end
@@ -35,6 +46,7 @@ class Farmers::FarmersController < ApplicationController
 
   def withdraw
     @farmer.update(is_deleted: true)
+    @farmer.schedules.where("start_date > ?", Date.today).destroy
     redirect_to root_path, flash: {success: "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。"}
   end
 

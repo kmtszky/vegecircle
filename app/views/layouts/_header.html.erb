@@ -5,7 +5,6 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <%= render 'layouts/flash_for_devise' %>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ml-auto">
           <% if customer_signed_in? %>
@@ -19,9 +18,9 @@
           <% elsif farmer_signed_in? %>
           <!--farmerのヘッダー-->
             <li><%= link_to ' マイページ', farmers_farmer_path(current_farmer), class: "nav-link text-dark fas fa-user" %></li>
-            <li><%= link_to ' 農家さん一覧', farmers_path, class: "nav-link text-dark fas fa-tractor" %></li>
-            <li><%= link_to ' レシピ', recipes_path, class: "nav-link text-dark fas fa-utensils" %></li>
-            <li><%= link_to ' 農業体験', events_path, class: "nav-link text-dark fas fa-carrot" %></li>
+            <li><%= link_to ' 農家さん一覧', farmers_farmers_path, class: "nav-link text-dark fas fa-tractor" %></li>
+            <li><%= link_to ' レシピ', farmers_recipes_path, class: "nav-link text-dark fas fa-utensils" %></li>
+            <li><%= link_to ' 農業体験', farmers_events_path, class: "nav-link text-dark fas fa-carrot" %></li>
             <li><%= link_to ' ログアウト', destroy_farmer_session_path, method: :delete, class: "nav-link text-dark fas fas fa-walking" %></li>
           <% elsif admin_signed_in? %>
           <!--adminのヘッダー-->
@@ -38,4 +37,11 @@
       </div>
     </div>
   </nav>
+  <div class="container">
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <%= render 'layouts/flash' %>
+      </div>
+    </div>
+  </div>
 </header>

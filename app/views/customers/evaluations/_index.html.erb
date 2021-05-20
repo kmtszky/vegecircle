@@ -1,8 +1,12 @@
-<% evaluations.each do |evaluation| %>
-  <div class="review p-3">
-    <p><%= evaluation.customer.nickname %>さん</p>
-    <div class="evaluation-rating" data-score="<%= evaluation.evaluation %>"></div>
-    <p><%= safe_join(evaluation.comment.split("\n"),tag(:br)) %></p>
-    <%= attachment_image_tag evaluation, :evaluation_image, :fill, 200, 200 %>
-  </div>
+<% if evaluations.count == 0 %>
+  <p>レビューがまだ投稿されていません</p>
+<% else %>
+  <% evaluations.each do |evaluation| %>
+    <div class="review p-3">
+      <p><%= evaluation.customer.nickname %>さん</p>
+      <div class="evaluation-rating" data-score="<%= evaluation.evaluation %>"></div>
+      <p><%= safe_join(evaluation.comment.split("\n"),tag(:br)) %></p>
+      <%= attachment_image_tag evaluation, :evaluation_image, :fill, 200, 200 %>
+    </div>
+  <% end %>
 <% end %>

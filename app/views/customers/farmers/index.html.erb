@@ -1,7 +1,14 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-10 mx-auto">
+    <div class="col-11 col-md-10 mx-auto">
       <h4 class="mb-4">農家さん一覧</h4>
+    </div>
+    <div class="col-10 mx-auto col-md-3 offset-md-1 side-bar">
+      <h6 class="text-center">エリアから探す</h6>
+      <%= render 'customers/homes/area', northern: @northern, kanto: @kanto, middle: @middle, kansai: @kansai, western: @western, southern: @southern %>
+    </div>
+    <div class="col-md-8 main-content d-none d-md-block">
+      <%= render 'searches/farmer_search' %>
       <%= render 'customers/farmers/index', farmers: @farmers %>
       <%= paginate @farmers %>
     </div>

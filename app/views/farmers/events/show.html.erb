@@ -55,7 +55,6 @@
       <% if (@schedule.date > Date.today) && (current_farmer.id == @event.farmer_id) %>
         <div class="form-group d-flex mt-3">
           <%= link_to "編集する", edit_farmers_event_path(@event), class: "btn btn-success mr-3" %>
-          <%= link_to "削除する", farmers_event_path(@event), method: :delete, data: { confirm: "このイベントを全日程まとめて削除しますか？"},class: "btn btn-danger" %>
         </div>
       <% end %>
     </div>

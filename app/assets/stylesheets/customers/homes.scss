@@ -25,23 +25,6 @@
   margin: 0 auto;
 }
 
-#main-contents {
-  width: 100%;
-}
-
-//side-bar
-.side-bar {
-  width: 25%;
-  float: left;
-  overflow: hidden;
-}
-
-.main-content {
-  width: 75%;
-  float: right;
-  padding-left: 3%;
-}
-
 // about => skippr
 #about-contents {
   width: 100%;
@@ -67,4 +50,8 @@
 }
 .image5 {
   background-image: image-url("about/image5.jpg");
+}
+
+.side-bar .form-group {
+  word-break: keep-all;
 }

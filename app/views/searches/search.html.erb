@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto">
+      <h4 class="mb-4">「<%= @content %>」の検索結果</h4>
+        <% if farmer_signed_in? %>
+          <% if @model == 'recipe' %>
+            <%= render 'farmers/recipes/index', recipes: @records %>
+          <% elsif @model == 'Tag' %>
+            <%= render 'farmers/recipes/index', recipes: @records %>
+          <% elsif @model == 'event' %>
+            <%= render 'farmers/events/index', events: @records %>
+          <% else %>
+            <%= render 'farmers/farmers/index', farmers: @records %>
+          <% end %>
+        <% else %>
+          <% if @model == 'recipe' %>
+            <%= render 'customers/recipes/index', recipes: @records %>
+          <% elsif @model == 'Tag' %>
+            <%= render 'customers/recipes/index', recipes: @records %>
+          <% elsif @model == 'event' %>
+            <%= render 'customers/events/index', events: @records %>
+          <% else %>
+            <%= render 'customers/farmers/index', farmers: @records %>
+          <% end %>
+        <% end %>
+    </div>
+  </div>
+</div>

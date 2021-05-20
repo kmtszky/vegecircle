@@ -15,6 +15,7 @@ class Farmers::NewsController < ApplicationController
       chat_index = Chat.where(farmer_id: @farmer.id).order('created_at DESC')
       @chat_last5 = chat_index.first(5)
       @chat_left = chat_index.offset(5)
+      @evaluations = Evaluation.where(farmer_id: params[:id]).order('created_at DESC').first(3)
       render template: "farmers/farmers/show"
     end
   end

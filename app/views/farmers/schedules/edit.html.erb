@@ -1,40 +1,48 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-8 mx-auto bg-gray p-5">
+    <div class="col-11 col-md-8 mx-auto bg-gray p-5">
       <h4><%= @event.title %>の日程編集</h4>
 
       <%= render 'layouts/error_messages', validation: @schedule %><br>
       <%= form_with model: [:farmers, @event, @schedule], local: true do |f| %>
 
-        <h5 class="mb-2">スケジュール</h5>
-        <div class="form-row align-items-start strong">
-          <div class="col-8 col-md-5 mb-3">
-            <h6>◆ 現在のスケジュール</h6>
-            <%= show_date(@schedule.date) %><br><%= show_time(@schedule.start_time) %> ～ <%= show_time(@schedule.end_time) %>
-          </div>
-          <div class="col-8 col-md-5 mb-3">
-            <h6>◆ 変更後のスケジュール</h6>
-            <div class="form-group form-row">
+        <div class="col-10 mx-auto mb-3">
+          <h5 class="mb-2">スケジュール</h5>
+          <p><%= show_date(@schedule.date) %>　<%= show_time(@schedule.start_time) %> ～ <%= show_time(@schedule.end_time) %></p>
+          <p class="ml-5">↓</p>
+          <div class="form-row">
+            <div class="form-group mr-3">
               <%= f.label :date, "日程" %><string class="required"> *</string><br />
               <%= f.date_field :date, class: "form-control form-control-sm" %>
             </div>
-            <div class="form-row">
-              <div class="form-group">
-                <%= f.label :start_time, "開始時刻" %><string class="required"> *</string><br />
-                <%= f.time_field :start_time, class: "form-control form-control-sm" %>
-              </div>
-              <div class="form-group">
-                <%= f.label :end_time, "終了時刻" %><string class="required"> *</string><br />
-                <%= f.time_field :end_time, class: "form-control form-control-sm" %>
-              </div>
+            <div class="form-group mr-3">
+              <%= f.label :start_time, "開始時刻" %><string class="required"> *</string><br />
+              <%= f.time_field :start_time, class: "form-control form-control-sm" %>
             </div>
+            <div class="form-group">
+              <%= f.label :end_time, "終了時刻" %><string class="required"> *</string><br />
+              <%= f.time_field :end_time, class: "form-control form-control-sm" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-10 mx-auto mb-3">
+          <h5 class="mb-2">予約可能人数</h5>
+          <p><%= @schedule.people %>人</p>
+          <p class="ml-5">↓</p>
+          <div class="form-row align-items-end">
+            <div class="form-group">
+              <%= f.label :people, "1日あたりの予約可能人数" %><string class="required"> *</string><br />
+              <%= f.number_field :people, class: "form-control form-control-sm", min: 1, size: 100 %>
+            </div>
+            <div class="form-group">人</div>
           </div>
         </div>
 
         <div class="form-group d-flex">
           <%= f.submit '更新する', class: "btn btn-success text-light mr-3" %>
-          <%= link_to '削除する', farmers_event_schedule_path(@schedule), method: :delete, data: { confirm: "#{show_date(@schedule.date)}のイベントを削除しますか？" }, class: "btn btn-danger mr-3" %>
-          <%= link_to "戻る", farmers_event_schedule_path(@schedule), class: "btn btn-secondary" %>
+          <%= link_to '削除する', farmers_event_schedule_path(@event, @schedule), method: :delete, data: { confirm: "#{show_date(@schedule.date)}のイベントを削除しますか？" }, class: "btn btn-danger mr-3" %>
+          <%= link_to "戻る", farmers_event_schedule_path(@event, @schedule), class: "btn btn-secondary" %>
         </div>
       <% end %>
     </div>

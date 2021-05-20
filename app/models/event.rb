@@ -5,6 +5,7 @@ class Event < ApplicationRecord
   has_many :schedules, dependent: :destroy
   attr_accessor :start_time
   attr_accessor :end_time
+  attr_accessor :number_of_participants
   attachment :plan_image
 
   with_options presence: true do
@@ -19,6 +20,7 @@ class Event < ApplicationRecord
     validates :end_date
     validates :start_time, on: :create
     validates :end_time, on: :create
+    validates :number_of_participants, numericality: { only_integer: true }, on: :create
   end
 
   validate do
@@ -35,6 +37,9 @@ class Event < ApplicationRecord
     end
   end
 
+  geocoded_by :location
+  after_validation :geocode
+
   enum parking: {
     "駐車場あり、予約不要": 0,
     "駐車場あり、予約要": 1,
@@ -45,7 +50,7 @@ class Event < ApplicationRecord
     event_favorites.where(customer_id: customer.id).exists?
   end
 
-  def all_ended?(schedule)
-    schedules.where()
+  def self.search_for(content)
+    Event.where('location like ?', content + '%')
   end
 end
