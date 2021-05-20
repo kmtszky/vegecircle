@@ -1,7 +1,7 @@
 class Farmers::EventsController < ApplicationController
   before_action :authenticate_farmer!
   before_action :set_event, only: [:show, :edit, :update, :destroy, :withdraw]
-  before_action :set_schedule, only: [:edit, :update, :destroy, :withdraw]
+  before_action :set_schedule, only: [:show, :edit, :update, :destroy, :withdraw]
 
   def new
     @event = Event.new
@@ -28,8 +28,11 @@ class Farmers::EventsController < ApplicationController
   end
 
   def show
-    @schedules = Schedule.where(event_id: @event.id)
     @schedule = @schedules.first
+    @chats = Chat.where(event_id: params[:event_id]).created_at('DESC')
+    if current_farmer.id == @event.farmer_id
+      @chat = Chat.new
+    end
   end
 
   def index
@@ -40,7 +43,7 @@ class Farmers::EventsController < ApplicationController
     @schedules = Schedule.where(event_id: @event.id).pluck(:date)
     start_date = @schedules.first
     if start_date < Date.today
-      redirect_to request.referer, flash: { danger: 'イベント開始日以降のため編集できません'}
+      redirect_to request.referer, flash: { danger: '農業体験期間中のため編集できません'}
     end
   end
 

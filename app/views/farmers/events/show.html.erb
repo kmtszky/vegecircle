@@ -59,4 +59,15 @@
       <% end %>
     </div>
   </row>
+
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto mb-2 event">
+      <% if @event.farmer_id == current_farmer.id %>
+        <%= form_with [@event, @chat], local: true do |f| %>
+          <%= f.text_area :chat, row: 4, class: "form-control form-control-sm", autofocus: true, placeholder: "Chat" %>
+          <%= f.submit "送信", class: "btn btn-success" %>
+      <% end %>
+      <%= render "farmers/chats/index", chats: @chats %>
+    </div>
+  </row>
 </div>

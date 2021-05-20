@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-5 offset-md-2 my-2">
+    <div class="col-12 col-md-6 offset-md-1 my-2">
       <table>
         <tbody>
           <tr>
@@ -30,12 +30,12 @@
   </div>
 
   <div class="row">
-    <div class="col-12 col-md-5 offset-md-2 my-2">
+    <div class="col-12 col-md-6 offset-md-1 my-3">
       <h6>直売所へのアクセス</h6>
       <%= @farmer.store_address %>
       <%= render 'customers/farmers/map', farmer: @farmer %>
     </div>
-    <div class="col-12 col-md-4 mr-auto my-2">
+    <div class="col-12 col-md-4 mr-auto my-3">
       <h6>お知らせ</h6>
       <%= render 'layouts/error_messages', validation: @news %>
       <div class="news-index">
