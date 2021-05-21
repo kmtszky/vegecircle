@@ -19,8 +19,11 @@
 - 地元農家：規格外の作物や、採算が取れない農作物があるとき
 
 ## 設計書
-- フレームワーク：設計中
-- データ定義書：設計中
+- ER図
+
+  https://drive.google.com/file/d/1fuHCZOakK3xjFbB1mccqKUX30DDCLDTk/view?usp=sharing
+
+- [データ定義書](https://docs.google.com/spreadsheets/d/1DD1EtjqeGoIY9VdQ9IKwVkZ7plA41BdoEKvUoepFPMI/edit)
 - [アプリケーション設計書](https://docs.google.com/spreadsheets/d/1z2WgE_4dlXlCPx2sSBPhIXnWF-vRFV9kOiznjupi8p8/edit#gid=1370324779)
 - [チャレンジ要素一覧](https://docs.google.com/spreadsheets/d/1bIgC1-iJJmsfqf6DTCR6UrqdrwCA4VTcVI3CknJvFFs/edit#gid=233246220)
 
