@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-6 mx-auto bg-gray p-5">
+      <h4 class="mb-4">レビュー編集</h4>
+      <%= render 'layouts/error_messages', validation: @evaluation %><br>
+      <%= form_with model: [@farmer, @evaluation], local: true do |f| %>
+        <div id="edit_evaluation-stars" class="my-2"></div>
+        <div class="form-group">
+          <%= f.label :comment, "レビュー内容" %>
+          <%= f.text_area :comment, rows: 5, class: "form-control form-control-sm" %>
+          <%= f.attachment_field :evaluation_image, class: "form-control-file" %>
+        </div>
+        <%= f.submit '更新', class: "btn btn-sm btn-success" %>
+      <% end %>
+      <%= render 'customers/evaluations/edit_raty-js', star: @evaluation %>
+    </div>
+  </div>
+</div>

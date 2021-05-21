@@ -42,7 +42,7 @@ Rails.application.routes.draw do
       patch 'customer/withdraw'  => 'profiles#withdraw'
     resources :farmers, only: [:index, :show] do
       resources :follows, only: [:create, :destroy]
-      resources :evaluations, only: [:index, :create, :edit, :update, :destroy]
+      resources :evaluations, only: [:create, :edit, :update, :destroy]
     end
     resources :recipes, only: [:index, :show] do
       resource :favorite_recipes, only: [:create, :destroy]
@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       end
     end
     resources :reservations, only: [:index]
+    resources :evaluations, only: [:index]
   end
 
   get 'search'=> 'searches#search', as: 'search'
