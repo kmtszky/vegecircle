@@ -5,8 +5,9 @@ class Customers::EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
-    bookable_schedules = @event.schedules.where(is_deleted: false)
-    @schedules = bookable_schedules.where("date > ?", Date.today)
+    @schedules = @event.schedules.where(is_deleted: false).where("date >= ?", Date.today)
     @schedule = @schedules.first
+    @chat = Chat.new
+    @chats = Chat.where(event_id: params[:id])
   end
 end

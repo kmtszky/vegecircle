@@ -1,3 +1,71 @@
 // Place all the styles related to the farmers::events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// chat
+.balloon {
+  display: flex;
+  flex-wrap: wrap;
+}
+.name, .created_at{
+  font-size: 12px;
+}
+.text {
+  color: #fff;
+  font-size: 16px;
+}
+.chat-group {
+  display: block;
+}
+
+// chat_left (customer)
+.balloon.left {
+  flex-direction: row;
+}
+.left .chatting {
+  position: relative;
+  display: inline-block;
+  margin: 7px 20px 0;
+  padding: 10px 20px 5px;
+  background: #696969;
+  text-align: left;
+  border-radius: 15px;
+}
+.left .chatting::after {
+  content: "";
+  border: 8px solid transparent;
+  border-right: 18px solid #696969;
+  position: absolute;
+  top: 15px;
+  left: -22px;
+}
+.left .created_at {
+  margin: 0 0 20px 23px;
+  text-align: left;
+}
+
+// chat_right (farmer)
+.balloon.right {
+  flex-direction: row-reverse;
+}
+.right .chatting {
+  position: relative;
+  display: inline-block;
+  margin: 7px 20px 0;
+  padding: 10px 20px 5px;
+  background: #6f4b3e;
+  text-align: left;
+  border-radius: 15px;
+}
+.right .chatting::after {
+  content: "";
+  border: 8px solid transparent;
+  border-left: 18px solid #6f4b3e;
+  position: absolute;
+  top: 15px;
+  right: -22px;
+}
+.right .created_at {
+  margin: 0 23px 20px 0;
+  text-align: right;
+}

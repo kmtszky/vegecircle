@@ -1,37 +1,29 @@
-<table>
-  <tbody>
-    <% chat_last5.each do |chat| %>
-      <tr>
-        <td><%= create_time(chat.created_at) %>
-            <% if chat.farmer == current_farmer %>
-              <%= link_to "削除", farmers_chat_path(chat), method: :delete, class: "btn btn-danger btn-sm", remote: true, data: { confirm: "お知らせを削除しますか？"} %>
-            <% end %></td>
-      </tr>
-      <tr>
-        <td><%= chat.chat %></td>
-      </tr>
-      <tr>
-        <td><%= attachment_image_tag chat, :chat_image, :fill, 200, 200 %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<% if chat_left.any? %>
-  <details>
-    <summary>全てのコメントを表示</summary>
-    <table class="table">
-      <tbody>
-        <% chat_left.each do |chat| %>
-          <tr>
-            <td><%= attachment_image_tag chat, :chat_image, :fill, 50, 50, fallback: asset_path('no_images/no_image_sm.png'), size: '50x50' %></td>
-            <td><%= create_time(chat.created_at) %>
-                <% if chat.farmer == current_farmer %>
-                  <%= link_to "削除", farmers_chat_path(chat), method: :delete, class: "btn btn-danger btn-sm", remote: true,data: { confirm: "お知らせを削除しますか？"} %>
-                <% end %><br>
-                <%= chat.chat %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </details>
+<% chats.each do |chat| %>
+  <% if chat.farmer_id.present? %>
+    <div class="balloon right">
+      <figure class="icon">
+        <%= attachment_image_tag chat.farmer, :farmer_image, :fill, 80, 80, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '80x80' %>
+        <figcaption class="name text-center"><%= chat.farmer.name %></figcaption>
+      </figure>
+      <div class="chat-group">
+        <div class="chatting">
+          <p class="text"><%= safe_join(chat.chat.split("\n"),tag(:br)) %></p>
+        </div>
+        <div class="created_at"><%= time_ago_in_words(chat.created_at)+"前" %></div>
+      </div>
+    </div>
+  <% else %>
+    <div class="balloon left">
+      <figure class="icon">
+        <%= attachment_image_tag chat.customer, :customer_image, :fill, 80, 80, class: "rounded-circle", fallback: asset_path('logo/customer_default_icon.jpg'), size: '80x80' %>
+        <figcaption class="name text-center"><%= chat.customer.nickname %></figcaption>
+      </figure>
+      <div class="chat-group">
+        <div class="chatting">
+          <p class="text"><%= safe_join(chat.chat.split("\n"),tag(:br)) %></p>
+        </div>
+        <div class="created_at"><%= time_ago_in_words(chat.created_at)+"前" %></div>
+      </div>
+    </div>
+  <% end %>
 <% end %>

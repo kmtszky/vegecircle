@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-5 offset-md-2 my-2">
+    <div class="col-12 col-md-6 offset-md-1 my-2">
       <table>
         <tbody>
           <tr>
@@ -28,34 +28,34 @@
   </div>
 
   <div class="row">
-    <div class="col-12 col-md-5 offset-md-2 my-2">
-      <h6>直売所へのアクセス</h6>
+    <div class="col-12 col-md-6 offset-md-1 my-3">
+      <h5>直売所へのアクセス</h5>
       <%= @farmer.store_address %>
       <%= render 'customers/farmers/map', farmer: @farmer %>
     </div>
     <div class="col-12 col-md-4 mr-auto my-2">
-      <h6>お知らせ</h6>
+      <h5>お知らせ</h5>
       <%= render 'farmers/news/index', news: @news_last3, news_left: @news_left %>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-12 col-md-8 mx-auto mt-3">
-      <h6>予約受付中の農業体験</h6>
+    <div class="col-12 col-md-10 mx-auto mt-3">
+      <h5>予約受付中の農業体験</h5>
       <%= render 'customers/events/index', events: @events %>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-12 col-md-8 mx-auto mt-3">
-      <h6>農家ご飯</h6>
+    <div class="col-12 col-md-10 mx-auto mt-3">
+      <h5>農家ご飯</h5>
       <%= render 'customers/recipes/index', recipes: @recipes %>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-12 col-md-8 mx-auto">
-      <h6 class="text-center">この農家さんに関するレビュー</h6>
+    <div class="col-12 col-md-10 mx-auto">
+      <h5 class="text-center">この農家さんに関するレビュー</h5>
       <% if customer_signed_in? %>
         <%= form_with model: [@farmer, @evaluation], local: true do |f| %>
           <div id="evaluation-stars" class="my-2"></div>
