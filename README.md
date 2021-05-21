@@ -21,10 +21,8 @@
 ## 設計書
 - フレームワーク：設計中
 - データ定義書：設計中
-- アプリケーション設計書：[こちら（編集中）](https://docs.google.com/spreadsheets/d/1z2WgE_4dlXlCPx2sSBPhIXnWF-vRFV9kOiznjupi8p8/edit#gid=1370324779)
-
-## チャレンジ要素一覧
-https://docs.google.com/spreadsheets/d/1bIgC1-iJJmsfqf6DTCR6UrqdrwCA4VTcVI3CknJvFFs/edit#gid=233246220
+- [アプリケーション設計書](https://docs.google.com/spreadsheets/d/1z2WgE_4dlXlCPx2sSBPhIXnWF-vRFV9kOiznjupi8p8/edit#gid=1370324779)
+- [チャレンジ要素一覧](https://docs.google.com/spreadsheets/d/1bIgC1-iJJmsfqf6DTCR6UrqdrwCA4VTcVI3CknJvFFs/edit#gid=233246220)
 
 ## 開発環境
 - OS：Linux(CentOS)
