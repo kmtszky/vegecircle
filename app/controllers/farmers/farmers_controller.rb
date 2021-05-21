@@ -31,6 +31,9 @@ class Farmers::FarmersController < ApplicationController
   end
 
   def edit
+    unless current_farmer == @farmer
+      redirect_to farmers_farmer_path(current_farmer), flash: {danger: "他の農家さんのプロフィールの変更は出来ません"}
+    end
   end
 
   def update
@@ -46,7 +49,7 @@ class Farmers::FarmersController < ApplicationController
 
   def withdraw
     @farmer.update(is_deleted: true)
-    @farmer.schedules.where("start_date > ?", Date.today).destroy
+    @farmer.events.where("start_date > ?", Date.current).destroy_all
     redirect_to root_path, flash: {success: "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。"}
   end
 

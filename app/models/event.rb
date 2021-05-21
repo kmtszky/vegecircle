@@ -25,15 +25,15 @@ class Event < ApplicationRecord
 
   validate do
     unless start_date == nil && end_date == nil
-      errors.add(:start_date, 'は本日以降の日付を選択してください') if (start_date < Date.today)
-      errors.add(:end_date,   'は本日以降の日付を選択してください') if (end_date < Date.today)
-      errors.add(:end_date,   'は開始日以降の日付を選択してください') if (end_date < start_date)
+      errors.add(:start_date, 'は本日以降の日付を選択してください') if (start_date <= Date.current)
+      errors.add(:end_date,   'は本日以降の日付を選択してください') if (end_date <= Date.current)
+      errors.add(:end_date,   'は開始日以降の日付を選択してください') if (end_date <= start_date)
     end
   end
 
   validate do
     unless start_time == nil && end_time == nil
-      errors.add(:end_time, 'は開始時刻よりも後の時刻を選択してください') if (start_time > end_time)
+      errors.add(:end_time, 'は開始時刻よりも後の時刻を選択してください') if (start_time >= end_time)
     end
   end
 

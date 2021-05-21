@@ -6,11 +6,14 @@ class Customers::ProfilesController < ApplicationController
   end
 
   def edit
+    unless current_customer == @customer
+      redirect_to profiles_path(current_customer), flash: { danger: "他の方のプロフィールの変更は出来ません"}
+    end
   end
 
   def update
     if @customer.update(customer_params)
-      redirect_to profiles_path(@customer), flash: {success: "登録情報を更新しました"}
+      redirect_to profiles_path(@customer), flash: { success: "登録情報を更新しました" }
     else
       render :edit
     end
@@ -21,7 +24,7 @@ class Customers::ProfilesController < ApplicationController
 
   def withdraw
     @customer.update(is_deleted: true)
-    redirect_to root_path, flash: {success: "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。"}
+    redirect_to root_path, flash: { success: "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。"}
   end
 
   def favorites

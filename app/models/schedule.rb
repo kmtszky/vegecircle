@@ -8,4 +8,5 @@ class Schedule < ApplicationRecord
     validates :start_time
     validates :end_time
   end
+
 end

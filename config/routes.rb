@@ -9,17 +9,19 @@ Rails.application.routes.draw do
 
   namespace :farmers do
     resources :farmers, only: [:index, :show, :edit, :update]
-      get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe', as: 'farmers_unsubscribe'
-      patch 'farmers/:id/withdraw'  => 'farmers#withdraw',    as: 'farmers_withdraw'
+      get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe',  as: 'farmers_unsubscribe'
+      patch 'farmers/:id/withdraw'  => 'farmers#withdraw',     as: 'farmers_withdraw'
+      get 'farmers/:id/followers'   => 'farmers#followers',    as: 'farmers_followers'
+      get 'farmers/:id/evaluations' => 'farmers#evaluations',  as: 'farmers_evaluations'
+      get 'farmers/:id/recipes'     => 'farmers#recipes',      as: 'farmers_recipes'
+      get 'farmers/:id/events'      => 'farmers#events',       as: 'farmers_events'
     resources :recipes
-      get '/:id/recipes' => 'recipes#recipe_index', as: 'recipe_index'
     resources :events do
       resources :schedules, only: [:show, :edit, :update, :destroy]
       patch 'schedules/:id/withdraw' => 'schedules#withdraw', as: 'schedule_withdraw'
-      patch 'schedules/:id/restart' => 'schedules#restart', as: 'schedule_restart'
+      patch 'schedules/:id/restart'  => 'schedules#restart',  as: 'schedule_restart'
       resources :chats, only: [:create]
     end
-      get '/:id/events'           => 'events#event_index', as: 'event_index'
     resources :news, only: [:create, :destroy]
   end
 
@@ -40,22 +42,22 @@ Rails.application.routes.draw do
       patch 'customer/withdraw'  => 'profiles#withdraw'
     resources :farmers, only: [:index, :show] do
       resources :follows, only: [:create, :destroy]
-      resources :evaluations, only: [:index, :create, :destroy]
+      resources :evaluations, only: [:index, :create, :edit, :update, :destroy]
     end
     resources :recipes, only: [:index, :show] do
       resource :favorite_recipes, only: [:create, :destroy]
     end
-    resources :reservations, only: [:index]
     resources :events, only: [:index, :show] do
       resource :favorite_events, only: [:create, :destroy]
       resources :chats, only: [:create]
       resources :schedules, only: [:show] do
-        resources :reservations, only: [:new, :show, :create, :edit, :update, :destroy]
+        get 'reservations/thanx'
+        resources :reservations, only: [:new, :show, :create, :destroy]
         post 'reservations/confirm'
         post 'reservations/back'
-        get 'reservations/:id/thanx' => 'reservations#thanx'
       end
     end
+    resources :reservations, only: [:index]
   end
 
   get 'search'=> 'searches#search', as: 'search'

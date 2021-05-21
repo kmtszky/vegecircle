@@ -27,7 +27,11 @@ class Farmers::RecipesController < ApplicationController
   end
 
   def edit
-    @tag_list = @recipe.tags.pluck(:tag).join(",")
+    if current_farmer.id == @recipe.farmer_id
+      @tag_list = @recipe.tags.pluck(:tag).join(",")
+    else
+      redirect_to farmers_recipe_path(@recipe), flash: {danger: "作成者のみ編集が可能です"}
+    end
   end
 
   def update

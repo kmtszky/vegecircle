@@ -6,14 +6,22 @@ class Farmers::SchedulesController < ApplicationController
   end
 
   def edit
-    if @schedule.date <= Date.today
-      render :show
+    if current_farmer.id != @event.farmer_id
+      redirect_to farmers_event_schedule_path(@schedule), flash: { danger: "作成者のみ編集が可能です" }
+    elsif @schedule.date <= Date.current
+      redirect_to farmers_event_schedule_path(@schedule), flash: { warning: "開始日当日以降のため編集できません" }
     end
   end
 
   def update
     if @schedule.update(schedule_params)
-      redirect_to farmers_event_schedule_path(@schedule), flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}の日程を更新しました" }
+      if @schedule.date < @event.start_date
+        @event.update(start_date: @schedule.date)
+      elsif @schedule.date > @event.end_date
+        @event.update(end_date: @schedule.date)
+      end
+      redirect_to farmers_event_schedule_path(@schedule),
+        flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}の日程を更新しました。チャットへのご連絡をお願いいたします" }
     else
       render :edit
     end

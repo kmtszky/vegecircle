@@ -20,7 +20,7 @@
       <%= render "farmers/events/access", event: @event %>
       <div class="form-group d-flex mt-3">
         <% if current_farmer.id == @event.farmer_id %>
-          <% if @schedule.date > Date.today %>
+          <% if @schedule.date > Date.current %>
             <%= link_to "日時以外の項目を編集する", edit_farmers_event_path(@event), class: "btn btn-success mr-3" %>
           <% end %>
         <% end %>
