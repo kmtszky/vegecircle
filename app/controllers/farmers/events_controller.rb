@@ -36,14 +36,16 @@ class Farmers::EventsController < ApplicationController
   end
 
   def index
-    @events = Event.where("end_date >= ?", Date.today).page(params[:page]).reverse_order
+    @events = Event.where("end_date >= ?", Date.current).order(:start_date).page(params[:page]).reverse_order
   end
 
   def edit
-    @schedules = Schedule.where(event_id: @event.id).pluck(:date)
-    start_date = @schedules.first
-    if start_date <= Date.today
-      redirect_to request.referer, flash: { danger: '農業体験期間中のため編集できません'}
+    if current_farmer.id != @event.farmer_id
+      redirect_to farmers_event_path(@event), flash: { danger: '他の農家さんの農業体験へ編集できません' }
+    elsif @event.start_date <= Date.current
+      redirect_to farmers_event_path(@event), flash: { warning: 'イベント期間中～以降のため編集できません' }
+    else
+      @schedules = Schedule.where(event_id: @event.id).pluck(:date)
     end
   end
 
@@ -57,7 +59,7 @@ class Farmers::EventsController < ApplicationController
   end
 
   def destroy
-    if @event.start_date > Date.today
+    if @event.start_date > Date.current
       @event.destroy
       redirect_to farmers_farmer_path(current_farmer), flash: { success: '農業体験を削除しました'}
     else

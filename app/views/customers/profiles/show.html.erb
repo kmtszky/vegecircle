@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-10 mx-auto">
+    <div class="col-11 col-md-10 mx-auto">
       <h4>マイページ</h4>
     </div>
     <div class="col-6 col-md-3 offset-1 offset-md-4 mt-4 text-center">
@@ -13,9 +13,9 @@
       <%= @customer.email %><br>
       <%= link_to '編集する',  edit_profiles_path(@customer), class: "btn btn-sm btn-success mt-3" %>
     </div>
-    <div class="col-12 col-md-5 mx-auto pt-4 card-deck">
+    <div class="card-deck pt-4 mx-auto">
       <%= link_to followings_path, class: "text-dark" do %>
-        <div class="card bg-light align-items-center p-5">
+        <div class="card bg-light text-center p-5">
           <h6><i class="fas fa-users"></i> フォロー</h6>
         </div>
       <% end %>
@@ -24,5 +24,11 @@
           <h6><i class="fas fa-heart"></i> お気に入り</h6>
         </div>
       <% end %>
+      <%= link_to evaluations_path, class: "text-dark" do %>
+        <div class="card bg-light text-center p-5">
+          <h6><i class="fas fa-star"></i> レビュー</h6>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 class Customers::ReservationsController < ApplicationController
   before_action :authenticate_customer!
-  before_action :set_schedule, only: [:new, :confirm, :back, :show, :destroy]
-  before_action :set_reservation, only: [:show, :thanx, :destroy]
+  before_action :set_schedule, only: [:new, :confirm, :back, :thanx, :show, :destroy]
+  before_action :set_reservation, only: [:show, :destroy]
 
   def new
     if current_customer.reservations.where(schedule_id: params[:schedule_id]).exists?
@@ -12,6 +12,9 @@ class Customers::ReservationsController < ApplicationController
     @reservation = Reservation.new
     reserved_number = @schedule.reservations.pluck(:people).sum
     @reservable_number = @schedule.people - reserved_number
+
+    @farmer = Farmer.find_by(id: @event.farmer_id)
+    @evaluation = Evaluation.new
   end
 
   def back
@@ -44,13 +47,19 @@ class Customers::ReservationsController < ApplicationController
   end
 
   def thanx
+    @reservation = Reservation.find_by(schedule_id: params[:schedule_id])
   end
 
   def show
   end
 
   def index
-    @reservations = current_customer.reservations
+    reservation_ids = current_customer.reservations.pluck(:schedule_id)
+    schedule_ids = Schedule.where(id: reservation_ids).where('date >= ?', Date.current).pluck(:id)
+    @reservations = Reservation.where(schedule_id: schedule_ids)
+
+    past_schedule_ids = Schedule.where(id: reservation_ids).where('date < ?', Date.current).pluck(:id)
+    @past_reservations = Reservation.where(schedule_id: past_schedule_ids)
   end
 
   def destroy

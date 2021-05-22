@@ -9,7 +9,7 @@
             <%= show_date(schedule.date) %>
             <div class="mx-3"><%= show_time(schedule.start_time) %> ～ <%= show_time(schedule.end_time) %></div>
             <% if current_farmer.id == event.farmer_id %>
-              <% if schedule.date > Date.today %>
+              <% if schedule.date > Date.current %>
                 <%= link_to "編集する", edit_farmers_event_schedule_path(event.id, schedule), class: "btn btn-success" %>
               <% end %>
             <% end %>

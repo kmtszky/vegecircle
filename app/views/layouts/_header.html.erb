@@ -10,7 +10,7 @@
           <% if customer_signed_in? %>
           <!--customerのヘッダー-->
             <li><%= link_to ' マイページ', profiles_path(current_customer), class: "nav-link text-dark fas fa-user" %></li>
-            <li><%= link_to ' 予約一覧', reservations_path, class: "nav-link text-dark fas fa-pen" %></li>
+            <li><%= link_to ' 予約履歴一覧', reservations_path, class: "nav-link text-dark fas fa-pen" %></li>
             <li><%= link_to ' 近くの農家さん', farmers_path, class: "nav-link text-dark fas fa-tractor" %></li>
             <li><%= link_to ' 農業体験', events_path, class: "nav-link text-dark fas fa-carrot" %></li>
             <li><%= link_to ' レシピ', recipes_path, class: "nav-link text-dark fas fa-utensils" %></li>

@@ -2,7 +2,7 @@ class Customer < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :timeoutable
 
   has_many :chats, dependent: :destroy
   has_many :evaluation, dependent: :destroy
@@ -23,5 +23,9 @@ class Customer < ApplicationRecord
 
   def following?(farmer)
     follows.where(farmer_id: farmer.id).exists?
+  end
+
+  def reserved?(schedule)
+    reservations.where(schedule_id: schedule.id).exists?
   end
 end

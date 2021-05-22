@@ -10,13 +10,10 @@ class Farmers::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  #def create
-    #@farmer = Farmer.new(sign_up_params)
-    #@farmer.prefecture = params[:farmer][:store_address].match(/^.{2,3}[都道府県]/).to_s
-    #unless @farmer.save
-    #  render :new and return
-    #end
-  #end
+  def create
+    super
+    WelcomeMailer.complete_registration(current_farmer).deliver
+  end
 
   # GET /resource/edit
   # def edit

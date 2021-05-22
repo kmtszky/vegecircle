@@ -5,7 +5,9 @@
       <%= render "farmers/events/access", event: @event %>
       <div class="form-row form-group mt-3 d-flex">
         <%= link_to "イベント詳細ページへ", event_schedule_path(@event, @schedule), class: "btn btn-success mr-3" %>
-        <%= link_to "予約を削除する", event_schedule_reservation_path(event_id: @event.id, schedule_id: @schedule.id, id: @reservation.id), method: :delete, data: { confirm: "予約をキャンセルしますか？" }, class: "btn btn-danger" %>
+        <% if @schedule.date > Date.current %>
+          <%= link_to "予約を削除する", event_schedule_reservation_path(event_id: @event.id, schedule_id: @schedule.id, id: @reservation.id), method: :delete, data: { confirm: "予約をキャンセルしますか？" }, class: "btn btn-danger" %>
+        <% end %>
       </div>
     </div>
   </div>
