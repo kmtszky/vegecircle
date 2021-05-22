@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-10 col-md-8 mx-auto mb-2 event">
+    <div class="col-10 col-md-7 mx-auto mb-3 event">
       <p>イベント概要をご確認後、予約人数を設定して「次へすすむ」をクリックしてください。</p>
       <h5 class="mb-2">イベント概要</h5>
       <table class="table">
@@ -31,27 +31,17 @@
   </div>
 
   <div class="row">
-    <div class="col-10 col-md-8 mx-auto mb-2 event">
+    <div class="col-10 col-md-7 mx-auto mt-3 event">
       <%= render 'layouts/error_messages', validation: @reservation %>
-      <table class="table">
-        <tbody>
-          <tr>
-            <th>予約可能最大人数</th>
-            <td><%= @reservable_number %>人</td>
-          </tr>
-          <%= form_with model: [@event, @schedule, @reservation], url: event_schedule_reservations_confirm_path, method: :post, local: true do |f| %>
-          <tr>
-            <th><%= f.label :people, "予約人数" %></th>
-            <td class="d-flex align-items-cente"><%= f.number_field :people, class: "form-control form-control-sm mb-3", max: @reservable_number, min: 1 %>人</td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <%= f.submit "次へすすむ", class: "btn btn-success mr-3" %>
-            </td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <%= form_with model: [@event, @schedule, @reservation], url: event_schedule_reservations_confirm_path, method: :post, local: true do |f| %>
+        <div class="form-group bg-gray p-5">
+          <%= f.label :people, "予約人数（最大予約可能人数：#{@reservable_number}人）  " %>
+          <div class="d-flex align-items-center">
+          <%= f.number_field :people, class: "form-control form-control-sm mb-3", max: @reservable_number, min: 1 %>人
+          </div>
+          <%= f.submit "次へすすむ", class: "btn btn-success mr-3" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

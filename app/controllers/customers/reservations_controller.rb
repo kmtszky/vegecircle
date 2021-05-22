@@ -12,6 +12,9 @@ class Customers::ReservationsController < ApplicationController
     @reservation = Reservation.new
     reserved_number = @schedule.reservations.pluck(:people).sum
     @reservable_number = @schedule.people - reserved_number
+
+    @farmer = Farmer.find_by(id: @event.farmer_id)
+    @evaluation = Evaluation.new
   end
 
   def back
