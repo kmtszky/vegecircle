@@ -5,19 +5,24 @@
   </head>
   <body>
     <h2><%= @customer.nickname %>　さま</h2>
-    <p>vegecircleへのご登録、誠にありがとうございます！<br>会員登録が完了いたしました。</p>
+    <p>農業体験のご予約をいただきありがとうございます。<br>
+       下記内容にてご予約を承っておりますので、ご確認をお願いいたします。</p>
 
-    <p>当サイトでは、会員登録後は主に以下の機能を追加でご利用いただくことが可能です。</p>
-
+    <h3>■ ご予約内容</h3>
     <ul>
-      <li>農家さんのフォロー機能</li>
-      <li>農家さんへのレビュー</li>
-      <li>農業体験へのご予約・参加</li>
-      <li>レシピ / 農業体験のいいね機能</li>
+      <li>イベント名：<%= @event.title %></li>
+      <li>開催日時：<%= @schedule.date.strftime('%Y/%m/%d') %>　<%= @schedule.start_time.strftime('%H:%M') %> ～ <%= @schedule.end_time.strftime('%H:%M') %></li>
+      <li>ご予約人数：<%= @reservation.people %>人</li>
+      <li>イベント参加費（税込）：<%= @event.fee * @reservation.people %>円</li>
+      <li>集合場所：<%= @event.location %></li>
     </ul>
 
-    <p>このサイトにログインするには、@urlをクリックしてください。</p>
-    <p>どうぞお楽しみくださいませ。</p><br>
+    <h3>■ キャンセルポリシー</h3>
+    <p><%= @event.cancel_change %></p>
+
+    <p>詳細につきましては、「マイページ > 予約履歴一覧」よりご確認ください。</p>
+    <p>今後ともご愛顧のほど、よろしくお願いいたします。</p>
+
     <p>-- vegecircle 管理者 --</p>
   </body>
 </html>

@@ -31,7 +31,7 @@ $(document).on('turbolinks:load', function () {
     childrenElementType : 'div',
     arrows : false,
     autoPlay : true,
-    autoPlayDuration : 4300,
+    autoPlayDuration : 4000,
     keyboardOnAlways : true,
     hidePrevious : false
   });

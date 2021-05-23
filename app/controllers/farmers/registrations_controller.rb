@@ -12,7 +12,7 @@ class Farmers::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
-    WelcomeMailer.complete_registration(current_farmer).deliver
+    Farmers::WelcomeMailer.complete_registration(current_farmer).deliver
   end
 
   # GET /resource/edit

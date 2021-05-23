@@ -1,17 +1,19 @@
-<%= @customer.nickname %> さま
+<%= @customer.nickname %>　さま
 
-vegecircleへのご登録、誠にありがとうございます！
-会員登録が完了いたしました。
+農業体験のご予約をいただきありがとうございます。
+下記内容にてご予約を承っておりますので、ご確認をお願いいたします。
 
-当サイトでは、会員登録後は主に以下の機能を追加でご利用いただくことが可能です。
+■ ご予約内容
+・イベント名：<%= @event.title %>
+・開催日時：<%= @schedule.date.strftime('%Y/%m/%d') %>　<%= @schedule.start_time.strftime('%H:%M') %> ～ <%= @schedule.end_time.strftime('%H:%M') %>
+・ご予約人数：<%= @reservation.people %>人
+・イベント参加費（税込）：<%= @event.fee * @reservation.people %>円
+・集合場所：<%= @event.location %>
 
-・農家さんのフォロー機能
-・農家さんへのレビュー
-・農業体験へのご予約・参加
-・レシピ / 農業体験のいいね機能
+■ キャンセルポリシー
+・<%= @event.cancel_change %>
 
-今後ともよろしくお願いいたします！
-
-●当サイトへのログイン用URLはこちら ⇒
+詳細につきましては、「マイページ > 予約履歴一覧」よりご確認ください。
+今後ともご愛顧のほど、よろしくお願いいたします。
 
 -- vegecircle 管理者 --

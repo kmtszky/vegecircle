@@ -40,7 +40,7 @@ class Customers::ReservationsController < ApplicationController
     @reservation = Reservation.new(session[:reservation])
     if @reservation.save
       session.delete(:reservation)
-      ThanxMailer.
+      Customers::ThanxMailer.complete_reservation(@reservation).deliver
       redirect_to event_schedule_reservations_thanx_path
     else
       render :confirm

@@ -12,7 +12,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   # POST /resource
    def create
      super
-     WelcomeMailer.complete_registration(current_customer).deliver
+     Customers::WelcomeMailer.complete_registration(current_customer).deliver
    end
 
   # GET /resource/edit
