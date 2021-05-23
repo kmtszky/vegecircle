@@ -36,3 +36,13 @@ $(document).on('turbolinks:load', function () {
     hidePrevious : false
   });
 });
+
+// farmers profile => slick
+$(document).on('turbolinks:load', function () {
+  $('.slideshow').slick({
+    fade: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    speed: 1500,
+  });
+});
