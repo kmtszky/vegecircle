@@ -42,6 +42,11 @@ class Customers::ReservationsController < ApplicationController
       session.delete(:reservation)
       Customers::ThanxMailer.complete_reservation(@reservation).deliver
       redirect_to event_schedule_reservations_thanx_path
+
+      reserved_number = @schedule.reservations.pluck(:people).sum
+      if @schedule.people == reserved_number
+        @schedule.update(is_deleted: true)
+      end
     else
       render :confirm
     end
