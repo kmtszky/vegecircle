@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h2><%= @farmer.name %>　さま</h2>
+    <p>企画いただいている農業体験の前日となりました。<br>
+       下記より、再度日程等のご確認をお願いいたします。</p>
+
+    <hr>
+    <h3>■ ご予約内容</h3>
+    <ul>
+      <li>イベント名：<%= @event.title %></li>
+      <li>開催日時：<%= @schedule.date.strftime('%Y/%m/%d') %>　<%= @schedule.start_time.strftime('%H:%M') %> ～ <%= @schedule.end_time.strftime('%H:%M') %></li>
+      <li>ご予約人数：<%= @schedule.reservation.people %>人</li>
+      <li>集合場所：<%= @event.location %></li>
+    </ul><br>
+
+    <p>詳細は、マイページの農業体験からご確認いただけます。</p>
+       ◆ログインページ：<%= @url %></p><br>
+
+    <p>明日は素敵な農業体験となりますことを祈っております！<br>
+       お気をつけていってらっしゃいませ。</p>
+
+    <hr>
+    <p> vegecircle 管理者 </p>
+    <hr>
+  </body>
+</html>

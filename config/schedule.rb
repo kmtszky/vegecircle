@@ -27,7 +27,25 @@ every 1.days, at: '11:00 am' do
   begin
     runner "Customers::RemindMailer.remind_reservation.deliver_now"
   rescue => e
-    Rails.logger.error("aborted rails runner")
+    Rails.logger.error("aborted rails runner:customerへリマインドメールが送れません")
+    raise e
+  end
+end
+
+every 1.days, at: '11:00 am' do
+  begin
+    runner "Farmers::RemindMailer.remind_event_schedule.deliver_now"
+  rescue => e
+    Rails.logger.error("aborted rails runner:farmerへリマインドメールが送れません")
+    raise e
+  end
+end
+
+every 1.days, at: '00:00 am' do
+  begin
+    runner "Schedule.end_events_of_the_day"
+  rescue => e
+    Rails.logger.error("aborted rails runner:終了済みの業体験をis_deleted: trueへ変更できません")
     raise e
   end
 end

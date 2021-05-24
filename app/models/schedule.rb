@@ -9,7 +9,7 @@ class Schedule < ApplicationRecord
     validates :end_time
   end
 
-  # def end_events_of_the_day
-
-  # end
+  def self.end_events_of_the_day
+    Schedule.where(date: (Date.current)).update(is_deleted: true)
+  end
 end

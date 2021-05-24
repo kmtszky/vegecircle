@@ -1,0 +1,26 @@
+<%= @farmer.name %>　さま
+
+企画いただいている農業体験の前日となりました。
+下記より、再度日程等のご確認をお願いいたします。
+
+■ ご予約内容
+・イベント名：<%= @event.title %>
+・開催日時：<%= @schedule.date.strftime('%Y/%m/%d') %>　<%= @schedule.start_time.strftime('%H:%M') %> ～ <%= @schedule.end_time.strftime('%H:%M') %>
+・ご予約人数：<%= @schedule.reservation.people %>人
+・集合場所：<%= @event.location %>
+
+■ キャンセルポリシー
+・<%= @event.cancel_change %>
+
+
+詳細は、マイページの農業体験からご確認いただけます。
+◆ログインページ：<%= @url %>
+
+
+明日は素敵な農業体験となりますことを祈っております！
+お気をつけていってらっしゃいませ。
+
+
+==========================
+　 　vegecircle 管理者
+==========================

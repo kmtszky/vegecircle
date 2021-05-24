@@ -6,8 +6,8 @@ class Customers::RemindMailer < ApplicationMailer
       schedule.date - Date.current == 1
     end
     tomorrow_schedules_ids = tomorrow_schedules.pluck(:id)
-    customers_have_tomorrow_reservation_ids = Reservation.where(schedule_id: tomorrow_schedules_ids).pluck(:customer_id)
-    customers_have_tomorrow_reservation = Customer.where(id: customers_have_tomorrow_reservation_ids)
+    ids_of_customers_have_tomorrow_reservation = Reservation.where(schedule_id: tomorrow_schedules_ids).pluck(:customer_id)
+    customers_have_tomorrow_reservation = Customer.where(id: ids_of_customers_have_tomorrow_reservation)
 
     customers_have_tomorrow_reservation.each do |customer|
       @customer = customer
