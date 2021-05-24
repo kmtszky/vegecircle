@@ -45,7 +45,7 @@ class Customers::ReservationsController < ApplicationController
 
       reserved_number = @schedule.reservations.pluck(:people).sum
       if @schedule.people == reserved_number
-        @schedule.update(is_deleted: true)
+        @schedule.update(is_full: true)
       end
     else
       render :confirm
@@ -61,10 +61,10 @@ class Customers::ReservationsController < ApplicationController
 
   def index
     reservation_ids = current_customer.reservations.pluck(:schedule_id)
-    schedule_ids = Schedule.where(id: reservation_ids).where('date >= ?', Date.current).pluck(:id)
+    schedule_ids = Schedule.where(id: reservation_ids).where(is_deleted: false).pluck(:id)
     @reservations = Reservation.where(schedule_id: schedule_ids)
 
-    past_schedule_ids = Schedule.where(id: reservation_ids).where('date < ?', Date.current).pluck(:id)
+    past_schedule_ids = Schedule.where(id: reservation_ids).where(is_deleted: true).pluck(:id)
     @past_reservations = Reservation.where(schedule_id: past_schedule_ids)
   end
 

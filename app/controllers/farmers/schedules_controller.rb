@@ -27,23 +27,6 @@ class Farmers::SchedulesController < ApplicationController
     end
   end
 
-  def withdraw
-    @schedule.update(is_deleted: true)
-    redirect_to farmers_event_schedule_path(@event, @schedule),
-      flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}の予約受付を終了しました" }
-  end
-
-  def restart
-    @schedule.update(is_deleted: false)
-    redirect_to farmers_event_schedule_path(@event, @schedule),
-      flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}の予約受付を再開しました" }
-  end
-
-  def destroy
-    @schedule.destroy
-    redirect_to farmers_event_path(@event), flash: { success: "イベントを削除しました"}
-  end
-
   private
 
   def set_schedule

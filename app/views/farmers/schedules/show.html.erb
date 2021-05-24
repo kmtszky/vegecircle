@@ -33,11 +33,6 @@
       <% if current_farmer.id == @event.farmer_id %>
         <div class="d-flex mb-4">
           <h5 class="mr-3">予約状況</h5>
-          <% if @schedule.is_deleted == false %>
-            <%= link_to "予約受付を終了する", farmers_event_schedule_withdraw_path(@event, @schedule), method: :patch, data: { confirm: "#{show_date(@schedule.date)}の予約受付を終了しますか？" }, class: "btn btn-danger" %>
-          <% else %>
-            <%= link_to "予約受付を再開する", farmers_event_schedule_restart_path(@event, @schedule), method: :patch, data: { confirm: "#{show_date(@schedule.date)}の予約受付を再開しますか？" }, class: "btn btn-success" %>
-          <% end %>
         </div>
         <%= render "customers/reservations/index", reservations: @schedule.reservations %>
       <% end %>

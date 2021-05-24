@@ -18,8 +18,6 @@ Rails.application.routes.draw do
     resources :recipes
     resources :events do
       resources :schedules, only: [:show, :edit, :update, :destroy]
-      patch 'schedules/:id/withdraw' => 'schedules#withdraw', as: 'schedule_withdraw'
-      patch 'schedules/:id/restart'  => 'schedules#restart',  as: 'schedule_restart'
       resources :chats, only: [:create]
     end
     resources :news, only: [:create, :destroy]
