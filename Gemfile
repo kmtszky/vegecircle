@@ -51,6 +51,10 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+group :production do
+  gem 'mysql2'
+end
+
 group :test do
   gem 'capybara', '>= 2.15'
   gem 'rspec-rails'
@@ -71,8 +75,4 @@ gem 'kaminari','~> 1.2.1'
 gem 'pry-byebug'
 gem "geocoder"
 gem 'listen', '>= 3.0.5', '< 3.2'
-
-
-group :production do
-  gem 'mysql2'
-end
+gem 'whenever', require: false

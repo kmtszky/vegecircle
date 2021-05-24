@@ -9,4 +9,7 @@ class Schedule < ApplicationRecord
     validates :end_time
   end
 
+  # def end_events_of_the_day
+
+  # end
 end
