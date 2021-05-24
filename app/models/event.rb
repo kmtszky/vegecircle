@@ -50,7 +50,11 @@ class Event < ApplicationRecord
     event_favorites.where(customer_id: customer.id).exists?
   end
 
-  def self.search_for(content)
-    Event.where('location like ?', content + '%')
+  def self.search_for(content, method)
+    if method == 'forward'
+      Event.where('end_date >= ?', Date.current).where('location like ?', content + '%')
+    else
+      Event.where('end_date >= ?', Date.current).where('title like ?', '%' + content + '%')
+    end
   end
 end

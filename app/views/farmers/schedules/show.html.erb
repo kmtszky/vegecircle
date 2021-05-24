@@ -34,7 +34,9 @@
         <div class="d-flex mb-4">
           <h5 class="mr-3">予約状況</h5>
         </div>
-        <%= render "customers/reservations/index", reservations: @schedule.reservations %>
+        <div class="col-7">
+        <%= render "customers/reservations/index", reservations: @schedule.reservations, event: @event %>
+        </div>
       <% end %>
       <%= link_to "イベント概要へ戻る", farmers_event_path(@event), class: "btn btn-secondary mt-3" %>
     </div>

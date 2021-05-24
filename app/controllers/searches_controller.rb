@@ -14,8 +14,13 @@ class SearchesController < ApplicationController
 				@records = Recipe.where(id: sub_records_ids)
 			end
 		elsif @model == 'event'
-			@content = params[:content]
-			@records = Event.search_for(@content)
+			if params.has_key?(:prefecture)
+				@content = params[:prefecture]
+				@records = Event.search_for(@content, 'forward')
+			else
+				@content = params[:content]
+				@records = Event.search_for(@content, 'partial')
+			end
 		else
 			if params.has_key?(:prefecture)
 				@content = params[:prefecture]

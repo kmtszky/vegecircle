@@ -11,6 +11,8 @@
         <div class="title">
           <%= link_to event_path(event.id) do %>
             <h6 class="text-body"><%= event.title %></h6>
+            <span class="text-body"><%= event.location.match(/^.{2,3}[都道府県]/).to_s %></span><br>
+            <span class="text-body"><%= event.start_date.strftime('%m/%d') %>～<%= event.end_date.strftime('%m/%d') %></span>
           <% end %>
         </div>
       </div>

@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <div class="col-11 col-md-8 mx-auto">
+      <h4 class="mb-4">レビュー一覧</h4>
+
+      <% if @evaluations.count == 0 %>
+        <p>レビューがまだ投稿されていません</p>
+      <% else %>
+        <% @evaluations.each do |evaluation| %>
+          <div class="review p-3 ">
+            <h6><%= evaluation.customer.nickname %>さんより</h6>
+            <div class="evaluation-rating" data-score="<%= evaluation.evaluation %>"></div>
+            <p><%= show_date(evaluation.created_at) %></p>
+            <p><%= safe_join(evaluation.comment.split("\n"),tag(:br)) %></p>
+            <%= attachment_image_tag evaluation, :evaluation_image, class: "img-fluid" %>
+          </div>
+        <% end %>
+      <% end %>
+      <%= render 'customers/evaluations/index_raty-js' %>
+    </div>
+  </div>
+</div>

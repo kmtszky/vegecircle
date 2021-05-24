@@ -28,6 +28,12 @@ class Farmers::FarmersController < ApplicationController
     @chat_last5 = chat_index.first(5)
     @chat_left = chat_index.offset(5)
     @evaluations = Evaluation.where(farmer_id: @farmer.id).order('created_at DESC').first(3)
+
+    if @farmer.evaluations.blank?
+      @average_rating = 0
+    else
+      @average_rating = @farmer.evaluations.average(:evaluation).round(2)
+    end
   end
 
   def edit
@@ -51,6 +57,10 @@ class Farmers::FarmersController < ApplicationController
     @farmer.update(is_deleted: true)
     @farmer.events.where("start_date > ?", Date.current).destroy_all
     redirect_to root_path, flash: {success: "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。"}
+  end
+
+  def evaluations
+    @evaluations = @farmer.evaluations
   end
 
   private

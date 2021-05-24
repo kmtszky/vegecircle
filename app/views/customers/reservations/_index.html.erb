@@ -4,11 +4,21 @@
   <h6>現在のご予約数：<%= reservations.count %></h6>
 
   <table class="table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>お名前</th>
+        <th>予約人数</th>
+        <th>合計料金</th>
+      </tr>
+    </thead>
     <tbody>
       <% reservations.each do |reservation| %>
         <tr>
-          <td><%= attachment_image_tag reservation.customer, :customer_image, :fill, 80, 80, class: "rounded-circle", fallback: asset_path('logo/customer_default_icon.jpg'), size: '80x80' %></td>
-          <td><%= reservation.customer.nickname %></td>
+          <td><%= attachment_image_tag reservation.customer, :customer_image, :fill, 50, 50, class: "rounded-circle", fallback: asset_path('logo/customer_default_icon.jpg'), size: '50x50' %></td>
+          <td><%= reservation.customer.nickname %>さん</td>
+          <td><%= reservation.people %>人</td>
+          <td><%= converting_to_jpy(reservation.people * event.fee) %></td>
         </tr>
       <% end %>
     </tbody>

@@ -1,0 +1,38 @@
+<div class="search-area-group mt-3">
+  <div class="form-group">
+    <h6>北海道・東北</h6>
+    <% northern.each do |prefecture| %>
+      <%= link_to prefecture, search_path(prefecture: prefecture, model: 'event') %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <h6>関東</h6>
+    <% kanto.each do |prefecture| %>
+      <%= link_to prefecture, search_path(prefecture: prefecture, model: 'event') %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <h6>中部</h6>
+    <% middle.each do |prefecture| %>
+      <%= link_to prefecture, search_path(prefecture: prefecture, model: 'event') %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <h6>関西</h6>
+    <% kansai.each do |prefecture| %>
+      <%= link_to prefecture, search_path(prefecture: prefecture, model: 'event') %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <h6>中国・四国</h6>
+    <% western.each do |prefecture| %>
+      <%= link_to prefecture, search_path(prefecture: prefecture, model: 'event') %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <h6>九州・沖縄</h6>
+    <% southern.each do |prefecture| %>
+      <%= link_to prefecture, search_path(prefecture: prefecture, model: 'event') %>
+    <% end %>
+  </div>
+</div>

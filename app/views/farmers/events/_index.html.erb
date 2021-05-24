@@ -1,5 +1,5 @@
 <div class="d-flex flex-row flex-wrap">
-  <% if events.count == 0 %>
+  <% if events.blank? %>
     <p>予約受付中の農業体験はありません</p>
   <% else %>
     <% events.each do |event| %>
@@ -11,6 +11,8 @@
         <div class="title">
           <%= link_to farmers_event_path(event.id) do %>
             <h6 class="text-body"><%= event.title %></h6>
+            <span class="text-body"><%= event.location.match(/^.{2,3}[都道府県]/).to_s %></span><br>
+            <span class="text-body"><%= event.start_date.strftime('%m/%d') %>～<%= event.end_date.strftime('%m/%d') %></span>
           <% end %>
         </div>
       </div>
