@@ -57,4 +57,8 @@ class Event < ApplicationRecord
       Event.where('end_date >= ?', Date.current).where('title like ?', '%' + content + '%')
     end
   end
+
+  def self.search_for_date(event_date, method)
+    Event.where('end_date >= ?', Date.current).where('start_date <= ?', event_date).where('end_date >= ?', event_date)
+  end
 end
