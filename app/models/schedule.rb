@@ -10,6 +10,6 @@ class Schedule < ApplicationRecord
   end
 
   def self.end_events_of_the_day
-    Schedule.where(date: (Date.current)).update(is_deleted: true)
+    Schedule.where(date: (Date.current - 1)).update(is_deleted: true)
   end
 end
