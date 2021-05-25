@@ -13,7 +13,7 @@
     <ul>
       <li>イベント名：<%= @event.title %></li>
       <li>開催日時：<%= @schedule.date.strftime('%Y/%m/%d') %>　<%= @schedule.start_time.strftime('%H:%M') %> ～ <%= @schedule.end_time.strftime('%H:%M') %></li>
-      <li>ご予約人数：<%= @schedule.reservation.people %>人</li>
+      <li>ご予約人数：<%= @number_of_people %>人</li>
       <li>集合場所：<%= @event.location %></li>
     </ul><br>
 

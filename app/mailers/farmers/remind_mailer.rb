@@ -12,8 +12,9 @@ class Farmers::RemindMailer < ApplicationMailer
 
     farmers_have_tomorrow_schedule.each do |farmer|
       @farmer = farmer
-      @schedule = Schedule.where(date: (Date.current + 1 ))
-      @event = Event.find_by(id: @schedule.event_id)
+      @event = Event.find_by(id: ids_of_farmers_have_tomorrow_event, farmer_id: farmer.id)
+      @schedule = Schedule.find_by(date: (Date.current + 1 ), event_id: @event.id)
+      @number_of_people = Reservation.where(schedule_id: @schedule.id).pluck(:people).sum
       mail(to: farmer.email, subject: "【重要】農業体験のリマインドのご連絡")
     end
   end

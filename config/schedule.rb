@@ -24,8 +24,8 @@ rails_env = Rails.env.to_sym
 set :environment, rails_env
 set :output, 'log/cron.log'
 
-#every 1.days, at: '11:00 am' do
-every 1.minute do
+#every 1.minute do
+every 1.days, at: '11:00 am' do
   begin
     runner "Customers::RemindMailer.remind_reservation.deliver_now"
   rescue => e

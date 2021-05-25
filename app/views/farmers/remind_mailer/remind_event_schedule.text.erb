@@ -6,7 +6,7 @@
 ■ ご予約内容
 ・イベント名：<%= @event.title %>
 ・開催日時：<%= @schedule.date.strftime('%Y/%m/%d') %>　<%= @schedule.start_time.strftime('%H:%M') %> ～ <%= @schedule.end_time.strftime('%H:%M') %>
-・ご予約人数：<%= @schedule.reservation.people %>人
+・ご予約人数：<%= @number_of_people %>人
 ・集合場所：<%= @event.location %>
 
 ■ キャンセルポリシー
