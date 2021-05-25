@@ -34,8 +34,7 @@ every 1.days, at: '11:00 am' do
   end
 end
 
-#every 1.days, at: '11:00 am' do
-every 1.minute do
+every 1.days, at: '11:00 am' do
   begin
     runner "Farmers::RemindMailer.remind_event_schedule.deliver_now"
   rescue => e
