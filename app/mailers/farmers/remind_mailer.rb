@@ -5,13 +5,14 @@ class Farmers::RemindMailer < ApplicationMailer
     tomorrow_schedules = Schedule.all.select do |schedule|
       schedule.date - Date.current == 1
     end
-    tomorrow_schedule_ids = tomorrow_schedules.pluck(:id)
-    ids_of_farmers_have_tomorrow_schedule = Schedule.where(id: tomorrow_schedule_ids).pluck(:farmer_id)
-    farmers_have_tomorrow_schedule = Farmer.where(id: ids_of_farmers_have_tomorrow_schedule)
+    tomorrow_schedules_ids = tomorrow_schedules.pluck(:id)
+    ids_of_farmers_have_tomorrow_event = Schedule.where(id: tomorrow_schedules_ids).pluck(:event_id)
+    farmers_have_tomorrow_schedule_ids = Event.where(id: ids_of_farmers_have_tomorrow_event).pluck(:farmer_id)
+    farmers_have_tomorrow_schedule = Farmer.where(id: farmers_have_tomorrow_schedule_ids)
 
     farmers_have_tomorrow_schedule.each do |farmer|
       @farmer = farmer
-      @schedule = @farmer.events.schedules.where(date: (Date.current + 1 ))
+      @schedule = Schedule.where(date: (Date.current + 1 ))
       @event = Event.find_by(id: @schedule.event_id)
       mail(to: farmer.email, subject: "【重要】農業体験のリマインドのご連絡")
     end
