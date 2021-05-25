@@ -19,24 +19,24 @@
 
 # Learn more: http://github.com/javan/whenever
 
-env :PATH, ENV['PATH']
 set :output, 'log/cron.log'
-set :environment, :development
 
-every 1.days, at: '11:00 am' do
+#every 1.days, at: '11:00 am' do
+every 1.minute do
   begin
     runner "Customers::RemindMailer.remind_reservation.deliver_now"
   rescue => e
-    Rails.logger.error("aborted rails runner:customerへリマインドメールが送れません")
+    Rails.logger.error("aborted rails runner")
     raise e
   end
 end
 
-every 1.days, at: '11:00 am' do
+#every 1.days, at: '11:00 am' do
+every 1.minute do
   begin
     runner "Farmers::RemindMailer.remind_event_schedule.deliver_now"
   rescue => e
-    Rails.logger.error("aborted rails runner:farmerへリマインドメールが送れません")
+    Rails.logger.error("aborted rails runner")
     raise e
   end
 end
@@ -45,7 +45,7 @@ every 1.days, at: '00:00 am' do
   begin
     runner "Schedule.end_events_of_the_day"
   rescue => e
-    Rails.logger.error("aborted rails runner:終了済みの業体験をis_deleted: trueへ変更できません")
+    Rails.logger.error("aborted rails runner")
     raise e
   end
 end

@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   scope module: :customers do
     root 'homes#top'
     get 'about' => 'homes#about'
+    get 'about_for_farmer' => 'homes#about_farmer'
     resource :profiles, only: [:show, :edit, :update]
       get 'customer/followings' => 'profiles#followings', as: 'followings'
       get 'customer/favorites' => 'profiles#favorites', as: 'favorites'

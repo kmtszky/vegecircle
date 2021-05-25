@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+    <div class="col-10 mx-auto my-4">
+      <section id="about-contents" class="text-center">
+        <h4 class="mb-4">Vegicircle（ベジサークル）でできること</h4><br>
+        <p>vegecircleは、誰にも届くことなく消えていく食材を
+          <br>その土地に住まわれる皆様へ繋ぐマッチングサイトです。</p><br>
+
+        <h5>直売所の場所を共有し、より多くの人に届けるお手伝いに活用ください。</h5><br>
+        <p>野菜、お花など、何でも構いません。<br>
+           あなたの直売所を、住民の皆さんに知っていただくきっかけとなれば幸いです。</p><br>
+
+        <%= link_to "本サイトへのご登録はこちらから", new_farmer_registration_path, class: "btn btn-danger mb-5" %>
+
+        <h5>◆ Vegecircleでレシピ投稿 ◆</h5><br>
+        <p>住民の方にとっては、「これは初めて食べる！」という素材があることもあります。
+        <br>ぜひ、皆様のご家庭のレシピを共有してください！</p>
+
+        <div class="d-flex flex-row">
+          <%= image_tag asset_path('about/f_image1.jpg'), class: "rounded-circle mr-3", width: '30%' %>
+          <%= image_tag asset_path('about/f_image2.jpg'), class: "rounded-circle mr-3", width: '30%' %>
+          <%= image_tag asset_path('about/f_image3.jpg'), class: "rounded-circle", width: '30%' %>
+        </div>
+
+        <h5 class="mt-5">◆ 農業体験の募集 ◆</h5><br>
+        <p>農作物の収穫や植え付けなど、企画として住民の方を募集いただけないでしょうか。
+        <br>最近は、野菜や果物が元々どのような姿なのか、苗はどんな形なのか知らないお子さんの方が多いと思います。</p>
+
+        <p>農業体験を通じて地域の方々とのつながりを深めたり、<br>
+        皆様の自信の商品をより多くの方々に知っていただくきかっけにしていただけたら嬉しいです。</p>
+          <%= image_tag asset_path('about/f_image4.jpg'), class: "img-fluid" %>
+        <%= link_to "本サイトへのご登録はこちらから", new_farmer_registration_path, class: "btn btn-danger mt-5" %>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
