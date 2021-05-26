@@ -25,9 +25,9 @@
 - [チャレンジ要素一覧](https://docs.google.com/spreadsheets/d/1bIgC1-iJJmsfqf6DTCR6UrqdrwCA4VTcVI3CknJvFFs/edit#gid=233246220)
 
 ## 管理者用ログインページ
-http://vegecircle.com/admins/sign_in
-mail: admin@111
-pw: admin111
+- ログイン用url: http://vegecircle.com/admins/sign_in
+- mail: admin@111
+- pw: admin111
 
 ## 開発環境
 - OS：Linux(CentOS)
