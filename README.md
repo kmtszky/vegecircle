@@ -24,9 +24,14 @@
 - [アプリケーション設計書](https://docs.google.com/spreadsheets/d/1z2WgE_4dlXlCPx2sSBPhIXnWF-vRFV9kOiznjupi8p8/edit#gid=1370324779)
 - [チャレンジ要素一覧](https://docs.google.com/spreadsheets/d/1bIgC1-iJJmsfqf6DTCR6UrqdrwCA4VTcVI3CknJvFFs/edit#gid=233246220)
 
+## 管理者用ログインページ
+http://vegecircle.com/admins/sign_in
+mail: admin@111
+pw: admin111
+
 ## 開発環境
 - OS：Linux(CentOS)
-- 言語：HTML,CSS,JavaScript,Ruby,SQL
+- 言語：HTML,CSS,JaavaScript,Ruby,SQL
 - フレームワーク：Ruby on Rails
 - JSライブラリ：jQuery
 - IDE：Cloud9

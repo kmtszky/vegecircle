@@ -33,7 +33,7 @@ class Customers::ProfilesController < ApplicationController
   end
 
   def followings
-    @followings = current_customer.follow_farmers.where(is_deleted: false)
+    @followings = current_customer.follow_farmers.where(is_deleted: false).page(params[:page]).reverse_order
   end
 
   private

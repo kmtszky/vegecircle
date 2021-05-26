@@ -1,5 +1,5 @@
 <div class="d-flex flex-row flex-wrap">
-  <% if recipes.count == 0 %>
+  <% if recipes.blank? %>
     <p>レシピがまだ投稿されていません</p>
   <% else %>
     <% recipes.each do |recipe| %>

@@ -1,5 +1,5 @@
 <div class="d-flex flex-row flex-wrap">
-  <% if events.count == 0 %>
+  <% if events.blank? %>
     <p>予約受付中の農業体験はありません</p>
   <% else %>
     <% events.each do |event| %>

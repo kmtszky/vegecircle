@@ -1,2 +1,36 @@
-<h1>Admins::Customers#index</h1>
-<p>Find me in app/views/admins/customers/index.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-11 col-md-10 mx-auto">
+      <h4 class="mb-4">会員一覧</h4>
+
+      <h6>総会員数：<%= @customers.count%>人</h6>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th>ニックネーム</th>
+            <th>メールアドレス</th>
+            <th>会員ステータス</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @customers.each do |customer| %>
+            <tr>
+              <td><%= link_to profiles_path(customer) do %>
+                    <%= attachment_image_tag customer, :customer_image, :fill, 60, 60, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '60x60' %>
+                  <% end %></td>
+              <td><%= link_to profiles_path(customer) do %><%= customer.nickname %><% end %></td>
+              <td><%= customer.email %></td>
+              <% if customer.is_deleted == false %>
+                <td class="text-success"><strong>有効</strong></td>
+              <% else %>
+                <td>退会</td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+        <%= paginate @customers %>
+      </table>
+    </div>
+  </div>
+</div>
