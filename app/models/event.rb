@@ -54,12 +54,16 @@ class Event < ApplicationRecord
     if method == 'forward'
       Event.where('end_date >= ?', Date.current).where('location like ?', content + '%')
     else
-      Event.where('title like ?', '%' + content + '%')
+      Event.where('end_date >= ?', Date.current).or(Event.where('title like ?', '%' + content + '%')).or(Event.where('location like ?', '%' + content + '%'))
     end
   end
 
   def self.search_for_date(event_date, method)
     Event.where('end_date >= ?', Date.current).where('start_date <= ?', event_date).where('end_date >= ?', event_date)
+  end
+
+  def self.search_for_all(content, method)
+    Event.where('title like ?', '%' + content + '%').or(Event.where('location like ?', '%' + content + '%'))
   end
 
   def has_schedules?

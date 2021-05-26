@@ -22,7 +22,11 @@ class SearchesController < ApplicationController
 				@records = Event.search_for_date(@content, 'partial')
 			else
 				@content = params[:content]
-				@records = Farmer.search_for(@content, 'partial')
+				if farmer_signed_in?
+					@records = Event.search_for_all(@content, 'partial')
+				else
+					@records = Event.search_for(@content, 'partial')
+				end
 			end
 		else
 			if params.has_key?(:prefecture)
