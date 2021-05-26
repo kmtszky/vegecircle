@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
     <div class="col-10 mx-auto">
-      <h4 class="mb-4 text-center">イベント・ご予約一覧</h4>
-      <%= link_to "イベントを作成する", new_farmers_event_path, class: "btn btn-sm btn-success ml-2" %>
+      <h4 class="mb-4 text-center">農業体験・予約一覧</h4>
+      <%= link_to "農業体験を作成する", new_farmers_event_path, class: "btn btn-sm btn-success " %>
       <%= month_calendar events: @schedules do |date, schedules| %>
         <%= date.day %>
         <% schedules.each do |schedule| %>
@@ -18,6 +18,9 @@
           </div>
         <% end %>
       <% end %>
+      <div class="text-right">
+        <%= link_to "一覧表示に切り替え", farmers_events_path(@events), class: "btn btn-sm btn-secondary" %>
+      </div>
     </div>
   </div>
 </div>

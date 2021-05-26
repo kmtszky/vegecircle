@@ -20,6 +20,9 @@ class SearchesController < ApplicationController
 			elsif params.has_key?(:event_date)
 				@content = params[:event_date]
 				@records = Event.search_for_date(@content, 'partial')
+			else
+				@content = params[:content]
+				@records = Farmer.search_for(@content, 'partial')
 			end
 		else
 			if params.has_key?(:prefecture)

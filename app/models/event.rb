@@ -54,7 +54,7 @@ class Event < ApplicationRecord
     if method == 'forward'
       Event.where('end_date >= ?', Date.current).where('location like ?', content + '%')
     else
-      Event.where('end_date >= ?', Date.current).where('title like ?', '%' + content + '%')
+      Event.where('title like ?', '%' + content + '%')
     end
   end
 

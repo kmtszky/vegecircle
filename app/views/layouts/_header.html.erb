@@ -18,9 +18,8 @@
           <% elsif farmer_signed_in? %>
           <!--farmerのヘッダー-->
             <li><%= link_to ' マイページ', farmers_farmer_path(current_farmer), class: "nav-link text-dark fas fa-user" %></li>
-            <li><%= link_to ' イベント・予約一覧', farmers_farmers_calender_path(current_farmer), class: "nav-link text-dark fas fa-calendar-alt" %></li>
+            <li><%= link_to ' 農業体験・予約一覧', farmers_farmers_calender_path(current_farmer), class: "nav-link text-dark fas fa-carrot" %></li>
             <li><%= link_to ' レシピ', farmers_recipes_path, class: "nav-link text-dark fas fa-utensils" %></li>
-            <li><%= link_to ' 農業体験', farmers_events_path, class: "nav-link text-dark fas fa-carrot" %></li>
             <li><%= link_to ' ログアウト', destroy_farmer_session_path, method: :delete, class: "nav-link text-dark fas fas fa-walking" %></li>
           <% elsif admin_signed_in? %>
           <!--adminのヘッダー-->
