@@ -7,7 +7,7 @@
         <%= date.day %>
         <% schedules.each do |schedule| %>
           <div>
-            <%= link_to farmers_event_schedule_path(schedule.id) do %>
+            <%= link_to farmers_event_schedule_path(Event.find(schedule.event_id), schedule.id) do %>
               <div class="title text-dark">
                 <%= schedule.start_time.hour %>:<%= format("%02<number>d", number: schedule.start_time.min) %>～ <%= Event.find(schedule.event_id).title %>
               </div>

@@ -7,9 +7,9 @@ class Farmers::SchedulesController < ApplicationController
 
   def edit
     if current_farmer.id != @event.farmer_id
-      redirect_to farmers_event_schedule_path(@schedule), flash: { danger: "作成者のみ編集が可能です" }
+      redirect_to farmers_event_schedule_path(@event, @schedule), flash: { danger: "作成者のみ編集が可能です" }
     elsif @schedule.date <= Date.current
-      redirect_to farmers_event_schedule_path(@schedule), flash: { warning: "開始日当日以降のため編集できません" }
+      redirect_to farmers_event_schedule_path(@event, @schedule), flash: { warning: "開始日当日以降のため編集できません" }
     end
   end
 
@@ -20,10 +20,20 @@ class Farmers::SchedulesController < ApplicationController
       elsif @schedule.date > @event.end_date
         @event.update(end_date: @schedule.date)
       end
-      redirect_to farmers_event_schedule_path(@schedule),
+      redirect_to farmers_event_schedule_path(@event, @schedule),
         flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}の日程を更新しました。チャットへのご連絡をお願いいたします" }
     else
       render :edit
+    end
+  end
+
+  def destroy
+    @schedule.destroy
+    if @event.has_schedules?
+      redirect_to farmers_event_path(@event), flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}のイベントを削除しました" }
+    else
+      @event.destroy
+      redirect_to farmers_farmers_calender_path(current_farmer), flash: { success: '農業体験を削除しました'}
     end
   end
 

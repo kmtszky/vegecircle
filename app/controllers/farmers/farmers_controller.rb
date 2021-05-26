@@ -64,7 +64,7 @@ class Farmers::FarmersController < ApplicationController
   end
 
   def calender
-    @schedules = current_farmer.schedules
+    @schedules = current_farmer.schedules.where(event_id: current_farmer.events.ids)
     @reservations = current_farmer.reservations
   end
 

@@ -62,7 +62,7 @@
       <div class="d-flex flox-row">
         <h5 class="mr-4">予約受付中の農業体験</h5>
         <% if @events.count >= 4 %>
-          <%= link_to '>> もっと見る', farmers_farmers_evaluations_path(current_farmer), class: "text-dark" %>
+          <%= link_to '>> もっと見る', farmers_events_path(current_farmer), class: "text-dark" %>
         <% end %>
       </div>
       <%= render 'farmers/events/index', events: @events %>

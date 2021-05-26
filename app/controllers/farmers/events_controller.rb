@@ -14,13 +14,31 @@ class Farmers::EventsController < ApplicationController
       end_date = @event.end_date
       number_of_days = end_date - start_date
 
-      start_date.step(start_date + number_of_days, 1) do |day|
-        @schedule = Schedule.new(date: day, event_id: @event.id, people: @event.number_of_participants)
-        @schedule.start_time = DateTime.new(day.year, day.month, day.day, @event.start_time.split(":")[0].to_i, @event.start_time.split(":")[1].to_i, 00, "+09:00")
-        @schedule.end_time = DateTime.new(day.year, day.month, day.day, @event.end_time.split(":")[0].to_i, @event.end_time.split(":")[1].to_i, 00, "+09:00")
-        @schedule.save
+      start_date.step(start_date + number_of_days, 1) do |date|
+        schedule = Schedule.new(date: date, event_id: @event.id, people: @event.number_of_participants)
+        schedule.start_time = DateTime.new(date.year, date.month, date.day, @event.start_time.split(":")[0].to_i, @event.start_time.split(":")[1].to_i, 00, "+09:00")
+        schedule.end_time = DateTime.new(date.year, date.month, date.day, @event.end_time.split(":")[0].to_i, @event.end_time.split(":")[1].to_i, 00, "+09:00")
+        unless schedule.save
+          next
+        end
       end
-      redirect_to farmers_event_path(@event)
+
+      schedules = Schedule.where(event_id: @event.id)
+      if schedules.exists?
+        if schedules.count == number_of_days + 1
+          redirect_to farmers_event_path(@event)
+        else
+          if schedules.first.date > @event.start_date
+            @event.update(start_date: schedules.first.date)
+          elsif schedules.last.date < @event.end_date
+            @event.update(end_date: schedules.last.date)
+          end
+          redirect_to farmers_event_path(@event), flash: { danger: '既に作成済みのイベントと日付が重なっていたもの以外作成しました）' }
+        end
+      else
+        flash.now[:danger] = '作成済みのイベントと日程が重なっています（イベントは1日ひとつまで）'
+        render :new
+      end
     else
       render :new
     end
@@ -35,21 +53,14 @@ class Farmers::EventsController < ApplicationController
   end
 
   def index
-    @events = Event.where("end_date >= ?", Date.current).order(:start_date).page(params[:page]).reverse_order
-
-    @northern = [ "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県" ]
-    @kanto = [ "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県" ]
-    @middle = [ "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県", "静岡県", "愛知県", "三重県" ]
-    @kansai = [ "滋賀県", "京都府", "大阪府", "兵庫県", "奈良県", "和歌山県" ]
-    @western = [ "鳥取県", "島根県", "岡山県", "広島県", "山口県", "徳島県", "香川県", "愛媛県", "高知県" ]
-    @southern = [ "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県" ]
+    @events = Event.where(farmer_id: current_farmer.id).where("end_date >= ?", Date.current).order('start_date ASC').page(params[:page]).reverse_order
   end
 
   def edit
     if current_farmer.id != @event.farmer_id
       redirect_to farmers_event_path(@event), flash: { danger: '他の農家さんの農業体験へ編集できません' }
     elsif @event.start_date <= Date.current
-      redirect_to farmers_event_path(@event), flash: { warning: 'イベント期間中～以降のため編集できません' }
+      redirect_to farmers_event_path(@event), flash: { warning: 'イベント実施中/終了済みのため編集できません' }
     else
       @schedules = Schedule.where(event_id: @event.id).pluck(:date)
     end
@@ -65,13 +76,8 @@ class Farmers::EventsController < ApplicationController
   end
 
   def destroy
-    if @event.start_date > Date.current
-      @event.destroy
-      redirect_to farmers_farmer_path(current_farmer), flash: { success: '農業体験を削除しました'}
-    else
-      @schedules = Schedule.where(event_id: @event.id).pluck(:date)
-      render :edit
-    end
+    @event.destroy
+    redirect_to farmers_farmers_calender_path(current_farmer), flash: { success: '農業体験を削除しました'}
   end
 
   private

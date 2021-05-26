@@ -4,7 +4,7 @@ class Schedule < ApplicationRecord
   has_many :reservations, dependent: :destroy
 
   with_options presence: true do
-    validates :date
+    validates :date, uniqueness: true
     validates :start_time
     validates :end_time
   end

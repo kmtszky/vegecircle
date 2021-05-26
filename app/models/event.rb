@@ -24,7 +24,7 @@ class Event < ApplicationRecord
   end
 
   validate do
-    unless start_date == nil && end_date == nil
+    unless start_time.blank? && end_time.blank?
       errors.add(:start_date, 'は本日以降の日付を選択してください') if (start_date < Date.current)
       errors.add(:end_date,   'は本日以降の日付を選択してください') if (end_date < Date.current)
       errors.add(:end_date,   'は開始日以降の日付を選択してください') if (end_date < start_date)
@@ -32,7 +32,7 @@ class Event < ApplicationRecord
   end
 
   validate do
-    unless start_time == nil && end_time == nil
+    unless start_time.blank? && end_time.blank?
       errors.add(:end_time, 'は開始時刻よりも後の時刻を選択してください') if (start_time >= end_time)
     end
   end
@@ -60,5 +60,9 @@ class Event < ApplicationRecord
 
   def self.search_for_date(event_date, method)
     Event.where('end_date >= ?', Date.current).where('start_date <= ?', event_date).where('end_date >= ?', event_date)
+  end
+
+  def has_schedules?
+    schedules.where(event_id: self.id).exists?
   end
 end
