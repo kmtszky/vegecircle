@@ -33,12 +33,12 @@
             <td><%= show_time(@schedule.start_time) %> ～ <%= show_time(@schedule.end_time) %></td>
           </tr>
           <tr>
-            <th>イベント参加費（税込）</th>
+            <th>イベント参加費（税込）/人</th>
             <td><%= converting_to_jpy(@event.fee) %></td>
           </tr>
           <tr>
             <th>キャンセル・変更ポリシー</th>
-            <td><%= @event.cancel_change %>／1人あたり</td>
+            <td><%= @event.cancel_change %></td>
           </tr>
           <tr>
             <th>そのほか</th>

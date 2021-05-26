@@ -2,10 +2,6 @@ class Farmers::SchedulesController < ApplicationController
   before_action :authenticate_farmer!
   before_action :set_schedule
 
-  def index
-
-  end
-
   def show
   end
 

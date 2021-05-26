@@ -19,3 +19,26 @@
   outline: none;
   background: transparent;
 }
+
+.simple-calendar {
+  font-family: "Meiryo", sans-serif;
+
+  th:nth-child(6) {
+    background-color: #cce5ff;
+  }
+  th:nth-child(7) {
+    background-color: #ffcccc;
+  }
+
+  .wday-0 {
+    color: #f62e36;
+  }
+  .wday-6 {
+    color: #0079c2;
+  }
+
+  .title {
+    background-color: #ceff9e;
+    border-radius: 10px;
+  }
+}

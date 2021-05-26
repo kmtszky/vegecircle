@@ -8,6 +8,7 @@ class Farmer < ApplicationRecord
   has_many :evaluations, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :schedules, through: :events
+  has_many :reservations, through: :schedules
   has_many :follows, dependent: :destroy
   has_many :news, dependent: :destroy
   has_many :recipes, dependent: :destroy

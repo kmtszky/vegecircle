@@ -7,7 +7,7 @@
 ・イベント名：<%= @event.title %>
 ・開催日時：<%= @schedule.date.strftime('%Y/%m/%d') %>　<%= @schedule.start_time.strftime('%H:%M') %> ～ <%= @schedule.end_time.strftime('%H:%M') %>
 ・ご予約人数：<%= @reservation.people %>人
-・イベント参加費（税込）：<%= @event.fee * @reservation.people %>円
+・イベント参加費（税込）：<%= @event.fee %> × <%= @reservation.people %> = <%= @event.fee * @reservation.people %>円
 ・集合場所：<%= @event.location %>
 
 ■ キャンセルポリシー

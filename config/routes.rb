@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get 'farmers/:id/evaluations' => 'farmers#evaluations',  as: 'farmers_evaluations'
       get 'farmers/:id/recipes'     => 'farmers#recipes',      as: 'farmers_recipes'
       get 'farmers/:id/events'      => 'farmers#events',       as: 'farmers_events'
+      get 'farmers/:id/calender'    => 'farmers#calender',     as: 'farmers_calender'
     resources :recipes
     resources :events do
       resources :schedules, only: [:show, :edit, :update, :destroy]

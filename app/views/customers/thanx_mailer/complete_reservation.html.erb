@@ -13,7 +13,7 @@
       <li>イベント名：<%= @event.title %></li>
       <li>開催日時：<%= @schedule.date.strftime('%Y/%m/%d') %>　<%= @schedule.start_time.strftime('%H:%M') %> ～ <%= @schedule.end_time.strftime('%H:%M') %></li>
       <li>ご予約人数：<%= @reservation.people %>人</li>
-      <li>イベント参加費（税込）：<%= @event.fee * @reservation.people %>円</li>
+      <li>イベント参加費（税込）：<%= @event.fee %> × <%= @reservation.people %> = <%= @event.fee * @reservation.people %>円</li>
       <li>集合場所：<%= @event.location %></li>
     </ul>
 

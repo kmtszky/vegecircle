@@ -1,0 +1,39 @@
+<div class="simple-calendar">
+  <div class="calendar-heading text-center">
+    <h5>
+      <%= link_to t('simple_calendar.previous', default: ''), calendar.url_for_previous_view, class: "fas fa-angle-double-left text-secondary" %>
+      <span class="calendar-title mx-3"><%= start_date.year %>年 <%= start_date.month %>月</span>
+      <%= link_to t('simple_calendar.next', default: ''), calendar.url_for_next_view, class: "fas fa-angle-double-right text-secondary" %>
+    </h5>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>月</th>
+        <th>火</th>
+        <th>水</th>
+        <th>木</th>
+        <th>金</th>
+        <th>土</th>
+        <th>日</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% date_range.each_slice(7) do |week| %>
+        <tr>
+          <% week.each do |day| %>
+            <%= content_tag :td, class: calendar.td_classes_for(day) do %>
+              <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
+                <% capture_haml(day, sorted_events.fetch(day, []), &passed_block) %>
+              <% else %>
+                <% passed_block.call day, sorted_events.fetch(day, []) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

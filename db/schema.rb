@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_24_151737) do
+ActiveRecord::Schema.define(version: 2021_05_26_133623) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -182,8 +182,8 @@ ActiveRecord::Schema.define(version: 2021_05_24_151737) do
   create_table "schedules", force: :cascade do |t|
     t.integer "event_id", null: false
     t.date "date", null: false
-    t.time "start_time", null: false
-    t.time "end_time", null: false
+    t.datetime "start_time", null: false
+    t.datetime "end_time", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_deleted", default: false

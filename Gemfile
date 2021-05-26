@@ -76,3 +76,4 @@ gem 'pry-byebug'
 gem "geocoder"
 gem 'listen', '>= 3.0.5', '< 3.2'
 gem 'whenever', require: false
+gem 'simple_calendar', '~> 2.0'

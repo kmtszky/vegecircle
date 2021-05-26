@@ -15,10 +15,9 @@ class Farmers::EventsController < ApplicationController
       number_of_days = end_date - start_date
 
       start_date.step(start_date + number_of_days, 1) do |day|
-        @schedule = Schedule.new(date: day, event_id: @event.id)
-        @schedule.start_time = @event.start_time
-        @schedule.end_time = @event.end_time
-        @schedule.people = @event.number_of_participants
+        @schedule = Schedule.new(date: day, event_id: @event.id, people: @event.number_of_participants)
+        @schedule.start_time = DateTime.new(day.year, day.month, day.day, @event.start_time.split(":")[0].to_i, @event.start_time.split(":")[1].to_i, 00, "+09:00")
+        @schedule.end_time = DateTime.new(day.year, day.month, day.day, @event.end_time.split(":")[0].to_i, @event.end_time.split(":")[1].to_i, 00, "+09:00")
         @schedule.save
       end
       redirect_to farmers_event_path(@event)
