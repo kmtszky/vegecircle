@@ -3,7 +3,7 @@ class Farmers::RecipesController < ApplicationController
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
 
   def index
-    @recipes = Recipe.page(params[:page]).reverse_order
+    @recipes = current_farmer.recipes.page(params[:page]).reverse_order
   end
 
   def show
