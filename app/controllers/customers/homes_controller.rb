@@ -1,8 +1,8 @@
 class Customers::HomesController < ApplicationController
   def top
-    @farmers = Farmer.where(is_deleted: false).order('created_at DESC').first(4)
-    @recipes = Recipe.order('created_at DESC').first(4)
-    @events = Event.where("end_date > ?", Date.current).order('created_at DESC').first(4)
+    @farmers = Farmer.where(is_deleted: false).reverse_order.first(4)
+    @recipes = Recipe.all.reverse_order.first(4)
+    @events = Event.where("end_date >= ?", Date.current).reverse_order.first(4)
 
     @northern = [ "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県" ]
     @kanto = [ "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県" ]
