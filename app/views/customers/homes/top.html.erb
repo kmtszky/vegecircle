@@ -23,25 +23,25 @@
       </div>
       <div class="col-md-8 main-content d-none d-md-block ml-3">
         <div class="form-group mb-4">
-          <h5>新着農家</h5>
+          <div class="d-flex flex-row">
+            <h5>新着農家</h5>
+            <%= link_to ">> もっと見る", farmers_path, class: "ml-5 text-dark" %>
+          </div>
           <%= render 'customers/farmers/index', farmers: @farmers %>
-          <% if @farmers.count > 4 %>
-            <%= link_to ">> もっと見る", farmers_path, class: "ml-auto text-dark" %>
-          <% end %>
         </div>
         <div class="form-group mb-4">
-          <h5>新着レシピ</h5>
+          <div class="d-flex flex-row">
+            <h5>新着レシピ</h5>
+            <%= link_to ">> もっと見る", recipes_path, class: "ml-5 text-dark" %>
+          </div>
           <%= render 'customers/recipes/index', recipes: @recipes %>
-          <% if @recipes.count > 4 %>
-            <%= link_to ">> もっと見る", recipes_path, class: "ml-auto text-dark" %>
-          <% end %>
         </div>
         <div class="form-group mb-4">
-          <h5>新着農業体験</h5>
-          <%= render 'farmers/events/index', events: @events %>
-          <% if @events.count > 4 %>
-            <%= link_to ">> もっと見る", events_path, class: "ml-auto text-dark" %>
-          <% end %>
+          <div class="d-flex flex-row">
+            <h5>新着農業体験</h5>
+            <%= link_to ">> もっと見る", events_path, class: "ml-5 text-dark" %>
+          </div>
+          <%= render 'customers/events/index', events: @events %>
         </div>
       </div>
     </div>

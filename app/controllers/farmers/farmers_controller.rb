@@ -23,10 +23,7 @@ class Farmers::FarmersController < ApplicationController
     @news_last3 = news_index.first(3)
     @news_left = news_index.offset(3)
     @recipes = Recipe.where(farmer_id: @farmer.id).order('created_at DESC').first(5)
-    @events = Event.where(farmer_id: @farmer.id).order('start_date DESC').first(4)
-    chat_index = Chat.where(farmer_id: @farmer.id).order('created_at DESC')
-    @chat_last5 = chat_index.first(5)
-    @chat_left = chat_index.offset(5)
+    @events = Event.where(farmer_id: @farmer.id).order(:start_date).first(4)
     @evaluations = Evaluation.where(farmer_id: @farmer.id).order('created_at DESC').first(3)
 
     if @farmer.evaluations.blank?
