@@ -15,6 +15,8 @@ class Farmers::SchedulesController < ApplicationController
 
   def update
     if @schedule.update(schedule_params)
+      @schedule.date_update(params[:schedule][:start_time], params[:schedule][:end_time])
+
       min_schedule_date = Schedule.where(event_id: @event.id).pluck(:date).min
       max_schedule_date = Schedule.where(event_id: @event.id).pluck(:date).max
       if (min_schedule_date != @event.start_date) && (max_schedule_date != @event.end_date)
@@ -25,7 +27,7 @@ class Farmers::SchedulesController < ApplicationController
         @event.update(end_date: max_schedule_date)
       end
       redirect_to farmers_event_schedule_path(@event, @schedule),
-        flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}の日程を更新しました。チャットへのご連絡をお願いいたします" }
+        flash: { success: "日程を更新しました。チャットへのご連絡をお願いいたします" }
     else
       render :edit
     end
