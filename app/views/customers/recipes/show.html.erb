@@ -12,14 +12,5 @@
       <% end %>
     </div>
     <%= render 'farmers/recipes/recipe-detail', recipe: @recipe %>
-
-    <div class="col-12 col-md-8 mx-auto mb-2">
-
-      <h4 class="text-left mb-3"><%= @recipe.title %>の材料（<%= @recipe.amount %>人分）</h4>
-      <%= safe_join(@recipe.ingredient.split("\n"),tag(:br)) %><br>
-
-      <h4 class="text-left my-3"><%= @recipe.title %>のつくりかた</h4>
-      <%= safe_join(@recipe.recipe.split("\n"),tag(:br)) %>
-    </div>
   </div>
 </div>

@@ -25,9 +25,6 @@
           <!--adminのヘッダー-->
             <li><%= link_to ' 農家一覧', admins_root_path, class: "nav-link text-dark fas fa-users" %></li>
             <li><%= link_to ' 会員一覧', admins_customers_path, class: "nav-link text-dark fas fa-users" %></li>
-            <li><%= link_to ' 近くの農家さん', farmers_path, class: "nav-link text-dark fas fa-tractor" %></li>
-            <li><%= link_to ' レシピ', recipes_path, class: "nav-link text-dark fas fa-utensils" %></li>
-            <li><%= link_to ' 農業体験', events_path, class: "nav-link text-dark fas fa-carrot" %></li>
             <li><%= link_to ' ログアウト', destroy_admin_session_path, method: :delete, class: "nav-link text-dark fas fa-walking" %></li>
           <% else %>
           <!--ログイン前のヘッダー-->

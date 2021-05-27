@@ -53,8 +53,8 @@ class Farmers::EventsController < ApplicationController
   end
 
   def index
-    @events = current_farmer.events.where("end_date >= ?", Date.current).order('start_date DESC').page(params[:page]).reverse_order
-    @ended_events = current_farmer.events.where("end_date < ?", Date.current).order('start_date DESC').page(params[:page]).reverse_order
+    @events = current_farmer.events.where("end_date >= ?", Date.current).order(:start_date).page(params[:page])
+    @ended_events = current_farmer.events.where("end_date < ?", Date.current).order(:start_date).page(params[:page])
   end
 
   def edit

@@ -1,6 +1,6 @@
 class Customers::EventsController < ApplicationController
   def index
-    @events = Event.where('end_date >= ?', Date.current).order(:start_date).page(params[:page]).reverse_order
+    @events = Event.where('end_date >= ?', Date.current).order(:start_date).page(params[:page])
 
     @northern = [ "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県" ]
     @kanto = [ "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県" ]

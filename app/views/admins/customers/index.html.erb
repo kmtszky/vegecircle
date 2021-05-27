@@ -16,10 +16,8 @@
         <tbody>
           <% @customers.each do |customer| %>
             <tr>
-              <td><%= link_to profiles_path(customer) do %>
-                    <%= attachment_image_tag customer, :customer_image, :fill, 60, 60, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '60x60' %>
-                  <% end %></td>
-              <td><%= link_to profiles_path(customer) do %><%= customer.nickname %><% end %></td>
+              <td><%= attachment_image_tag customer, :customer_image, :fill, 60, 60, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '60x60' %></td>
+              <td><%= customer.nickname %></td>
               <td><%= customer.email %></td>
               <% if customer.is_deleted == false %>
                 <td class="text-success"><strong>有効</strong></td>
