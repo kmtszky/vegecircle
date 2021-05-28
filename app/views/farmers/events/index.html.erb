@@ -2,40 +2,44 @@
   <div class="row">
     <div class="col-11 col-md-10 mx-auto">
       <h4 class="mb-4">農業体験一覧</h4>
-      <%= render 'searches/event_search' %>
-      <%= render 'searches/eventdate_search' %>
-
-      <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"><h6>予約受付中の農業体験</h6></a>
-          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><h6>終了済みの農業体験</h6></a>
-        </div>
-      </nav>
-      <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-          <div class="mt-4">
-            <% if @events.blank? %>
-              <p><strong>予約受付中の農業体験はありません</strong></p>
-            <% else %>
-              <%= render 'farmers/events/index', events: @events %>
-            <% end %>
-            <%= paginate @events %>
+      <div class="form-row text-left mb-3">
+        <%= render 'searches/event_search' %>
+        <%= render 'searches/eventdate_search' %>
+        <%= render 'searches/event_sort' %>
+      </div>
+      <div id="index_all">
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"><h6>予約受付中の農業体験</h6></a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><h6>終了済みの農業体験</h6></a>
           </div>
-        </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-          <div class="mt-4">
-            <% if @ended_events.blank? %>
-              <p><strong>終了済みの農業体験はありません</strong></p>
-            <% else %>
-              <%= render 'farmers/events/index', events: @ended_events %>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="mt-4">
+              <% if @events.blank? %>
+                <p><strong>予約受付中の農業体験はありません</strong></p>
+              <% else %>
+                <%= render 'farmers/events/index', events: @events %>
+              <% end %>
               <%= paginate @events %>
-            <% end %>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="mt-4">
+              <% if @ended_events.blank? %>
+                <p><strong>終了済みの農業体験はありません</strong></p>
+              <% else %>
+                <%= render 'farmers/events/index', events: @ended_events %>
+                <%= paginate @events %>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
-
-
-
+      <div id="index_sort">
+        <%= render 'farmers/events/index', events: @records %>
+      </div>
     </div>
   </div>
 </div>

@@ -38,7 +38,7 @@ class Farmer < ApplicationRecord
     end
   end
 
-  def self.sort(method)
+  def self.sorts(method)
     if method == 'new'
       Event.order('created_at DESC')
     elsif method == 'follows'

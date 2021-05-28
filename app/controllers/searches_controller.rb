@@ -59,18 +59,18 @@ class SearchesController < ApplicationController
 		end
 		if @model == 'recipe'
 			if farmer_signed_in?
-				@records = current_farmer.recipes.sort(@method)
+				@records = current_farmer.recipes.sorts(@method)
 			else
-				@records = Recipe.sort(@method)
+				@records = Recipe.sorts(@method)
 			end
 		elsif @model == 'event'
 			if farmer_signed_in?
 				@records = current_farmer.events.sort_all(@method)
 			else
-				@records = Event.sort(@method)
+				@records = Event.sorts(@method)
 			end
 		else
-			@records = Farmer.sort(@method)
+			@records = Farmer.sorts(@method)
 		end
 	end
 end

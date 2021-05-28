@@ -84,7 +84,7 @@ class Event < ApplicationRecord
     end
   end
 
-  def self.sort_all(mehtod)
+  def self.sorts(method)
     if method == 'asc'
       Event.where('end_date >= ?', Date.current).order(:start_date)
     elsif method == 'desc'
@@ -96,7 +96,7 @@ class Event < ApplicationRecord
     end
   end
 
-  def self.sort_all(mehtod)
+  def self.sort_all(method)
     if method == 'asc'
       Event.order(:start_date)
     elsif method == 'desc'

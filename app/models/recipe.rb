@@ -41,7 +41,7 @@ class Recipe < ApplicationRecord
     Recipe.where('title like ?', '%' + content + '%')
   end
 
-  def self.sort(method)
+  def self.sorts(method)
     if method == 'new'
       Recipe.all.order('created_at DESC')
     else

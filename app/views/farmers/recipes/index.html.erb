@@ -2,28 +2,17 @@
   <div class="row">
     <div class="col-11 col-md-10 mx-auto">
       <h4 class="mb-4">レシピ一覧</h4>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-5 col-md-4 offset-md-1 col-lg-2">
-      <%= link_to "レシピを投稿する", new_farmers_recipe_path, class: "btn btn-success mr-3" %>
-    </div>
-    <div class="col-7 col-md-7 col-lg-3">
       <div class="form-row text-left mb-3">
+        <%= link_to "レシピを投稿する", new_farmers_recipe_path, class: "btn btn-success mr-3" %>
         <%= render 'searches/recipe_search' %>
         <%= render 'searches/recipe_sort' %>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-11 col-md-10 mx-auto mt-3">
       <div id="index_all">
-        <%= render 'customers/events/index', events: @events %>
-        <%= paginate @events %>
+        <%= render 'farmers/recipes/index', recipes: @recipes %>
+        <%= paginate @recipes %>
       </div>
       <div id="index_sort">
-        <%= render 'customers/events/index', events: @records %>
-        <%= paginate @events %>
+        <%= render 'farmers/recipes/index', recipes: @records %>
       </div>
     </div>
   </div>
