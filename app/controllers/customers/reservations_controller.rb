@@ -60,12 +60,11 @@ class Customers::ReservationsController < ApplicationController
   end
 
   def index
-    reservation_ids = current_customer.reservations.pluck(:schedule_id)
-    schedule_ids = Schedule.where(id: reservation_ids).where(is_deleted: false).pluck(:id)
-    @reservations = Reservation.where(schedule_id: schedule_ids)
+    schedule_ids = Schedule.where(is_deleted: false).pluck(:id)
+    @reservations = current_customer.reservations.where(schedule_id: schedule_ids)
 
-    past_schedule_ids = Schedule.where(id: reservation_ids).where(is_deleted: true).pluck(:id)
-    @past_reservations = Reservation.where(schedule_id: past_schedule_ids)
+    past_schedule_ids = Schedule.where(is_deleted: true).pluck(:id)
+    @past_reservations = current_customer.reservations.where(schedule_id: past_schedule_ids)
   end
 
   def destroy
