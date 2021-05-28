@@ -1,0 +1,19 @@
+$('#index_all').hide();
+
+<% if @farmer.blank? %>
+  <% if @model == "recipe" %>
+    $('#index_sort').html('<%= j(render 'customers/recipes/index', recipes: @records) %>');
+  <% elsif @model == "event" %>
+    $('#index_sort').html('<%= j(render 'customers/events/index', events: @records) %>');
+  <% else %>
+    $('#index_sort').html('<%= j(render 'admin/farmers/index', farmers: @records) %>');
+  <% end %>
+<% else %>
+  <% if @model == "recipe" %>
+    $('#index_sort').html('<%= j(render 'farmers/recipes/index', recipes: @records) %>');
+  <% else %>
+    $('#index_sort').html('<%= j(render 'farmers/events/index', events: @records) %>');
+  <% end %>
+<% end %>
+
+$('#index_sort').show();

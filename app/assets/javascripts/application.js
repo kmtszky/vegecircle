@@ -46,3 +46,8 @@ $(document).on('turbolinks:load', function () {
     speed: 1500,
   });
 });
+
+// sort
+$(document).on('turbolinks:load', function () {
+  $('#index_sort').hide();
+});

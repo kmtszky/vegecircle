@@ -37,4 +37,14 @@ class Farmer < ApplicationRecord
       Farmer.where(is_deleted: false).where('name like ?', '%' + content + '%')
     end
   end
+
+  def self.sort(method)
+    if method == 'new'
+      Event.order('created_at DESC')
+    elsif method == 'follows'
+      Event.where(is_deleted: false).includes(:follows).sort {|a, b| b.follows.size <=> a.follows.size }
+    else
+      Event.where(is_deleted: false).includes(:evaluations).sort {|a, b| b.evaluations.size <=> a.evaluations.size }
+    end
+  end
 end

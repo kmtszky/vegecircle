@@ -1,0 +1,9 @@
+<div class="search-form form-inline" id="sort">
+  <%= form_with url: sort_path, method: :get do |f| %>
+    <%= f.select :keyword, [["投稿が新しい順", "new"], ["人気順", "likes"]], {}, class: "custom-select custom-select-sm" %>
+    <%= f.hidden_field :model, :value => 'recipe' %>
+    <%= f.button :type => "submit", style: 'border-style: none;', class: "btn btn-sm btn-primary" do %>
+      <i class="fas fa-sort"></i>
+    <% end %>
+  <% end %>
+</div>

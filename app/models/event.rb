@@ -50,6 +50,10 @@ class Event < ApplicationRecord
     event_favorites.where(customer_id: customer.id).exists?
   end
 
+  def has_schedules?
+    schedules.where(event_id: self.id).exists?
+  end
+
   def self.search_for(content, method)
     if method == 'forward'
       Event.where('end_date >= ?', Date.current).where('location like ?', content + '%')
@@ -58,15 +62,49 @@ class Event < ApplicationRecord
     end
   end
 
-  def self.search_for_date(event_date, method)
-    Event.where('end_date >= ?', Date.current).where('start_date <= ?', event_date).where('end_date >= ?', event_date)
-  end
-
-  def self.search_for_all(content, method)
+  def self.search_all_for(content)
     Event.where('title like ?', '%' + content + '%').or(Event.where('location like ?', '%' + content + '%'))
   end
 
-  def has_schedules?
-    schedules.where(event_id: self.id).exists?
+  def self.search_for_date(event_date)
+    Event.where('end_date >= ?', Date.current).where('start_date <= ?', event_date).where('end_date >= ?', event_date)
+  end
+
+  def self.search_all_for_date(event_date)
+    Event.where('start_date <= ?', event_date).where('end_date >= ?', event_date)
+  end
+
+  def self.reorder(mehtod)
+    if method == 'favorite'
+      Event.includes(:event_favorites).where('end_date >= ?', Date.current).sort {|a, b| b.event_favorites.size <=> a.event_favorites.size }
+    elsif method == 'event_date'
+      Event.where('end_date >= ?', Date.current).order(:start_date)
+    else
+      Event.where('end_date >= ?', Date.current).order(:created_at)
+    end
+  end
+
+  def self.sort_all(mehtod)
+    if method == 'asc'
+      Event.where('end_date >= ?', Date.current).order(:start_date)
+    elsif method == 'desc'
+      Event.where('end_date >= ?', Date.current).order('start_date DESC')
+    elsif method == 'like'
+      Event.where('end_date >= ?', Date.current).includes(:event_favorites).sort {|a, b| b.event_favorites.size <=> a.event_favorites.size }
+    else
+      Event.where('end_date >= ?', Date.current).order('created_at DESC')
+    end
+  end
+
+  def self.sort_all(mehtod)
+    if method == 'asc'
+      Event.order(:start_date)
+    elsif method == 'desc'
+      Event.order('start_date DESC')
+    elsif method == 'like'
+      Event.includes(:event_favorites).sort {|a, b| b.event_favorites.size <=> a.event_favorites.size }
+    else
+      Event.order('created_at DESC')
+    end
   end
 end

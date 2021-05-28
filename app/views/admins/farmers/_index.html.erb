@@ -1,0 +1,29 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th></th>
+      <th>名前</th>
+      <th>メールアドレス</th>
+      <th>会員ステータス</th>
+      <th>直売所住所</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% farmers.each do |farmer| %>
+      <tr>
+        <td><%= link_to farmer_path(farmer) do %>
+              <%= attachment_image_tag farmer, :farmer_image, :fill, 60, 60, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '60x60' %>
+            <% end %></td>
+        <td><%= link_to farmer_path(farmer) do %><%= farmer.name %><% end %></td>
+        <td><%= farmer.email %></td>
+        <% if farmer.is_deleted == false %>
+          <td class="text-success"><strong>有効</strong></td>
+        <% else %>
+          <td>退会</td>
+        <% end %>
+        <td><%= farmer.store_address %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  <%= paginate farmers %>
+</table>

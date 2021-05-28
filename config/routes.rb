@@ -62,6 +62,8 @@ Rails.application.routes.draw do
   end
 
   get 'search'=> 'searches#search', as: 'search'
+  get 'sort'=> 'searches#sort', as: 'sort'
+
 
   # admin
   devise_for :admins, controllers: {

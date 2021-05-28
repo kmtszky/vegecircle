@@ -8,10 +8,19 @@
       <%= render 'searches/event_area', northern: @northern, kanto: @kanto, middle: @middle, kansai: @kansai, western: @western, southern: @southern %>
     </div>
     <div class="col-md-8 main-content d-none d-md-block">
-      <%= render 'searches/event_search' %>
-      <%= render 'searches/eventdate_search' %>
-      <%= render 'customers/events/index', events: @events %>
-      <%= paginate @events %>
+      <div class="form-row text-left mb-3">
+        <%= render 'searches/event_search' %>
+        <%= render 'searches/eventdate_search' %>
+        <%= render 'searches/event_sort' %>
+      </div>
+      <div id="index_all">
+        <%= render 'customers/events/index', events: @events %>
+        <%= paginate @events %>
+      </div>
+      <div id="index_sort">
+        <%= render 'customers/events/index', events: @records %>
+        <%= paginate @events %>
+      </div>
     </div>
   </div>
 </div>
