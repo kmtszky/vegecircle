@@ -3,7 +3,7 @@
     <div class="col-11 col-md-8 mx-auto">
       <h4 class="mb-4">レビュー一覧</h4>
 
-      <% if @evaluations.count == 0 %>
+      <% if @evaluations.blank? %>
         <p>レビューがまだ投稿されていません</p>
       <% else %>
         <% @evaluations.each do |evaluation| %>

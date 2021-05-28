@@ -6,7 +6,7 @@ $('#index_all').hide();
   <% elsif @model == "event" %>
     $('#index_sort').html('<%= j(render 'customers/events/index', events: @records) %>');
   <% else %>
-    $('#index_sort').html('<%= j(render 'admin/farmers/index', farmers: @records) %>');
+    $('#index_sort').html('<%= j(render 'admins/farmers/index', farmers: @records) %><%= j(render 'admins/farmers/raty-js') %>');
   <% end %>
 <% else %>
   <% if @model == "recipe" %>

@@ -40,11 +40,13 @@ class Farmer < ApplicationRecord
 
   def self.sorts(method)
     if method == 'new'
-      Event.order('created_at DESC')
+      Farmer.all.order('created_at DESC')
+    elsif method == 'old'
+      Farmer.all.order(:created_at)
     elsif method == 'follows'
-      Event.where(is_deleted: false).includes(:follows).sort {|a, b| b.follows.size <=> a.follows.size }
+      Farmer.where(is_deleted: false).includes(:follows).sort {|a, b| b.follows.size <=> a.follows.size }
     else
-      Event.where(is_deleted: false).includes(:evaluations).sort {|a, b| b.evaluations.size <=> a.evaluations.size }
+      Farmer.where(is_deleted: false).includes(:evaluations).sort {|a, b| b.evaluations.size <=> a.evaluations.size }
     end
   end
 end

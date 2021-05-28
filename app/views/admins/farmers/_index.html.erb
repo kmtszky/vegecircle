@@ -6,6 +6,8 @@
       <th>メールアドレス</th>
       <th>会員ステータス</th>
       <th>直売所住所</th>
+      <th>評価</th>
+      <th>フォロワー</th>
     </tr>
   </thead>
   <tbody>
@@ -22,8 +24,13 @@
           <td>退会</td>
         <% end %>
         <td><%= farmer.store_address %></td>
+        <% if farmer.evaluations.blank? %>
+          <td class="average-rating" data-score=<%= 0 %>></td>
+        <% else %>
+          <td class="average-rating" data-score=<%= farmer.evaluations.average(:evaluation).round(2) %>></td>
+        <% end %>
+        <td><%= farmer.follows.size %>人</td>
       </tr>
     <% end %>
   </tbody>
-  <%= paginate farmers %>
 </table>

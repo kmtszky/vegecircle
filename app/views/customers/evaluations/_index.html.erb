@@ -1,4 +1,4 @@
-<% if evaluations.count == 0 %>
+<% if evaluations.blank? %>
   <p>レビューがまだ投稿されていません</p>
 <% else %>
   <% evaluations.each do |evaluation| %>
