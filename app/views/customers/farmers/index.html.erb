@@ -8,7 +8,9 @@
       <%= render 'searches/farmer_area', northern: @northern, kanto: @kanto, middle: @middle, kansai: @kansai, western: @western, southern: @southern %>
     </div>
     <div class="col-md-8 main-content d-none d-md-block">
+      <div class="mb-3">
       <%= render 'searches/farmer_search' %>
+      </div>
       <%= render 'customers/farmers/index', farmers: @farmers %>
       <%= paginate @farmers %>
     </div>
