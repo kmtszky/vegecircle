@@ -21,8 +21,7 @@
 
 set :output, 'log/cron.log'
 
-#every 1.days, at: '11:00 am' do
-every 1.minute do
+every 1.days, at: '11:00 am' do
   begin
     runner "Customers::RemindMailer.remind_reservation.deliver_now"
   rescue => e
@@ -31,8 +30,7 @@ every 1.minute do
   end
 end
 
-#every 1.days, at: '11:00 am' do
-every 1.minute do
+every 1.days, at: '11:00 am' do
   begin
     runner "Farmers::RemindMailer.remind_event_schedule.deliver_now"
   rescue => e
