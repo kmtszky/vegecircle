@@ -17,6 +17,12 @@ class Customer < ApplicationRecord
   validates :nickname, uniqueness: true, presence: true
   attachment :customer_image
 
+  after_create :send_registration_email
+
+  def send_registration_email
+    Farmers::WelcomeMailer.complete_registration(current_farmer).deliver
+  end
+
   def active_for_authentication?
     super && (self.is_deleted == false)
   end
@@ -28,7 +34,7 @@ class Customer < ApplicationRecord
   def reserved?(schedule)
     reservations.where(schedule_id: schedule.id).exists?
   end
-  
+
   def self.deliver_mail
     tomorrow_schedules = Schedule.all.select do |sch|
       sch.date - Date.current == 1

@@ -10,10 +10,9 @@ class Farmers::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  def create
-    super
-    Farmers::WelcomeMailer.complete_registration(current_farmer).deliver
-  end
+  # def create
+  #   super
+  # end
 
   # GET /resource/edit
   # def edit
