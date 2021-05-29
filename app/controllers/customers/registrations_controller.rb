@@ -10,10 +10,9 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-   def create
-     super
-     Customers::WelcomeMailer.complete_registration(current_customer).deliver
-   end
+  # def create
+  #   super
+  # end
 
   # GET /resource/edit
   # def edit

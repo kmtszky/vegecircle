@@ -3,6 +3,7 @@ class Farmer < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :timeoutable
+  after_create :send_registration_email
 
   has_many :chats, dependent: :destroy
   has_many :evaluations, dependent: :destroy
@@ -25,6 +26,10 @@ class Farmer < ApplicationRecord
   attachment :image_1
   attachment :image_2
   attachment :image_3
+
+  def send_registration_email
+    Customers::WelcomeMailer.complete_registration(current_customer).deliver
+  end
 
   def active_for_authentication?
     super && (self.is_deleted == false)
