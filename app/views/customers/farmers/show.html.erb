@@ -56,21 +56,27 @@
   </div>
 
   <div class="row">
-    <div class="col-12 col-md-10 mx-auto">
+    <div class="col-12 col-md-10 mx-auto text-center">
       <h5 class="text-center">この農家さんに関するレビュー</h5>
       <% if customer_signed_in? %>
-        <%= form_with model: [@farmer, @evaluation], local: true do |f| %>
-          <div id="evaluation-stars" class="my-2"></div>
-          <div class="form-group">
-            <%= f.text_area :comment, rows: 3, class: "form-control form-control-sm" %>
-            <%= f.attachment_field :evaluation_image, class: "form-control-file" %>
-          </div>
-          <%= f.submit '送信', class: "btn btn-sm btn-success" %>
+        <% unless current_customer.evaluations.where(farmer_id: @farmer.id).exists? %>
+          <%= form_with model: [@farmer, @evaluation], local: true do |f| %>
+            <div id="evaluation-stars" class="my-2"></div>
+            <div class="form-group">
+              <%= f.text_area :comment, rows: 3, class: "form-control form-control-sm" %>
+              <%= f.attachment_field :evaluation_image, class: "form-control-file" %>
+            </div>
+            <%= f.submit '送信', class: "btn btn-sm btn-success" %>
+          <% end %>
         <% end %>
       <% end %>
       <div class="evaluations">
         <%= render 'customers/evaluations/index', evaluations: @evaluations %>
       </div>
+      <% if @evaluations.size > 3 %>
+        <div class="text-center my-3"><i class="fas fa-angle-double-down fa-3x text-warning"></i></div>
+        <%= link_to 'もっと見る', farmer_evaluations_path(@farmer), class: "btn btn-secondary" %>
+      <% end %>
       <%= render 'customers/evaluations/raty-js' %>
     </div>
   </div>

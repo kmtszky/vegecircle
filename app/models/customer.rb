@@ -5,7 +5,7 @@ class Customer < ApplicationRecord
          :recoverable, :rememberable, :validatable, :timeoutable
 
   has_many :chats, dependent: :destroy
-  has_many :evaluation, dependent: :destroy
+  has_many :evaluations, dependent: :destroy
   has_many :event_favorites, dependent: :destroy
   has_many :favorite_events, through: :event_favorites, source: :event
   has_many :follows, dependent: :destroy

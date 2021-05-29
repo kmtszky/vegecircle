@@ -1,24 +1,20 @@
 class Customers::EvaluationsController < ApplicationController
-  before_action :authenticate_customer!
+  before_action :authenticate_customer!, except: [:index]
   before_action :set_farmer, only: [:create, :edit]
   before_action :set_evaluation, only: [:edit, :update, :destroy]
 
   def create
-    if Evaluation.where(customer_id: current_customer.id, farmer_id: @farmer.id).exists?
-      redirect_to farmer_path(@farmer), flash: { warning: "評価は一回までです。" }
+    @evaluation = current_customer.evaluations.new(evaluation_params)
+    @evaluation.farmer_id = @farmer.id
+    if @evaluation.save
+      redirect_to farmer_path(@farmer), flash: { success: "レビューを投稿いたしました" }
     else
-      @evaluation = current_customer.evaluation.new(evaluation_params)
-      @evaluation.farmer_id = @farmer.id
-      if @evaluation.save
-        redirect_to farmer_path(@farmer), flash: { success: "レビューを投稿いたしました" }
-      else
-        redirect_to farmer_path(@farmer), flash: { danger: "星評価かコメントのいずれかを必ず入力してください。" }
-      end
+      redirect_to farmer_path(@farmer), flash: { danger: "星評価かコメントのいずれかを必ず入力してください。" }
     end
   end
 
   def index
-    @evaluations = Evaluation.where(customer_id: current_customer.id)
+    @evaluations = Evaluation.where(farmer_id: params[:farmer_id])
   end
 
   def edit

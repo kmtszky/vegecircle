@@ -8,20 +8,17 @@
       <% else %>
         <% @evaluations.each do |evaluation| %>
           <div class="review p-3 ">
-            <h6><%= link_to farmer_path(evaluation.farmer_id), class: "text-dark" do %>
-                  <%= evaluation.farmer.name %>
-                <% end %></h6>
+            <h6><%= evaluation.customer.nickname %>さん</h6>
             <div class="evaluation-rating" data-score="<%= evaluation.evaluation %>"></div>
             <p><%= show_date(evaluation.created_at) %></p>
             <p><%= safe_join(evaluation.comment.split("\n"),tag(:br)) %></p>
             <%= attachment_image_tag evaluation, :evaluation_image, class: "img-fluid" %>
-            <div class="form-row mt-3">
-              <%= link_to "編集", edit_farmer_evaluation_path(current_customer, evaluation), class: "btn btn-sm btn-success mr-3" %>
-              <%= link_to "削除", farmer_evaluation_path(current_customer, evaluation), method: :delete, data: { confirm: "レビューを削除しますか？" }, class: "btn btn-sm btn-danger" %>
-            </div>
           </div>
         <% end %>
       <% end %>
+      <div id="back">
+        <%= link_to "農家さんの紹介画面へ戻る", farmer_path(params[:farmer_id]), class: "btn btn-secondary" %>
+      </div>
       <%= render 'customers/evaluations/index_raty-js' %>
     </div>
   </div>

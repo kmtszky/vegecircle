@@ -82,7 +82,7 @@
       <div class="evaluations">
         <%= render 'customers/evaluations/index', evaluations: @evaluations %>
       </div>
-      <% if @evaluations.count > 3 %>
+      <% if @evaluations.size > 3 %>
         <div class="text-center my-3"><i class="fas fa-angle-double-down fa-3x text-warning"></i></div>
         <%= link_to 'もっと見る', farmers_farmers_evaluations_path(current_farmer), class: "btn btn-secondary" %>
       <% end %>
