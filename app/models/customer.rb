@@ -19,7 +19,7 @@ class Customer < ApplicationRecord
   attachment :customer_image
 
   def send_registration_email
-    Farmers::WelcomeMailer.complete_registration(current_farmer).deliver
+    Customers::WelcomeMailer.complete_registration(current_customer).deliver
   end
 
   def active_for_authentication?
