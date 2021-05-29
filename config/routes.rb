@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     resources :farmers, only: [:index, :show, :edit, :update]
       get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe',  as: 'farmers_unsubscribe'
       patch 'farmers/:id/withdraw'  => 'farmers#withdraw',     as: 'farmers_withdraw'
-      get 'farmers/:id/followers'   => 'farmers#followers',    as: 'farmers_followers'
       get 'farmers/:id/evaluations' => 'farmers#evaluations',  as: 'farmers_evaluations'
       get 'farmers/:id/recipes'     => 'farmers#recipes',      as: 'farmers_recipes'
       get 'farmers/:id/events'      => 'farmers#events',       as: 'farmers_events'
@@ -66,8 +65,6 @@ Rails.application.routes.draw do
   # admin
   devise_for :admins, controllers: {
     sessions:      'admins/sessions',
-    passwords:     'admins/passwords',
-    registrations: 'admins/registrations'
   }
 
   namespace :admins do
