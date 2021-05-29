@@ -11,9 +11,9 @@ class Customers::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
    def create
-     @customer = Customer.new(sign_up_params)
-     if @customer.save
-       Customers::WelcomeMailer.complete_registration(@customer).deliver
+     super
+     if current_customer.save
+       Customers::WelcomeMailer.complete_registration(current_customer).deliver
      end
    end
 
