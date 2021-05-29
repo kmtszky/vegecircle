@@ -11,9 +11,9 @@ class Farmers::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
    def create
-     current_customer = Customer.new(sign_up_params)
-     if current_customer.save
-       Farmers::WelcomeMailer.complete_registration(current_farmer).deliver
+     farmer = Farmer.new(sign_up_params)
+     if farmer.save
+       Farmers::WelcomeMailer.complete_registration(farmer).deliver
      end
    end
 
