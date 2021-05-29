@@ -22,7 +22,7 @@
           </tr>
         </tbody>
       </table><br>
-      <%= @farmer.introduction %>
+      <%= safe_join(@farmer.introduction.split("\n"),tag(:br)) %>
     </div>
     <div class="col-12 col-md-4 mr-auto my-2">
       <div class="list-wrap slideshow">
