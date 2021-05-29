@@ -1,7 +1,7 @@
 <div class="search-form form-inline" id="sort">
   <%= form_with url: sort_path, method: :get do |f| %>
     <%= f.select :keyword, [["イベント日（昇順）", "asc"], ["イベント日（降順）", "desc"],
-                            ["人気順", "likes"], ["投稿が新しい順", "new"]], {}, class: "custom-select custom-select-sm" %>
+                            ["人気順", "like"], ["投稿が新しい順", "new"]], {}, class: "custom-select custom-select-sm" %>
     <%= f.hidden_field :model, :value => 'event' %>
     <%= f.button :type => "submit", style: 'border-style: none;', class: "btn btn-sm btn-primary" do %>
       <i class="fas fa-sort"></i>
