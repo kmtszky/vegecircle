@@ -10,7 +10,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-   def create
+  def create
     build_resource(sign_up_params)
 
     resource.save
@@ -31,7 +31,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
       set_minimum_password_length
       respond_with resource
     end
-   end
+  end
 
   # GET /resource/edit
   # def edit
