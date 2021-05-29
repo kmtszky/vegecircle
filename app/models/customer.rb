@@ -3,7 +3,6 @@ class Customer < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :timeoutable
-  after_create :send_registration_email
 
   has_many :chats, dependent: :destroy
   has_many :evaluations, dependent: :destroy
@@ -17,10 +16,6 @@ class Customer < ApplicationRecord
 
   validates :nickname, uniqueness: true, presence: true
   attachment :customer_image
-
-  def send_registration_email
-    Customers::WelcomeMailer.complete_registration(current_customer).deliver
-  end
 
   def active_for_authentication?
     super && (self.is_deleted == false)
