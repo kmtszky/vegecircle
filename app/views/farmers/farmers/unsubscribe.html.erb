@@ -5,7 +5,8 @@
       <h4>退会のご確認</h4><br>
         <p>退会されますと、農家様の情報掲載、農業体験・レシピの作成機能が使用できなくなります。</p>
         <p>また、現在ご予約受付中の体験がございます方は、体験終了後に退会いただけますと幸いです。</p>
-        <p>どうしても火急の退会が必要な場合は、<%= link_to "マイページ", farmers_path(current_farmer) %>の<span class="required">「お知らせ」より必ずご連絡をお願いいたします</span>。</p><br>
+        <p>どうしても火急の退会が必要な場合は、<br>
+        <%= link_to "マイページ", farmers_farmer_path(current_farmer) %>の<span class="required">「お知らせ」より必ずご連絡をお願いいたします</span>。</p><br>
         <p>ご予約受付中の体験がなく、退会を希望される方は「退会する」ボタンをクリックください。</p>
       </session>
       <div class="actions form-group text-center">
