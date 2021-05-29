@@ -25,7 +25,7 @@ set :output, 'log/cron.log'
 
 every 1.days, at: '11:00 am' do
   begin
-    runner "Customers::RemindMailer.remind_reservation.deliver_now"
+    runner "Customer.deliver_mail"
   rescue => e
     Rails.logger.error("aborted rails runner")
     raise e
@@ -34,7 +34,7 @@ end
 
 every 1.days, at: '11:00 am' do
   begin
-    runner "Farmers::RemindMailer.remind_event_schedule.deliver_now"
+    runner "Schedule.deliver_mail"
   rescue => e
     Rails.logger.error("aborted rails runner")
     raise e
