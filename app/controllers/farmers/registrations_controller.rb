@@ -11,10 +11,8 @@ class Farmers::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
    def create
-     farmer = Farmer.new(sign_up_params)
-     if farmer.save
-       Farmers::WelcomeMailer.complete_registration(farmer).deliver
-     end
+     super
+     Farmers::WelcomeMailer.complete_registration(current_farmer).deliver
    end
 
   # GET /resource/edit
