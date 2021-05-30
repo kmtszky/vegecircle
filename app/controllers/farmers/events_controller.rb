@@ -24,7 +24,7 @@ class Farmers::EventsController < ApplicationController
       schedules = Schedule.where(event_id: @event.id)
       if schedules.exists?
         if schedules.size == number_of_days + 1
-          redirect_to farmers_event_path(@event)
+          redirect_to farmers_event_path(@event), flash: { success: '農業体験を作成しました' }
         else
           if schedules.first.date > @event.start_date
             @event.update(start_date: schedules.first.date)
@@ -34,7 +34,8 @@ class Farmers::EventsController < ApplicationController
           redirect_to farmers_event_path(@event), flash: { danger: '既に作成済みのイベントと日付が重なっていたもの以外作成しました' }
         end
       else
-        flash.now[:danger] = '作成済みのイベントと日程が重なっています（イベントは1日ひとつまで）'
+        @event.destroy
+        flash.now[:danger] = '作成済みのイベントと日程が重なっており、作成できませんでした（イベントは1日ひとつまで）'
         render :new
       end
     else
