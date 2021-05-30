@@ -13,7 +13,7 @@ class Customers::EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
     @schedules = @event.schedules.where(is_deleted: false, is_full: false)
-    @schedule = @schedules.first
+    @schedule = @event.schedules.first
     @chat = Chat.new
     @chats = Chat.where(event_id: params[:id])
   end
