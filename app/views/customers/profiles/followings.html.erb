@@ -20,7 +20,7 @@
                   <% end %></td>
               <td><%= link_to farmer_path(farmer) do %><%= farmer.name %><% end %></td>
               <td><%= farmer.store_address %></td>
-              <td><%= farmer.news.last %></td>
+              <td><%= farmer.news.last.news %></td>
             </tr>
           <% end %>
           <%= paginate @followings %>
