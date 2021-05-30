@@ -30,6 +30,10 @@ class Farmer < ApplicationRecord
     super && (self.is_deleted == false)
   end
 
+  def has_schedules_on_the_day?(day)
+    schedules.where(date: day).exists?
+  end
+
   def self.search_for(content, method)
     if method == 'forward'
       Farmer.where(is_deleted: false).where('store_address like ?', content + '%')

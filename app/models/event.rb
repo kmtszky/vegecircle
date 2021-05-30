@@ -62,26 +62,16 @@ class Event < ApplicationRecord
     end
   end
 
-  def self.search_all_for(content)
-    Event.where('title like ?', '%' + content + '%').or(Event.where('location like ?', '%' + content + '%'))
-  end
-
   def self.search_for_date(event_date)
     Event.where('end_date >= ?', Date.current).where('start_date <= ?', event_date).where('end_date >= ?', event_date)
   end
 
-  def self.search_all_for_date(event_date)
-    Event.where('start_date <= ?', event_date).where('end_date >= ?', event_date)
+  def self.search_all_for(content)
+    Event.where('title like ?', '%' + content + '%').or(Event.where('location like ?', '%' + content + '%'))
   end
 
-  def self.reorder(mehtod)
-    if method == 'favorite'
-      Event.includes(:event_favorites).where('end_date >= ?', Date.current).sort {|a, b| b.event_favorites.size <=> a.event_favorites.size }
-    elsif method == 'event_date'
-      Event.where('end_date >= ?', Date.current).order(:start_date)
-    else
-      Event.where('end_date >= ?', Date.current).order(:created_at)
-    end
+  def self.search_all_for_date(event_date)
+    Event.where('start_date <= ?', event_date).where('end_date >= ?', event_date)
   end
 
   def self.sorts(method)

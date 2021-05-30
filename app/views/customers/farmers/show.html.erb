@@ -15,7 +15,9 @@
           </tr>
         </tbody>
       </table><br>
-      <%= safe_join(@farmer.introduction.split("\n"),tag(:br)) %>
+      <% unless @farmer.introduction.blank? %>
+        <%= safe_join(@farmer.introduction.split("\n"),tag(:br)) %>
+      <% end %>
       <% if customer_signed_in? %>
         <div class="follow-btn-<%= @farmer.id %>">
           <%= render "customers/follows/follow", farmer: @farmer %>
