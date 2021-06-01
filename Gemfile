@@ -78,3 +78,4 @@ gem 'listen', '>= 3.0.5', '< 3.2'
 gem 'whenever', require: false
 gem 'simple_calendar', '~> 2.0'
 gem 'delayed_job_active_record'
+gem "daemons"
