@@ -40,7 +40,7 @@ class Customers::ReservationsController < ApplicationController
     @reservation = Reservation.new(session[:reservation])
     if @reservation.save
       session.delete(:reservation)
-      Customers::ThanxMailer.complete_reservation(@reservation).deliver
+      Customers::ThanxMailer.complete_reservation(@reservation).deliver_now
       redirect_to event_schedule_reservations_thanx_path
 
       reserved_number = @schedule.reservations.pluck(:people).sum

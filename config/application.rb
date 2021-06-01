@@ -17,5 +17,7 @@ module Vegecircle
     # the framework and any gems in your application.
     config.time_zone = 'Asia/Tokyo'
     config.active_record.default_timezone = :local
+
+    config.active_job.queue_adapter = :delayed_job
   end
 end
