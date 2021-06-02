@@ -23,5 +23,6 @@ jobs:
         ~/.rbenv/shims/bundle install &&
         ~/.rbenv/shims/bundle exec rails assets:precompile RAILS_ENV=production &&
         ~/.rbenv/shims/bundle exec rails db:migrate RAILS_ENV=production &&
+        ~/.rbenv/shims/bundle exec whenever --update-crontab RAILS_ENV=production &&
         if [[ -e tmp/pids/puma.pid ]];then sudo kill $(cat tmp/pids/puma.pid); echo kill puma process;fi &&
         ~/.rbenv/shims/rails s -e production'

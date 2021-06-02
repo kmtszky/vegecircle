@@ -25,7 +25,7 @@ set :output, 'log/cron.log'
 
 every 1.days, at: '11:00 am' do
   begin
-    runner "ReservRemindMailJob.perform_later"
+    runner "ReservRemindMailJob.perform_now"
   rescue => e
     Rails.logger.error("aborted rails runner")
     raise e
@@ -34,14 +34,15 @@ end
 
 every 1.days, at: '11:00 am' do
   begin
-    runner "EventRemindMailJob.perform_later"
+    runner "EventRemindMailJob.perform_now"
   rescue => e
     Rails.logger.error("aborted rails runner")
     raise e
   end
 end
 
-every 1.days, at: '00:00 am' do
+#every 1.days, at: '00:00 am' do
+every 1.minute do
   begin
     runner "Schedule.end_events_of_the_day"
   rescue => e
