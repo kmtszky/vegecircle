@@ -23,8 +23,7 @@
 #set :environment, rails_env
 set :output, 'log/cron.log'
 
-#every 1.days, at: '11:00 am' do
-every 1.minute do
+every 1.days, at: '11:00 am' do
   begin
     runner "ReservRemindMailJob.perform_now"
   rescue => e
