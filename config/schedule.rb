@@ -32,7 +32,8 @@ every 1.days, at: '11:00 am' do
   end
 end
 
-every 1.days, at: '11:00 am' do
+#every 1.days, at: '11:00 am' do
+every 1.minute do
   begin
     runner "EventRemindMailJob.perform_now"
   rescue => e
@@ -41,8 +42,7 @@ every 1.days, at: '11:00 am' do
   end
 end
 
-#every 1.days, at: '00:00 am' do
-every 1.minute do
+every 1.days, at: '00:00 am' do
   begin
     runner "Schedule.end_events_of_the_day"
   rescue => e
