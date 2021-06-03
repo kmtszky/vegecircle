@@ -1,7 +1,5 @@
 FactoryBot.define do
-  factory :farmer do
-    Faker::Config.locale = :ja
-
+  factory :chat do
     name { Faker::Lorem.characters(number: 10) }
     email { Faker::Internet.email }
     farm_address { Faker::Lorem.characters(number: 10) }
