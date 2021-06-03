@@ -46,6 +46,18 @@ class Event < ApplicationRecord
     "駐車場なし": 2,
   }
 
+  def create_schedules(farmer)
+    number_of_days = self.end_date - self.start_date
+    self.start_date.step(self.start_date + number_of_days, 1) do |date|
+      schedule = Schedule.new(date: date, event_id: self.id, people: self.number_of_participants)
+      schedule.start_time = DateTime.new(date.year, date.month, date.day, self.start_time.split(":")[0].to_i, self.start_time.split(":")[1].to_i, 00, "+09:00")
+      schedule.end_time = DateTime.new(date.year, date.month, date.day, self.end_time.split(":")[0].to_i, self.end_time.split(":")[1].to_i, 00, "+09:00")
+      unless farmer.has_schedules_on_the_day?(date)
+        schedule.save
+      end
+    end
+  end
+
   def favorited_by?(customer)
     event_favorites.where(customer_id: customer.id).exists?
   end

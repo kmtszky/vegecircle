@@ -10,19 +10,9 @@ class Farmers::EventsController < ApplicationController
   def create
     @event = current_farmer.events.new(event_params)
     if @event.save
-      number_of_days = @event.end_date - @event.start_date
-
-      @event.start_date.step(@event.start_date + number_of_days, 1) do |date|
-        schedule = Schedule.new(date: date, event_id: @event.id, people: @event.number_of_participants)
-        schedule.start_time = DateTime.new(date.year, date.month, date.day, @event.start_time.split(":")[0].to_i, @event.start_time.split(":")[1].to_i, 00, "+09:00")
-        schedule.end_time = DateTime.new(date.year, date.month, date.day, @event.end_time.split(":")[0].to_i, @event.end_time.split(":")[1].to_i, 00, "+09:00")
-        unless current_farmer.has_schedules_on_the_day?(date)
-          schedule.save
-        end
-      end
-
-      schedules = Schedule.where(event_id: @event.id)
-      if schedules.exists?
+      @event.create_schedules(current_farmer)
+      if @event.has_schedules?
+        number_of_days = @event.end_date - @event.start_date
         if schedules.size == number_of_days + 1
           redirect_to farmers_event_path(@event), flash: { success: '農業体験を作成しました' }
         else
