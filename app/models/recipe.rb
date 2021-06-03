@@ -4,7 +4,7 @@ class Recipe < ApplicationRecord
   has_many :recipe_tags, dependent: :destroy
   has_many :tags, through: :recipe_tags
   has_many :recipe_favorites, dependent: :destroy
-  attr_accessor :tag_ids
+  attr_accessor :tag_list
 
   with_options presence: true do
     validates :title
@@ -13,23 +13,23 @@ class Recipe < ApplicationRecord
     validates :amount, numericality: true
     validates :ingredient
     validates :recipe
-    validates :tag_ids, presence: true
+    validates :tag_list
   end
 
   attachment :recipe_image
 
-  def save_tags(input_tags)
+  def save_tags(inputed_tags)
     current_tags = self.tags.pluck(:tag) unless self.tags.nil?
-    delete_tags = current_tags - input_tags
-    add_tags = input_tags - current_tags
+    tags_to_be_added = inputted_tags - current_tags
+    tags_to_be_deleted = current_tags - inputted_tags
 
-    delete_tags.each do |delete_tag|
-      self.tags.delete Tag.find_by(tag: delete_tag)
+    tags_to_be_added.each do |tag_to_be_added|
+      recipe_tag = Tag.find_or_create_by(tag: tag_to_be_added)
+      self.tags << recipe_tag
     end
 
-    add_tags.each do |add_tag|
-      recipe_tag = Tag.find_or_create_by(tag: add_tag)
-      self.tags << recipe_tag
+    tags_to_be_deleted.each do |tag_to_be_deleted|
+      self.tags.delete Tag.find_by(tag: tag_to_be_deleted)
     end
   end
 

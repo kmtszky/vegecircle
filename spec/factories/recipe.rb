@@ -9,7 +9,11 @@ FactoryBot.define do
     amount{ Faker::Number.number(digits: 1) }
     ingredient { Faker::Lorem.paragraph }
     recipe { Faker::Lorem.paragraph }
+    # tag, recipe_tag用のパラメータ
+    tag_ids { Faker::Lorem.words }
 
-    # Schedule用のパラメータ
+    after(:create) do
+      tag { FactoryBot.create(:tag) }
+    end
   end
 end

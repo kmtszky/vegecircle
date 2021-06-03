@@ -17,7 +17,7 @@ class Farmers::RecipesController < ApplicationController
 
   def create
     @recipe = current_farmer.recipes.new(recipe_params)
-    @tag_list = params[:recipe][:tag_ids].split(',')
+    @tag_list = params[:recipe][:tag_list].split(',')
     if @recipe.save
       @recipe.save_tags(@tag_list)
       redirect_to farmers_recipe_path(@recipe), flash: {success: "レシピを作成しました"}
@@ -35,7 +35,7 @@ class Farmers::RecipesController < ApplicationController
   end
 
   def update
-    tag_list = params[:recipe][:tag_ids].split(',')
+    tag_list = params[:recipe][:tag_list].split(',')
     if @recipe.update_attributes(recipe_params)
       @recipe.save_tags(tag_list)
       redirect_to farmers_recipe_path(params[:id]), flash: {success: "レシピを更新しました"}
@@ -56,6 +56,6 @@ class Farmers::RecipesController < ApplicationController
   end
 
   def recipe_params
-    params.require(:recipe).permit(:title, :recipe_image, :duration, :amount, :ingredient, :recipe, :tag_ids)
+    params.require(:recipe).permit(:title, :recipe_image, :duration, :amount, :ingredient, :recipe, :tag_list)
   end
 end
