@@ -26,11 +26,11 @@
 
 ## 管理者用ログインページ
 - ログイン用url: http://vegecircle.com/admins/sign_in
-- mail: admin@111
+- email: admin@111
 - pw: admin111
 
 ## 開発環境
-- OS：Linux(CentOS)
+- OS：Amazon Linux2 (CentOS)
 - 言語：HTML,CSS,JaavaScript,Ruby,SQL
 - フレームワーク：Ruby on Rails
 - JSライブラリ：jQuery
