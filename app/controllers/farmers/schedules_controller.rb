@@ -26,12 +26,7 @@ class Farmers::SchedulesController < ApplicationController
     else
       if @schedule.update(schedule_params)
         @schedule.date_update(params[:schedule][:start_time], params[:schedule][:end_time])
-
-        min_schedule_date = Schedule.where(event_id: @event.id).pluck(:date).min
-        max_schedule_date = Schedule.where(event_id: @event.id).pluck(:date).max
-        if (min_schedule_date != @event.start_date) || (max_schedule_date != @event.end_date)
-          @event.update(start_date: min_schedule_date, end_date: max_schedule_date)
-        end
+        @schedule.eventdate_update(@event)
         redirect_to farmers_event_schedule_path(@event, @schedule),
           flash: { success: "日程を更新しました。チャットへのご連絡をお願いいたします" }
       else
@@ -43,15 +38,7 @@ class Farmers::SchedulesController < ApplicationController
   def destroy
     @schedule.destroy
     if @event.has_schedules?
-      min_schedule_date = Schedule.where(event_id: @event.id).pluck(:date).min
-      max_schedule_date = Schedule.where(event_id: @event.id).pluck(:date).max
-      if (min_schedule_date != @event.start_date) && (max_schedule_date != @event.end_date)
-        @event.update(start_date: min_schedule_date, end_date: max_schedule_date)
-      elsif min_schedule_date != @event.start_date
-        @event.update(start_date: min_schedule_date)
-      elsif max_schedule_date != @event.end_date
-        @event.update(end_date: max_schedule_date)
-      end
+      @event.date_update
       redirect_to farmers_event_path(@event), flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}のイベントを削除しました" }
     else
       @event.destroy

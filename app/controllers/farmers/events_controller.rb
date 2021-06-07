@@ -16,11 +16,7 @@ class Farmers::EventsController < ApplicationController
         if @event.schedules.size == number_of_days + 1
           redirect_to farmers_event_path(@event), flash: { success: '農業体験を作成しました' }
         else
-          if @event.schedules.first.date > @event.start_date
-            @event.update(start_date: schedules.first.date)
-          elsif @event.schedules.last.date < @event.end_date
-            @event.update(end_date: schedules.last.date)
-          end
+          @event.date_update
           redirect_to farmers_event_path(@event), flash: { danger: '既に作成済みのイベントと日付が重なっていたもの以外作成しました' }
         end
       else
