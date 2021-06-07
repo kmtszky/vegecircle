@@ -96,4 +96,30 @@ RSpec.describe Event, "モデルに関するテスト", type: :model do
       expect(event.errors[:number_of_participants]).to include("is not a number")
     end
   end
+  context "日程・日時のバリデーションチェック" do
+    it "start_dateがevent作成日翌日以降でない場合、エラーメッセージが返ってきているか" do
+      event = FactoryBot.build(:event)
+      event.start_date = Date.current - 1
+      expect(event).to be_invalid
+      expect(event.errors[:start_date]).to include("は本日以降の日付を選択してください")
+    end
+    it "end_dateがevent作成日翌日以降でない場合、エラーメッセージが返ってきているか" do
+      event = FactoryBot.build(:event)
+      event.end_date = Date.current - 1
+      expect(event).to be_invalid
+      expect(event.errors[:end_date]).to include("は本日以降の日付を選択してください")
+    end
+    it "start_dateがend_dateよりも前の日である場合、エラーメッセージが返ってきているか" do
+      event = FactoryBot.build(:event)
+      event.end_date = event.start_date - 1
+      expect(event).to be_invalid
+      expect(event.errors[:end_date]).to include("は開始日以降の日付を選択してください")
+    end
+    it "end_timeがstart_timeと比べ同刻または早い時刻である場合、エラーメッセージが返ってきているか" do
+      event = FactoryBot.build(:event)
+      event.end_time = event.start_time - 60*60*1
+      expect(event).to be_invalid
+      expect(event.errors[:end_time]).to include("は開始時刻よりも後の時刻を選択してください")
+    end
+  end
 end

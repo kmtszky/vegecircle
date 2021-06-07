@@ -44,7 +44,7 @@ class Farmers::EventsController < ApplicationController
 
   def edit
     if current_farmer.id != @event.farmer_id
-      redirect_to farmers_event_path(@event), flash: { danger: '他の農家さんの農業体験へ編集できません' }
+      redirect_to farmers_event_path(@event), flash: { danger: '他の農家さんの農業体験なので編集できません' }
     elsif @event.start_date <= Date.current
       redirect_to farmers_event_path(@event), flash: { warning: 'イベント実施中/終了済みのため編集できません' }
     else

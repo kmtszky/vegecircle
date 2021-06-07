@@ -10,16 +10,12 @@ FactoryBot.define do
     cancel_change { Faker::Lorem.paragraph }
     location { Faker::Address.full_address }
     access { Faker::Lorem.characters(number: 10) }
-    start_date { Date.current }
-    end_date { Date.current + 2 }
+    start_date { Date.current + 2 }
+    end_date { Date.current + 3 }
 
     # Schedule用パラメータ
-    start_time { Faker::Time.between_dates(from: DateTime.now, to: DateTime.now + 1, period: :morning) }
-    end_time { Faker::Time.between_dates(from: DateTime.now + 1, to: DateTime.now + 2, period: :day) }
+    start_time { Faker::Time.between_dates(from: DateTime.now + 2, to: DateTime.now + 3, period: :morning) }
+    end_time { Faker::Time.between_dates(from: DateTime.now + 3, to: DateTime.now + 4, period: :day) }
     number_of_participants { Faker::Number.number(digits: 2) }
-
-    after(:create) do |event|
-      FactoryBot.create(:schedule)
-    end
   end
 end
