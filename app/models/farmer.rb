@@ -14,6 +14,7 @@ class Farmer < ApplicationRecord
   has_many :recipes, dependent: :destroy
 
   with_options presence: true do
+    validates :name
     validates :farm_address
     validates :store_address, uniqueness: true
   end
