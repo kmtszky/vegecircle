@@ -13,12 +13,12 @@ class Farmers::EventsController < ApplicationController
       @event.create_schedules(current_farmer)
       if @event.has_schedules?
         number_of_days = @event.end_date - @event.start_date
-        if schedules.size == number_of_days + 1
+        if @event.schedules.size == number_of_days + 1
           redirect_to farmers_event_path(@event), flash: { success: '農業体験を作成しました' }
         else
-          if schedules.first.date > @event.start_date
+          if @event.schedules.first.date > @event.start_date
             @event.update(start_date: schedules.first.date)
-          elsif schedules.last.date < @event.end_date
+          elsif @event.schedules.last.date < @event.end_date
             @event.update(end_date: schedules.last.date)
           end
           redirect_to farmers_event_path(@event), flash: { danger: '既に作成済みのイベントと日付が重なっていたもの以外作成しました' }
