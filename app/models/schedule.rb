@@ -7,6 +7,16 @@ class Schedule < ApplicationRecord
     validates :date
     validates :start_time
     validates :end_time
+    validates :people, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  end
+
+  validate do
+    unless date.blank?
+      errors.add(:date, 'は本日以降の日付を選択してください') if (date < Date.current)
+    end
+    if start_time.present? && end_time.present?
+      errors.add(:end_time, 'は開始時刻よりも後の時刻を選択してください') if (start_time >= end_time)
+    end
   end
 
   def date_update(start_time, end_time)

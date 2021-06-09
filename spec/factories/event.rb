@@ -14,8 +14,8 @@ FactoryBot.define do
     end_date { Date.current + 3 }
 
     # Schedule用パラメータ
-    start_time { Faker::Time.between_dates(from: DateTime.now + 2, to: DateTime.now + 3, period: :morning) }
-    end_time { Faker::Time.between_dates(from: DateTime.now + 3, to: DateTime.now + 4, period: :day) }
+    start_time { Faker::Time.between_dates(from: Date.today, to: Date.today + 1, period: :morning) }
+    end_time { Faker::Time.between_dates(from: Date.today + 1, to: Date.today + 2, period: :day) }
     number_of_participants { Faker::Number.number(digits: 2) }
   end
 end
