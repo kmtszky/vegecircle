@@ -10,9 +10,10 @@ FactoryBot.define do
     ingredient { Faker::Lorem.paragraph }
     recipe { Faker::Lorem.paragraph }
 
+    #タグ用パラメータ
     tag_list { Faker::Lorem.words.split(',') }
-    after(:create) do |recipe|
-      recipe.save_tags(tag_list)
-    end
+    #after(:create) do |recipe|
+    #  recipe.save_tags(tag_list)
+    #end
   end
 end
