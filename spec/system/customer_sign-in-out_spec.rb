@@ -71,9 +71,7 @@ describe '[STEP1] farmer / Customer ログイン前のテスト' do
         is_expected.to eq '/'
       end
       it '「vegecircleについて」を押すと、アバウト画面に遷移する' do
-        about_link = find_all('a')[1].native.inner_text
-        about_link = about_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
-        click_link about_link
+        page.all("a")[1].click
         is_expected.to eq '/about'
       end
       it '「近くの農家さん」を押すと、農家一覧画面に遷移する' do
@@ -141,7 +139,7 @@ describe '[STEP1] farmer / Customer ログイン前のテスト' do
       end
 
       it '正しく新規登録される' do
-        expect { click_button '新規登録' }.to change(customer.all, :count).by(1)
+        expect { click_button '新規登録' }.to change(Customer.all, :count).by(1)
       end
       it '新規登録後のリダイレクト先が、新規登録できたユーザの詳細画面になっている' do
         click_button '新規登録'
@@ -177,13 +175,13 @@ describe '[STEP1] farmer / Customer ログイン前のテスト' do
 
     context 'ログイン成功のテスト' do
       before do
-        fill_in 'customer[email]', with: customer.nickname
+        fill_in 'customer[email]', with: customer.email
         fill_in 'customer[password]', with: customer.password
         click_button 'ログイン'
       end
 
       it 'ログイン後のリダイレクト先が、ログインしたユーザの詳細画面になっている' do
-        expect(current_path).to have_content '/profiles/'
+        expect(current_path).to have_content '/profiles'
       end
     end
 
@@ -247,7 +245,7 @@ describe '[STEP1] farmer / Customer ログイン前のテスト' do
 
     before do
       visit new_customer_session_path
-      fill_in 'customer[email]', with: customer.nickname
+      fill_in 'customer[email]', with: customer.email
       fill_in 'customer[password]', with: customer.password
       click_button 'ログイン'
       customer_log_out_link = find_all('a')[6].native.inner_text
