@@ -14,7 +14,7 @@
             <li><%= link_to ' 近くの農家さん', farmers_path, class: "nav-link text-dark fas fa-tractor" %></li>
             <li><%= link_to ' 農業体験', events_path, class: "nav-link text-dark fas fa-carrot" %></li>
             <li><%= link_to ' レシピ', recipes_path, class: "nav-link text-dark fas fa-utensils" %></li>
-            <li><%= link_to ' ログアウト', destroy_customer_session_path, method: :delete, class: "nav-link text-dark fas fa-walking" %></li>
+            <li><%= link_to ' ログアウト', dログインsession_path, method: :delete, class: "nav-link text-dark fas fa-walking" %></li>
           <% elsif farmer_signed_in? %>
           <!--farmerのヘッダー-->
             <li><%= link_to ' マイページ', farmers_farmer_path(current_farmer), class: "nav-link text-dark fas fa-user" %></li>
