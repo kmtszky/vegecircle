@@ -1,5 +1,6 @@
 <div class="container">
   <div class="row">
+    <a class="fixed-chat-btn" href="#chat">チャット</a>
     <div class="col-12 col-md-5 offset-md-1 mb-4">
       <%= attachment_image_tag @event, :plan_image, class: "farm_pictures", fallback: asset_path('no_images/no_image_md.png'), size: '300x300' %>
     </div>
@@ -60,7 +61,7 @@
 
   <div class="row">
     <div class="col-12 col-md-8 mx-auto mb-2 mt-4">
-      <h5 class="mb-2 text-center chat">ご相談、ご連絡フォーム</h5>
+      <h5 class="mb-2 text-center" id="chat">ご相談、ご連絡フォーム</h5>
       <div id="error"></div>
       <% if customer_signed_in? %>
         <%= form_with model: [@event, @chat], url: event_chats_path(@event, @chat) do |f| %>

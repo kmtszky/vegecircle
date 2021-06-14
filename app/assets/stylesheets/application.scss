@@ -187,9 +187,18 @@ footer {
   width: 95%;
 }
 
-#fixed_btn {
+.fixed-circle-btn {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #82ae46;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   font-weight: bold;
+  color: white;
   position: fixed;
-  right: 40px;
-  bottom: 50px;
+  right: 35px;
+  bottom: 35px;
 }
