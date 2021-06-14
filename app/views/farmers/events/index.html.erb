@@ -37,6 +37,9 @@
           </div>
         </div>
       </div>
+      <div class="text-right", id="fixed_btn">
+        <%= link_to farmers_farmers_calender_path(current_farmer), class: "circle-btn" do %>カレンダー<br>表示に<br>切り替え<% end %>
+      </div>
       <div id="index_sort">
         <%= render 'farmers/events/index', events: @records %>
       </div>

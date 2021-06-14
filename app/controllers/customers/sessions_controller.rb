@@ -26,6 +26,12 @@ class Customers::SessionsController < Devise::SessionsController
     root_path
    end
 
+   def guest_sign_in
+    customer = Customer.guest_login
+    sign_in customer
+    redirect_to profiles_path(current_customer), notice: 'ゲスト住民としてログインしました'
+   end
+
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.

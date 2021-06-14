@@ -55,3 +55,27 @@
 .side-bar .form-group {
   word-break: keep-all;
 }
+
+.guest-login {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  position: fixed;
+  bottom: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#farmer {
+  background-color: #8d6449;
+  right: 35px;
+}
+
+#customer {
+  background-color: #82ae46;
+  right: 145px;
+}

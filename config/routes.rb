@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     sessions:      'farmers/sessions',
     registrations: 'farmers/registrations'
   }
+  devise_scope :farmer do
+    post 'farmers/guest_sign_in' => 'farmers/sessions#guest_sign_in'
+  end
 
   namespace :farmers do
     resources :farmers, only: [:index, :show, :edit, :update]
@@ -27,6 +30,9 @@ Rails.application.routes.draw do
     sessions:      'customers/sessions',
     registrations: 'customers/registrations'
   }
+  devise_scope :customer do
+    post 'customers/guest_sign_in' => 'customers/sessions#guest_sign_in'
+  end
 
   scope module: :customers do
     root 'homes#top'

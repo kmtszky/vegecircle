@@ -26,6 +26,12 @@ class Farmers::SessionsController < Devise::SessionsController
     root_path
   end
 
+  def guest_sign_in
+    farmer = Farmer.guest_login
+    sign_in farmer
+    redirect_to farmers_farmer_path(current_farmer), notice: 'ゲスト農家としてログインしました'
+  end
+
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.

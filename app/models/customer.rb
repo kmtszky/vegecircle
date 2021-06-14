@@ -17,6 +17,12 @@ class Customer < ApplicationRecord
   validates :nickname, uniqueness: true, presence: true
   attachment :customer_image
 
+  def self.guest_login
+      find_or_create_by!(nickname: 'ゲスト住民', email: 'guest@example.com') do |customer|
+      customer.password = SecureRandom.base64(6)
+    end
+  end
+
   def active_for_authentication?
     super && (self.is_deleted == false)
   end
