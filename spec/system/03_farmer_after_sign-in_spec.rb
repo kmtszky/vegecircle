@@ -181,5 +181,16 @@ describe '[step3] Farmer ログイン後のテスト' do
         expect(page).to have_link '退会する', href: farmers_farmers_withdraw_path(farmer)
       end
     end
+
+    context '退会可能か確認' do
+      it '退会ボタンを押して、リダイレクト先がトップ画面である' do
+        click_link '退会する'
+        expect(current_path).to eq '/'
+      end
+      it 'サクセスメッセージが表示される' do
+        click_link '退会する'
+        expect(page).to have_content '退会処理が完了しました。ご利用いただきありがとうございました！'
+      end
+    end
   end
 end
