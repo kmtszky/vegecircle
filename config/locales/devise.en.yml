@@ -8,7 +8,7 @@ en:
       send_paranoid_instructions: "メールアドレスが登録済の場合、数分以内にメールアドレス確認のためのメールが届きます"
     failure:
       already_authenticated: "すでにログインしています"
-      inactive: "退会処理が完了しました。ご利用いただきありがとうございました！"
+      inactive: "退会処理が完了しました。またのご利用を心よりお待ちしております"
       invalid: "%{authentication_keys}またはpasswordが有効ではありません"
       locked: "アカウントがロックされています"
       last_attempt: "あと1回入力に失敗した場合アカウントがロックされます"
