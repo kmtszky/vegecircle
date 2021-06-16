@@ -53,6 +53,29 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         click_button '新規登録'
         expect(current_path).to have_content '/farmers/' + Farmer.last.id.to_s
       end
+      it '新規登録後にサクセスメッセージが表示される' do
+        click_button '新規登録'
+        expect(page).to have_content 'アカウントの登録が完了しました'
+      end
+    end
+
+    context '新規登録失敗のテスト' do
+      before do
+        fill_in 'farmer[name]', with: ''
+        fill_in 'farmer[store_address]', with: ''
+        fill_in 'farmer[farm_address]', with: ''
+        fill_in 'farmer[email]', with: Faker::Internet.email
+        fill_in 'farmer[password]', with: 'password'
+        fill_in 'farmer[password_confirmation]', with: 'password'
+        click_button '新規登録'
+      end
+
+      it '新規登録に失敗し、新規登録画面にリダイレクトされる' do
+        expect(current_path).to eq '/farmers'
+      end
+      it 'エラーメッセージが表示される：空白' do
+        expect(page).to have_content 'blank'
+      end
     end
   end
 
@@ -91,17 +114,21 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
       it 'ログイン後のリダイレクト先が、ログインしたユーザの詳細画面になっている' do
         expect(current_path).to have_content '/farmers/' + Farmer.last.id.to_s
       end
+      it 'ログイン後にサクセスメッセージが表示される' do
+        expect(page).to have_content 'ログインしました'
+      end
     end
 
     context 'ログイン失敗のテスト' do
       before do
-        fill_in 'farmer[email]', with: ''
-        fill_in 'farmer[password]', with: ''
         click_button 'ログイン'
       end
 
       it 'ログインに失敗し、ログイン画面にリダイレクトされる' do
         expect(current_path).to eq '/farmers/sign_in'
+      end
+      it 'エラーメッセージが表示される' do
+        expect(page).to have_content 'が有効ではありません'
       end
     end
   end
@@ -138,9 +165,32 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         expect(farmer_log_out_link).to match(" ログアウト")
       end
     end
+
+    context 'ヘッダーのリンクの内容を確認' do
+      subject { current_path }
+
+      it '「マイページ」を押すと、マイページへ遷移する' do
+        mypage_link = find_all('a')[1].native.inner_text
+        mypage_link = mypage_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+        click_link mypage_link
+        is_expected.to eq '/farmers/farmers/' + farmer.id.to_s
+      end
+      it '「農業体験・予約一覧」を押すと、農業体験・予約一覧へ遷移する' do
+        event_link = find_all('a')[2].native.inner_text
+        event_link = event_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+        click_link event_link
+        is_expected.to eq '/farmers/farmers/' + farmer.id.to_s + '/calender'
+      end
+      it '「レシピ」を押すと、レシピへ遷移する' do
+        recipe_link = find_all('a')[3].native.inner_text
+        recipe_link = recipe_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+        click_link recipe_link
+        is_expected.to eq '/farmers/recipes'
+      end
+    end
   end
 
-  describe 'farmer：ログアウトのテスト' do
+  describe 'farmer:ログアウトのテスト' do
     let(:farmer) { create(:farmer) }
 
     before do
@@ -159,6 +209,9 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
       end
       it 'ログアウト後のリダイレクト先が、トップになっている' do
         expect(current_path).to eq '/'
+      end
+      it 'ログアウト後にサクセスメッセージが表示される' do
+        expect(page).to have_content 'ログアウトしました'
       end
     end
   end
@@ -207,6 +260,27 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         click_button '新規登録'
         expect(current_path).to have_content '/profiles'
       end
+      it '新規登録後にサクセスメッセージが表示される' do
+        click_button '新規登録'
+        expect(page).to have_content 'アカウントの登録が完了しました'
+      end
+    end
+
+    context '新規登録失敗のテスト' do
+      before do
+        fill_in 'customer[nickname]', with: ''
+        fill_in 'customer[email]', with: Faker::Internet.email
+        fill_in 'customer[password]', with: 'password'
+        fill_in 'customer[password_confirmation]', with: 'password'
+        click_button '新規登録'
+      end
+
+      it '新規登録に失敗し、新規登録画面にリダイレクトされる' do
+        expect(current_path).to eq '/customers'
+      end
+      it 'エラーメッセージが表示される：空白' do
+        expect(page).to have_content 'blank'
+      end
     end
   end
 
@@ -245,6 +319,9 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
       it 'ログイン後のリダイレクト先が、ログインしたユーザの詳細画面になっている' do
         expect(current_path).to have_content '/profiles'
       end
+      it 'ログイン後にサクセスメッセージが表示される' do
+      expect(page).to have_content 'ログインしました'
+      end
     end
 
     context 'ログイン失敗のテスト' do
@@ -256,6 +333,9 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
 
       it 'ログインに失敗し、ログイン画面にリダイレクトされる' do
         expect(current_path).to eq '/customers/sign_in'
+      end
+      it 'エラーメッセージが表示される' do
+        expect(page).to have_content 'が有効ではありません'
       end
     end
   end
@@ -300,6 +380,41 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         expect(customer_log_out_link).to match(" ログアウト")
       end
     end
+
+    context 'ヘッダーのリンクの内容を確認' do
+      subject { current_path }
+
+      it '「マイページ」を押すと、マイページへ遷移する' do
+        mypage_link = find_all('a')[1].native.inner_text
+        mypage_link = mypage_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+        click_link mypage_link
+        is_expected.to have_content '/profiles'
+      end
+      it '「予約履歴一覧」を押すと、予約履歴一覧へ遷移する' do
+        reservation_link = find_all('a')[2].native.inner_text
+        reservation_link = reservation_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+        click_link reservation_link
+        is_expected.to eq '/reservations'
+      end
+      it '「近くの農家さん」を押すと、農家一覧へ遷移する' do
+        farmer_link = find_all('a')[3].native.inner_text
+        farmer_link = farmer_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+        click_link farmer_link
+        is_expected.to eq '/farmers'
+      end
+      it '「農業体験」を押すと、農業体験一覧へ遷移する' do
+        event_link = find_all('a')[4].native.inner_text
+        event_link = event_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+        click_link event_link
+        is_expected.to eq '/events'
+      end
+      it '「レシピ」を押すと、レシピへ遷移する' do
+        recipe_link = find_all('a')[5].native.inner_text
+        recipe_link = recipe_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+        click_link recipe_link
+        is_expected.to eq '/recipes'
+      end
+    end
   end
 
   describe 'customer：ログアウトのテスト' do
@@ -315,12 +430,15 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
       click_link customer_log_out_link
     end
 
-    context 'customerログアウト機能のテスト' do
+    context 'ログアウト機能のテスト' do
       it '正しくログアウトできている: ログアウト後のリダイレクト先においてAbout画面へのリンクが存在する' do
         expect(page).to have_link '', href: '/about'
       end
       it 'ログアウト後のリダイレクト先が、トップになっている' do
         expect(current_path).to eq '/'
+      end
+      it 'ログアウト後のサクセスメッセージが表示されている' do
+        expect(page).to have_content 'ログアウトしました'
       end
     end
   end
