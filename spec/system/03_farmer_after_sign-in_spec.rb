@@ -60,17 +60,20 @@ describe '[step3] Farmer ログイン後のテスト' do
     end
 
     context 'お知らせ一覧の確認' do
-      it 'ニュースの内容、削除ボタンが表示されているか' do
-        (1..5).each do |i|
+      it 'ニュースの内容が降順で表示されているか、都度削除ボタンが表示されているか' do
+        (1..4).each do |i|
           News.create(news: 'hoge'+i.to_s, farmer_id: farmer.id)
         end
-        farmer.news.each do |news, i|
+        visit farmers_farmer_path(farmer)
+        News.where(farmer_id: farmer.id).each_with_index do |news, n|
+          i = 4 - n
           expect(page).to have_content news.news
           # Destroyリンク
-          destroy_link = find_all('a')[i+5]
-          expect(destroy_link.native.inner_text).to match(/destroy/i)
-          expect(destroy_link[:href]).to eq href: farmers_news_path(news)
+          destroy_link = find_all('a')[n+6]
+          break if n == 3
+          expect(destroy_link[:href]).to eq farmers_news_path("#{i}")
         end
+        expect(page).to have_content '全てのお知らせを表示'
       end
     end
 
