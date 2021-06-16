@@ -11,4 +11,14 @@ describe '[step3] Farmer ログイン後のテスト' do
     click_button 'ログイン'
   end
 
+  describe 'マイページのテスト' do
+    context '表示内容の確認' do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/about'
+      end
+      it 'ログアウト後のリダイレクト先が、トップになっている' do
+        expect(current_path).to eq '/'
+      end
+    end
+  end
 end
