@@ -18,8 +18,8 @@ class Customer < ApplicationRecord
   attachment :customer_image
 
   def self.guest_login
-      find_or_create_by!(nickname: 'ゲスト住民', email: 'guest@example.com') do |customer|
-      customer.password = SecureRandom.base64(6)
+      find_by!(nickname: 'ゲスト住民', email: 'guest@example.com') do |customer|
+      customer.is_deleted = false
     end
   end
 

@@ -29,7 +29,7 @@ class Farmer < ApplicationRecord
 
   def self.guest_login
       find_or_create_by!(name: 'ゲスト農家', email: 'guest@example.com', farm_address:'栃木県河内郡上河内町', store_address:'栃木県河内郡上河内町上田6-13-9') do |farmer|
-      farmer.password = SecureRandom.base64(6)
+      customer.is_deleted = false
     end
   end
 

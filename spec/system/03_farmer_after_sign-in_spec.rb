@@ -189,7 +189,7 @@ describe '[step3] Farmer ログイン後のテスト' do
       end
       it 'サクセスメッセージが表示される' do
         click_link '退会する'
-        expect(page).to have_content '退会処理が完了しました。ご利用いただきありがとうございました！'
+        expect(page).to have_content 'ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。'
       end
     end
   end
