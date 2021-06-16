@@ -27,7 +27,8 @@ class Customers::SessionsController < Devise::SessionsController
    end
 
    def guest_sign_in
-    customer = Customer.guest_login
+    customer = Customer.guest_account
+    customer.update(is_deleted: false)
     sign_in customer
     redirect_to profiles_path(current_customer), notice: 'ゲスト住民としてログインしました'
    end

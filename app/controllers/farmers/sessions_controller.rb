@@ -27,7 +27,8 @@ class Farmers::SessionsController < Devise::SessionsController
   end
 
   def guest_sign_in
-    farmer = Farmer.guest_login
+    farmer = Farmer.guest_account
+    farmer.update(is_deleted: false)
     sign_in farmer
     redirect_to farmers_farmer_path(current_farmer), notice: 'ゲスト農家としてログインしました'
   end

@@ -53,7 +53,6 @@ class Farmers::FarmersController < ApplicationController
   def withdraw
     @farmer.update(is_deleted: true)
     @farmer.events.where("start_date > ?", Date.current).destroy_all
-    redirect_to root_path, flash: {success: "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております。"}
   end
 
   def evaluations
