@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe '[step3] Farmer ログイン後のテスト' do
   let(:farmer) { create(:farmer) }
-  let!(:other_farmer) { create(:farmer) }
 
   before do
     visit new_farmer_session_path
@@ -53,21 +52,22 @@ describe '[step3] Farmer ログイン後のテスト' do
         click_button '送信'
         expect(page).to have_content 'お知らせを投稿しました'
       end
-      it '削除ボタンを押すと、投稿が削除される' do
-        expect{ click_link '削除' }.to change(farmer.news, :count).by(-1)
+      it '投稿すると削除ボタンが表示される' do
+        click_button '送信'
+        expect(page).to have_content farmer.news.last.news
+        expect(page).to have_link '削除'
       end
     end
 
     context 'お知らせ一覧の確認' do
       it 'ニュースの内容、削除ボタンが表示されているか' do
-        (6..10).each do |i|
-          farmer.news.create(news: 'hoge'+i.to_s)
+        (1..5).each do |i|
+          News.create(news: 'hoge'+i.to_s, farmer_id: farmer.id)
         end
-        farmer.news.each_with_index do |news, i|
-          i += 1
+        farmer.news.each do |news, i|
           expect(page).to have_content news.news
           # Destroyリンク
-          destroy_link = find_all('a')[i]
+          destroy_link = find_all('a')[i+5]
           expect(destroy_link.native.inner_text).to match(/destroy/i)
           expect(destroy_link[:href]).to eq href: farmers_news_path(news)
         end
@@ -81,7 +81,7 @@ describe '[step3] Farmer ログイン後のテスト' do
       end
 
       it 'エラーメッセージが表示されるか' do
-        expect(page).to have_content 'blank'
+        expect(page).to have_content "can't be blank"
       end
     end
   end
@@ -140,7 +140,25 @@ describe '[step3] Farmer ログイン後のテスト' do
       it 'リダイレクト先がマイページである' do
         expect(current_path).to eq '/farmers/farmers/' + farmer.id.to_s
       end
+      it 'サクセスメッセージが表示される' do
+        expect(page).to have_content '更新しました'
+      end
     end
+
+    context '更新失敗のテスト' do
+      before do
+        fill_in 'farmer[name]', with: ''
+        click_button '変更を保存'
+      end
+
+      it '編集画面から遷移しない' do
+        expect(current_path).to eq '/farmers/farmers/' + farmer.id.to_s
+      end
+      it 'エラーメッセージが表示される' do
+        expect(page).to have_content "can't be blank"
+      end
+    end
+
   end
 
   describe '退会機能のテスト' do

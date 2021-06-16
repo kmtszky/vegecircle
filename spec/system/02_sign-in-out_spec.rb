@@ -74,7 +74,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         expect(current_path).to eq '/farmers'
       end
       it 'エラーメッセージが表示される：空白' do
-        expect(page).to have_content 'blank'
+        expect(page).to have_content "can't be blank"
       end
     end
   end
@@ -279,7 +279,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         expect(current_path).to eq '/customers'
       end
       it 'エラーメッセージが表示される：空白' do
-        expect(page).to have_content 'blank'
+        expect(page).to have_content "can't be blank"
       end
     end
   end
