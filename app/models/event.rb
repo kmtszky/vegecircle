@@ -50,9 +50,7 @@ class Event < ApplicationRecord
       schedule = Schedule.new(date: date, event_id: self.id, people: self.number_of_participants)
       schedule.start_time = DateTime.new(date.year, date.month, date.day, self.start_time.split(":")[0].to_i, self.start_time.split(":")[1].to_i, 00, "+09:00")
       schedule.end_time = DateTime.new(date.year, date.month, date.day, self.end_time.split(":")[0].to_i, self.end_time.split(":")[1].to_i, 00, "+09:00")
-      unless farmer.has_schedules_on_the_day?(date)
-        schedule.save
-      end
+      schedule.save unless farmer.has_schedules_on_the_day?(date)
     end
   end
 
@@ -73,9 +71,10 @@ class Event < ApplicationRecord
   end
 
   def self.search_for(content, method)
-    if method == 'forward'
+    case method
+    when 'forward'
       where('location like ?', content + '%')
-    elsif method == 'date'
+    when 'date'
       where('start_date <= ?', content).where('end_date >= ?', content)
     else
       where('title like ?', '%' + content + '%').or(Event.where('location like ?', '%' + content + '%'))
@@ -83,11 +82,12 @@ class Event < ApplicationRecord
   end
 
   def self.sorts(method)
-    if method == 'asc'
+    case method
+    when 'asc'
       order(:start_date)
-    elsif method == 'desc'
+    when 'desc'
       order('start_date DESC')
-    elsif method == 'like'
+    when 'like'
       includes(:event_favorites).sort {|a, b| b.event_favorites.size <=> a.event_favorites.size }
     else
       order('created_at DESC')

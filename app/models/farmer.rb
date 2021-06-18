@@ -36,7 +36,8 @@ class Farmer < ApplicationRecord
   end
 
   def self.search_for(content, method)
-    if method == 'forward'
+    case method
+    when 'forward'
       Farmer.where(is_deleted: false).where('store_address like ?', content + '%')
     else
       Farmer.where(is_deleted: false).where('name like ?', '%' + content + '%')
@@ -44,11 +45,12 @@ class Farmer < ApplicationRecord
   end
 
   def self.sorts(method)
-    if method == 'new'
+    case method
+    when 'new'
       Farmer.all.order('created_at DESC')
-    elsif method == 'old'
+    when 'old'
       Farmer.all.order(:created_at)
-    elsif method == 'follows'
+    when 'follows'
       Farmer.where(is_deleted: false).includes(:follows).sort {|a, b| b.follows.size <=> a.follows.size }
     else
       Farmer.where(is_deleted: false).includes(:evaluations).sort {|a, b| b.evaluations.size <=> a.evaluations.size }
