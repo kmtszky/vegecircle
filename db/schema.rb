@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_01_162733) do
+ActiveRecord::Schema.define(version: 2021_06_18_152537) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2021_06_01_162733) do
     t.text "chat", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "event_id"
+    t.integer "event_id", null: false
     t.index ["customer_id"], name: "index_chats_on_customer_id"
     t.index ["event_id"], name: "index_chats_on_event_id"
     t.index ["farmer_id"], name: "index_chats_on_farmer_id"
@@ -149,6 +149,19 @@ ActiveRecord::Schema.define(version: 2021_06_01_162733) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["farmer_id"], name: "index_news_on_farmer_id"
+  end
+
+  create_table "notices", force: :cascade do |t|
+    t.integer "farmer_id"
+    t.integer "customer_id"
+    t.integer "event_id"
+    t.integer "action", null: false
+    t.boolean "checked", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_notices_on_customer_id"
+    t.index ["event_id"], name: "index_notices_on_event_id"
+    t.index ["farmer_id"], name: "index_notices_on_farmer_id"
   end
 
   create_table "recipe_favorites", force: :cascade do |t|

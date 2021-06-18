@@ -10,15 +10,13 @@
           </tr>
           <tr>
             <td class="cell-pl"><h3><%= @farmer.name %></h3></td>
-            <td></td>
+            <td class="cell-pl"><% if current_farmer == @farmer %>
+                                  <%= link_to "編集する", edit_farmers_farmer_path(current_farmer), class: "btn btn-sm btn-success" %>
+                                <% end %></td>
           </tr>
           <tr>
             <td class="cell-pl average-rating" data-score=<%= @average_rating %>></td>
-            <td class="cell-pl">
-              <% if current_farmer == @farmer %>
-                <%= link_to "編集する", edit_farmers_farmer_path(current_farmer), class: "btn btn-sm btn-success" %>
-              <% end %>
-            </td>
+            <td></td>
           </tr>
         </tbody>
       </table><br>
