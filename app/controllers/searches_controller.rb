@@ -2,13 +2,10 @@ class SearchesController < ApplicationController
 
 	def search
 		@model = params[:model]
-		if @model == 'recipe'
+		case @model
+		when 'recipe' then
 			@content = params[:content]
-			if farmer_signed_in?
-				@records = current_farmer.recipes.search_for(@content)
-			else
-				@records = Recipe.search_for(@content)
-			end
+			@records = Recipe.search_for(@content)
 			tags = Tag.search_for(@content)
 			if tags.present?
 				recipe_tags = RecipeTag.where(tag_id: tags.ids).pluck(:recipe_id)
@@ -21,23 +18,23 @@ class SearchesController < ApplicationController
 					@records = Recipe.where(id: deduped_records_ids)
 				end
 			end
-		elsif @model == 'event'
+		when 'event' then
 			if params.has_key?(:prefecture)
 				@content = params[:prefecture]
-				@records = Event.search_for(@content, 'forward')
+				@records = Event.search_for(@content, 'forward').where('end_date >= ?', Date.current)
 			elsif params.has_key?(:event_date)
 				@content = params[:event_date]
 				if farmer_signed_in?
-					@records = current_farmer.events.search_all_for_date(@content)
+					@records = current_farmer.events.search_for(@content, 'date')
 				else
-					@records = Event.search_for_date(@content)
+					@records = Event.search_for(@content, 'date').where('end_date >= ?', Date.current)
 				end
 			else
 				@content = params[:content]
 				if farmer_signed_in?
-					@records = current_farmer.events.search_all_for(@content)
+					@records = current_farmer.events.search_for(@content, 'partial')
 				else
-					@records = Event.search_for(@content, 'partial')
+					@records = Event.search_for(@content, 'partial').where('end_date >= ?', Date.current)
 				end
 			end
 		else
@@ -54,20 +51,18 @@ class SearchesController < ApplicationController
 	def sort
 		@model = params[:model]
 		@method = params[:keyword]
-		if farmer_signed_in?
-			@farmer = current_farmer
-		end
-		if @model == 'recipe'
+		case @model
+		when 'recipe'
 			if farmer_signed_in?
 				@records = current_farmer.recipes.sorts(@method)
 			else
 				@records = Recipe.sorts(@method)
 			end
-		elsif @model == 'event'
+		when 'event'
 			if farmer_signed_in?
-				@records = current_farmer.events.sort_all(@method)
+				@records = current_farmer.events.sorts(@method)
 			else
-				@records = Event.sorts(@method)
+				@records = Event.sorts(@method).where('end_date >= ?', Date.current)
 			end
 		else
 			@records = Farmer.sorts(@method)

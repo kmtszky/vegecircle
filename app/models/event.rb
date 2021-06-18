@@ -3,6 +3,7 @@ class Event < ApplicationRecord
   belongs_to :farmer
   has_many :event_favorites, dependent: :destroy
   has_many :schedules, dependent: :destroy
+  has_many :notices, dependent: :destroy
   attr_accessor :start_time
   attr_accessor :end_time
   attr_accessor :number_of_participants
@@ -24,14 +25,10 @@ class Event < ApplicationRecord
   end
 
   validate do
-    unless start_date.blank?
-      errors.add(:start_date, 'は本日以降の日付を選択してください') if (start_date < Date.current)
-    end
-    unless end_date.blank?
-      errors.add(:end_date,   'は本日以降の日付を選択してください') if (end_date < Date.current)
-    end
+      errors.add(:start_date, 'は本日以降の日付を選択してください') if (start_date.present? && start_date < Date.current)
+      errors.add(:end_date,   'は本日以降の日付を選択してください') if (end_date.present? && end_date < Date.current)
     if start_date.present? && end_date.present?
-      errors.add(:end_date,   'は開始日以降の日付を選択してください') if (end_date < start_date)
+      errors.add(:end_date, 'は開始日以降の日付を選択してください') if (end_date < start_date)
     end
     if start_time.present? && end_time.present?
       errors.add(:end_time, 'は開始時刻よりも後の時刻を選択してください') if (start_time >= end_time)
@@ -77,45 +74,23 @@ class Event < ApplicationRecord
 
   def self.search_for(content, method)
     if method == 'forward'
-      Event.where('end_date >= ?', Date.current).where('location like ?', content + '%')
+      where('location like ?', content + '%')
+    elsif method == 'date'
+      where('start_date <= ?', content).where('end_date >= ?', content)
     else
-      Event.where('end_date >= ?', Date.current).or(Event.where('title like ?', '%' + content + '%')).or(Event.where('location like ?', '%' + content + '%'))
+      where('title like ?', '%' + content + '%').or(Event.where('location like ?', '%' + content + '%'))
     end
-  end
-
-  def self.search_for_date(event_date)
-    Event.where('end_date >= ?', Date.current).where('start_date <= ?', event_date).where('end_date >= ?', event_date)
-  end
-
-  def self.search_all_for(content)
-    Event.where('title like ?', '%' + content + '%').or(Event.where('location like ?', '%' + content + '%'))
-  end
-
-  def self.search_all_for_date(event_date)
-    Event.where('start_date <= ?', event_date).where('end_date >= ?', event_date)
   end
 
   def self.sorts(method)
     if method == 'asc'
-      Event.where('end_date >= ?', Date.current).order(:start_date)
+      order(:start_date)
     elsif method == 'desc'
-      Event.where('end_date >= ?', Date.current).order('start_date DESC')
+      order('start_date DESC')
     elsif method == 'like'
-      Event.where('end_date >= ?', Date.current).includes(:event_favorites).sort {|a, b| b.event_favorites.size <=> a.event_favorites.size }
+      includes(:event_favorites).sort {|a, b| b.event_favorites.size <=> a.event_favorites.size }
     else
-      Event.where('end_date >= ?', Date.current).order('created_at DESC')
-    end
-  end
-
-  def self.sort_all(method)
-    if method == 'asc'
-      Event.order(:start_date)
-    elsif method == 'desc'
-      Event.order('start_date DESC')
-    elsif method == 'like'
-      Event.includes(:event_favorites).sort {|a, b| b.event_favorites.size <=> a.event_favorites.size }
-    else
-      Event.order('created_at DESC')
+      order('created_at DESC')
     end
   end
 end

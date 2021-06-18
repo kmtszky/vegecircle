@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       resources :chats, only: [:create]
     end
     resources :news, only: [:create, :destroy]
+    resources :notices, only: [:index]
   end
 
   # customer
@@ -38,19 +39,6 @@ Rails.application.routes.draw do
     root 'homes#top'
     get 'about' => 'homes#about'
     get 'about_for_farmer' => 'homes#about_farmer'
-    resource :profiles, only: [:show, :edit, :update]
-      get 'customer/followings' => 'profiles#followings', as: 'followings'
-      get 'customer/favorites' => 'profiles#favorites', as: 'favorites'
-      get 'customer/evaluations' => 'profiles#evaluations', as: 'evaluations'
-      get 'customer/unsubscribe' => 'profiles#unsubscribe'
-      patch 'customer/withdraw'  => 'profiles#withdraw'
-    resources :farmers, only: [:index, :show] do
-      resources :follows, only: [:create, :destroy]
-      resources :evaluations, only: [:index, :create, :edit, :update, :destroy]
-    end
-    resources :recipes, only: [:index, :show] do
-      resource :favorite_recipes, only: [:create, :destroy]
-    end
     resources :events, only: [:index, :show] do
       resource :favorite_events, only: [:create, :destroy]
       resources :chats, only: [:create]
@@ -61,12 +49,25 @@ Rails.application.routes.draw do
         post 'reservations/back'
       end
     end
+    resources :farmers, only: [:index, :show] do
+      resources :follows, only: [:create, :destroy]
+      resources :evaluations, only: [:index, :create, :edit, :update, :destroy]
+    end
+    resources :notices, only: [:index]
+    resource :profiles, only: [:show, :edit, :update]
+      get 'customer/followings' => 'profiles#followings', as: 'followings'
+      get 'customer/favorites' => 'profiles#favorites', as: 'favorites'
+      get 'customer/evaluations' => 'profiles#evaluations', as: 'evaluations'
+      get 'customer/unsubscribe' => 'profiles#unsubscribe'
+      patch 'customer/withdraw'  => 'profiles#withdraw'
+    resources :recipes, only: [:index, :show] do
+      resource :favorite_recipes, only: [:create, :destroy]
+    end
     resources :reservations, only: [:index]
   end
 
   get 'search'=> 'searches#search', as: 'search'
   get 'sort'=> 'searches#sort', as: 'sort'
-
 
   # admin
   devise_for :admins, controllers: {

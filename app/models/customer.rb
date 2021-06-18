@@ -12,6 +12,7 @@ class Customer < ApplicationRecord
   has_many :follow_farmers, through: :follows, source: :farmer
   has_many :recipe_favorites, dependent: :destroy
   has_many :favorite_recipes, through: :recipe_favorites, source: :recipe
+  has_many :notices, dependent: :destroy
   has_many :reservations, dependent: :destroy
 
   validates :nickname, uniqueness: true, presence: true
