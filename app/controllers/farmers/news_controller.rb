@@ -4,6 +4,7 @@ class Farmers::NewsController < ApplicationController
   def create
     @news = current_farmer.news.new(news_params)
     if @news.save
+      @news.notification_created_by(current_farmer)
       redirect_to farmers_farmers_path(current_farmer), flash: { success: "お知らせを投稿しました" }
     else
       @farmer = current_farmer
