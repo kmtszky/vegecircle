@@ -11,6 +11,7 @@ class Farmer < ApplicationRecord
   has_many :reservations, through: :schedules
   has_many :follows, dependent: :destroy
   has_many :news, dependent: :destroy
+  has_many :notices, dependent: :destroy
   has_many :recipes, dependent: :destroy
 
   with_options presence: true do

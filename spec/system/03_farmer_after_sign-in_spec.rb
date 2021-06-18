@@ -13,7 +13,7 @@ describe '[step3] Farmer ログイン後のテスト' do
   describe 'マイページのテスト' do
     context '表示内容の確認' do
       it 'URLが正しい' do
-        expect(current_path).to eq '/farmers/farmers/' + farmer.id.to_s
+        expect(current_path).to eq '/farmers/farmers.' + farmer.id.to_s
       end
       it '農家の名前・直売所の住所・農家の所在エリアが表示される' do
         expect(page).to have_content farmer.name
@@ -21,7 +21,7 @@ describe '[step3] Farmer ログイン後のテスト' do
         expect(page).to have_content farmer.store_address
       end
       it '自農家の編集画面へのリンクが存在する' do
-        expect(page).to have_link '', href: edit_farmers_farmer_path(farmer)
+        expect(page).to have_link '', href: edit_farmers_farmers_path(farmer)
       end
     end
 
@@ -64,7 +64,7 @@ describe '[step3] Farmer ログイン後のテスト' do
         (1..4).each do |i|
           News.create(news: 'hoge'+i.to_s, farmer_id: farmer.id)
         end
-        visit farmers_farmer_path(farmer)
+        visit farmers_farmers_path(farmer)
         News.where(farmer_id: farmer.id).each_with_index do |news, n|
           i = 4 - n
           expect(page).to have_content news.news
@@ -91,12 +91,12 @@ describe '[step3] Farmer ログイン後のテスト' do
 
   describe '自農家の編集画面のテスト' do
     before do
-      visit edit_farmers_farmer_path(farmer)
+      visit edit_farmers_farmers_path(farmer)
     end
 
     context '表示の確認' do
       it 'URLが正しい' do
-        expect(current_path).to eq '/farmers/farmers/' + farmer.id.to_s + '/edit'
+        expect(current_path).to eq '/farmers/farmers/edit.' + farmer.id.to_s
       end
       it '農家名編集フォームに自分の名前が表示される' do
         expect(page).to have_field 'farmer[name]', with: farmer.name
@@ -141,7 +141,7 @@ describe '[step3] Farmer ログイン後のテスト' do
         expect(farmer.introduction).not_to eq ''
       end
       it 'リダイレクト先がマイページである' do
-        expect(current_path).to eq '/farmers/farmers/' + farmer.id.to_s
+        expect(current_path).to eq '/farmers/farmers.' + farmer.id.to_s
       end
       it 'サクセスメッセージが表示される' do
         expect(page).to have_content '更新しました'
@@ -155,7 +155,7 @@ describe '[step3] Farmer ログイン後のテスト' do
       end
 
       it '編集画面から遷移しない' do
-        expect(current_path).to eq '/farmers/farmers/' + farmer.id.to_s
+        expect(current_path).to eq '/farmers/farmers.' + farmer.id.to_s
       end
       it 'エラーメッセージが表示される' do
         expect(page).to have_content "can't be blank"
@@ -166,30 +166,30 @@ describe '[step3] Farmer ログイン後のテスト' do
 
   describe '退会機能のテスト' do
     before do
-      visit edit_farmers_farmer_path(farmer)
+      visit edit_farmers_farmers_path(farmer)
       click_link '退会する'
     end
 
     context '表示の確認' do
       it 'URLが正しい' do
-        expect(current_path).to eq '/farmers/farmers/' + farmer.id.to_s + '/unsubscribe'
+        expect(current_path).to eq '/farmers/farmers/unsubscribe.' + farmer.id.to_s
       end
       it '「退会しない」ボタンが表示され、リンク先が適切である' do
-        expect(page).to have_link '退会しない', href: farmers_farmer_path(farmer)
+        expect(page).to have_link '退会しない', href: farmers_farmers_path(farmer)
       end
       it '「退会する」ボタンが表示され、リンク先が適切である' do
-        expect(page).to have_link '退会する', href: farmers_farmers_withdraw_path(farmer)
+        expect(page).to have_link '退会する', href: farmers_farmers_withdraw_path
       end
     end
 
     context '退会可能か確認' do
       it '退会ボタンを押して、リダイレクト先がトップ画面である' do
         click_link '退会する'
-        expect(current_path).to eq '/'
+        expect(current_path).to eq '/farmers/sign_in'
       end
       it 'サクセスメッセージが表示される' do
         click_link '退会する'
-        expect(page).to have_content '退会処理が完了しました。またのご利用を心よりお待ちしております！'
+        expect(page).to have_content '退会処理が完了しました。またのご利用を心よりお待ちしております'
       end
     end
   end

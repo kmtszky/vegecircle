@@ -19,7 +19,7 @@ class Farmers::SessionsController < Devise::SessionsController
   # end
 
   def after_sign_in_path_for(resource)
-    farmers_farmer_path(current_farmer)
+    farmers_farmers_path(current_farmer)
   end
 
   def after_sign_out_path_for(resource)
@@ -30,7 +30,7 @@ class Farmers::SessionsController < Devise::SessionsController
     farmer = Farmer.find_by(email: 'guest@example.com')
     farmer.update(is_deleted: false)
     sign_in farmer
-    redirect_to farmers_farmer_path(current_farmer), flash: { success: 'ゲスト農家としてログインしました' }
+    redirect_to farmers_farmers_path(current_farmer), flash: { success: 'ゲスト農家としてログインしました' }
   end
 
   # protected

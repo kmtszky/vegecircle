@@ -1,6 +1,6 @@
 class Farmers::FarmersController < ApplicationController
   before_action :authenticate_farmer!
-  before_action :set_farmer, except: [:index]
+  before_action :set_farmer, only: [:edit, :update, :withdraw]
 
   def index
     @farmers = Farmer.where(is_deleted: false).page(params[:page]).reverse_order
@@ -14,34 +14,28 @@ class Farmers::FarmersController < ApplicationController
   end
 
   def show
-    if current_farmer == @farmer
-      @news = News.new
-      @chat = Chat.new
-    end
     @news = News.new
-    news_index = News.where(farmer_id: @farmer.id).order('created_at DESC')
+    @chat = Chat.new
+    news_index = News.where(farmer_id: current_farmer.id).order('created_at DESC')
     @news_last3 = news_index.first(3)
     @news_left = news_index.offset(3)
-    @recipes = Recipe.where(farmer_id: @farmer.id).order('created_at DESC').first(4)
-    @events = Event.where(farmer_id: params[:id]).where('end_date > ?', Date.current).first(4)
-    @evaluations = Evaluation.where(farmer_id: @farmer.id).order('created_at DESC').first(3)
+    @recipes = Recipe.where(farmer_id: current_farmer.id).order('created_at DESC').first(4)
+    @events = Event.where(farmer_id: current_farmer.id).where('end_date > ?', Date.current).first(4)
+    @evaluations = Evaluation.where(farmer_id: current_farmer.id).order('created_at DESC').first(3)
 
-    if @farmer.evaluations.blank?
+    if current_farmer.evaluations.blank?
       @average_rating = 0
     else
-      @average_rating = @farmer.evaluations.average(:evaluation).round(2)
+      @average_rating = current_farmer.evaluations.average(:evaluation).round(2)
     end
   end
 
   def edit
-    unless current_farmer == @farmer
-      redirect_to farmers_farmer_path(current_farmer), flash: {danger: "他の農家さんのプロフィールの変更は出来ません"}
-    end
   end
 
   def update
     if @farmer.update(farmer_params)
-      redirect_to farmers_farmer_path(current_farmer), flash: {success: "登録情報を更新しました"}
+      redirect_to farmers_farmers_path(current_farmer), flash: { success: "登録情報を更新しました" }
     else
       render :edit
     end
@@ -52,11 +46,12 @@ class Farmers::FarmersController < ApplicationController
 
   def withdraw
     @farmer.update(is_deleted: true)
-    @farmer.events.where("start_date > ?", Date.current).destroy_all
+    current_farmer.events.where("start_date > ?", Date.current).destroy_all
+    redirect_to root_path, flash: { success: "ご利用いただき大変ありがとうございました！またのご利用を心よりお待ちしております" }
   end
 
   def evaluations
-    @evaluations = @farmer.evaluations
+    @evaluations = current_farmer.evaluations
   end
 
   def calender
@@ -67,7 +62,7 @@ class Farmers::FarmersController < ApplicationController
   private
 
   def set_farmer
-    @farmer = Farmer.find(params[:id])
+    @farmer = Farmer.find(current_farmer.id)
   end
 
   def farmer_params

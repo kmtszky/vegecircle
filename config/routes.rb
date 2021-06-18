@@ -10,13 +10,11 @@ Rails.application.routes.draw do
   end
 
   namespace :farmers do
-    resources :farmers, only: [:index, :show, :edit, :update]
-      get 'farmers/:id/unsubscribe' => 'farmers#unsubscribe',  as: 'farmers_unsubscribe'
-      patch 'farmers/:id/withdraw'  => 'farmers#withdraw',     as: 'farmers_withdraw'
-      get 'farmers/:id/evaluations' => 'farmers#evaluations',  as: 'farmers_evaluations'
-      get 'farmers/:id/recipes'     => 'farmers#recipes',      as: 'farmers_recipes'
-      get 'farmers/:id/events'      => 'farmers#events',       as: 'farmers_events'
-      get 'farmers/:id/calender'    => 'farmers#calender',     as: 'farmers_calender'
+    resource :farmers, only: [:index, :show, :edit, :update]
+      get 'farmers/unsubscribe' => 'farmers#unsubscribe',  as: 'farmers_unsubscribe'
+      patch 'farmers/withdraw'  => 'farmers#withdraw',     as: 'farmers_withdraw'
+      get 'evaluations' => 'farmers#evaluations',  as: 'farmers_evaluations'
+      get 'calender'    => 'farmers#calender',     as: 'farmers_calender'
     resources :recipes
     resources :events do
       resources :schedules, only: [:show, :edit, :update, :destroy]

@@ -4,7 +4,7 @@ class Farmers::NewsController < ApplicationController
   def create
     @news = current_farmer.news.new(news_params)
     if @news.save
-      redirect_to farmers_farmer_path(current_farmer), flash: { success: "お知らせを投稿しました" }
+      redirect_to farmers_farmers_path(current_farmer), flash: { success: "お知らせを投稿しました" }
     else
       @farmer = current_farmer
       news_index = News.where(farmer_id: @farmer.id).order('created_at DESC')

@@ -54,10 +54,6 @@ class Event < ApplicationRecord
     end
   end
 
-  def has_schedules?
-    schedules.where(event_id: self.id).exists?
-  end
-
   def date_update
     min_schedule_date = Schedule.where(event_id: self.id).pluck(:date).min
     max_schedule_date = Schedule.where(event_id: self.id).pluck(:date).max
@@ -68,6 +64,10 @@ class Event < ApplicationRecord
 
   def favorited_by?(customer)
     event_favorites.where(customer_id: customer.id).exists?
+  end
+
+  def has_schedules?
+    schedules.where(event_id: self.id).exists?
   end
 
   def self.search_for(content, method)

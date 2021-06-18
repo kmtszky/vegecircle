@@ -51,7 +51,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
       end
       it '新規登録後のリダイレクト先が、新規登録できたユーザの詳細画面になっている' do
         click_button '新規登録'
-        expect(current_path).to have_content '/farmers/' + Farmer.last.id.to_s
+        expect(current_path).to have_content '/farmers/farmers.' + Farmer.last.id.to_s
       end
       it '新規登録後にサクセスメッセージが表示される' do
         click_button '新規登録'
@@ -112,7 +112,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
       end
 
       it 'ログイン後のリダイレクト先が、ログインしたユーザの詳細画面になっている' do
-        expect(current_path).to have_content '/farmers/' + Farmer.last.id.to_s
+        expect(current_path).to have_content '/farmers/farmers.' + Farmer.last.id.to_s
       end
       it 'ログイン後にサクセスメッセージが表示される' do
         expect(page).to have_content 'ログインしました'
@@ -173,13 +173,13 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         mypage_link = find_all('a')[1].native.inner_text
         mypage_link = mypage_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link mypage_link
-        is_expected.to eq '/farmers/farmers/' + farmer.id.to_s
+        is_expected.to eq '/farmers/farmers.' + farmer.id.to_s
       end
       it '「農業体験・予約一覧」を押すと、農業体験・予約一覧へ遷移する' do
         event_link = find_all('a')[2].native.inner_text
         event_link = event_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link event_link
-        is_expected.to eq '/farmers/farmers/' + farmer.id.to_s + '/calender'
+        is_expected.to eq '/farmers/calender.' + farmer.id.to_s
       end
       it '「レシピ」を押すと、レシピへ遷移する' do
         recipe_link = find_all('a')[3].native.inner_text
