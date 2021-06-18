@@ -17,10 +17,6 @@ class Customer < ApplicationRecord
   validates :nickname, uniqueness: true, presence: true
   attachment :customer_image
 
-  def self.guest_account
-    find_by(nickname: 'ゲスト住民', email: 'guest@example.com')
-  end
-
   def active_for_authentication?
     super && (self.is_deleted == false)
   end

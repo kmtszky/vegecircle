@@ -27,10 +27,10 @@ class Customers::SessionsController < Devise::SessionsController
    end
 
    def guest_sign_in
-    customer = Customer.guest_account
+    customer = Customer.find_by(email: 'guest@example.com')
     customer.update(is_deleted: false)
     sign_in customer
-    redirect_to profiles_path(current_customer), notice: 'ゲスト住民としてログインしました'
+    redirect_to profiles_path(current_customer), flash: 'ゲスト住民としてログインしました'
    end
 
   # protected

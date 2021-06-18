@@ -27,10 +27,6 @@ class Farmer < ApplicationRecord
   attachment :image_2
   attachment :image_3
 
-  def self.guest_account
-    find_by(name: 'ゲスト農家', email: 'guest@example.com', farm_address:'栃木県河内郡上河内町', store_address:'栃木県河内郡上河内町上田6-13-9')
-  end
-
   def active_for_authentication?
     super && (self.is_deleted == false)
   end
