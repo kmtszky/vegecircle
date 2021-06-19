@@ -15,10 +15,11 @@ class Farmers::SchedulesController < ApplicationController
 
   def update
     if current_farmer.has_schedules_on_the_day?(params[:schedule][:date])
-      if @schedule.event_id == current_farmer.schedules.where(date: params[:schedule][:date]).pluck(:event_id).first
+      if current_farmer.schedules.select(:event_id).where(date: params[:schedule][:date]).size == 1
         @schedule.date_update(params[:schedule][:start_time], params[:schedule][:end_time])
+        @schedule.notice_created_by(current_farmer)
         redirect_to farmers_event_schedule_path(@event, @schedule),
-          flash: { success: "時刻を更新しました。チャットへのご連絡をお願いいたします" }
+          flash: { success: "農業体験の日程または人数を更新しました" }
       else
         flash.now[:danger] = '作成済みのイベントと日程が重なっています（イベントは1日ひとつまで）'
         render :edit
@@ -27,8 +28,9 @@ class Farmers::SchedulesController < ApplicationController
       if @schedule.update(schedule_params)
         @schedule.date_update(params[:schedule][:start_time], params[:schedule][:end_time])
         @schedule.eventdate_update(@event)
+        @schedule.notice_created_by(current_farmer)
         redirect_to farmers_event_schedule_path(@event, @schedule),
-          flash: { success: "日程を更新しました。チャットへのご連絡をお願いいたします" }
+          flash: { success: "農業体験の日程または人数を更新しました" }
       else
         render :edit
       end

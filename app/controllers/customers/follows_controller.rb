@@ -5,13 +5,12 @@ class Customers::FollowsController < ApplicationController
   def create
     follow = @farmer.follows.new(customer_id: current_customer.id)
     follow.save
-    redirect_to request.referer
+    @farmer.find_or_create_by_notice(current_customer)
   end
 
   def destroy
     follow = @farmer.follows.find_by(customer_id: current_customer.id)
     follow.destroy
-    redirect_to request.referer
   end
 
   private

@@ -4,7 +4,7 @@ class Notice < ApplicationRecord
   belongs_to :event, optional: true
   belongs_to :reservation, optional: true
 
-  #0～2:farmer用、3～:customer用
+  #0～2:farmer用、1, 3～:customer用
   enum action: {
     "フォロー": 0,
     "チャット": 1,

@@ -5,8 +5,7 @@ class Reservation < ApplicationRecord
 
   validates :people, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 
-  def create_notice(event)
-    notice = Notice.new(farmer_id: event.farmer_id, event_id: event_id, reservation_id: self.id, action: "予約")
-    notice.save
+  def create_notice(customer, event)
+    Notice.create(farmer_id: event.farmer_id, customer_id: customer.id, event_id: event.id, reservation_id: self.id, action: "予約")
   end
 end

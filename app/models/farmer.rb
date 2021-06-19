@@ -32,6 +32,10 @@ class Farmer < ApplicationRecord
     super && (self.is_deleted == false)
   end
 
+  def find_or_create_by_notice(customer)
+    Notice.find_or_create_by(farmer_id: self.id, customer_id: customer.id, action: 'フォロー', checked: false)
+  end
+
   def has_schedules_on_the_day?(day)
     schedules.where(date: day).exists?
   end
@@ -39,22 +43,22 @@ class Farmer < ApplicationRecord
   def self.search_for(content, method)
     case method
     when 'forward'
-      Farmer.where(is_deleted: false).where('store_address like ?', content + '%')
+      where(is_deleted: false).where('store_address like ?', content + '%')
     else
-      Farmer.where(is_deleted: false).where('name like ?', '%' + content + '%')
+      where(is_deleted: false).where('name like ?', '%' + content + '%')
     end
   end
 
   def self.sorts(method)
     case method
     when 'new'
-      Farmer.all.order('created_at DESC')
+      order('created_at DESC')
     when 'old'
-      Farmer.all.order(:created_at)
+      order(:created_at)
     when 'follows'
-      Farmer.where(is_deleted: false).includes(:follows).sort {|a, b| b.follows.size <=> a.follows.size }
+      where(is_deleted: false).includes(:follows).sort {|a, b| b.follows.size <=> a.follows.size }
     else
-      Farmer.where(is_deleted: false).includes(:evaluations).sort {|a, b| b.evaluations.size <=> a.evaluations.size }
+      where(is_deleted: false).includes(:evaluations).sort {|a, b| b.evaluations.size <=> a.evaluations.size }
     end
   end
 end
