@@ -1,6 +1,6 @@
 class Customers::NoticesController < ApplicationController
   def index
-    @notices = current_customer.notices
+    @notices = current_customer.notices.order('created_at DESC').first(20)
     unchecked_notices = @notices.where(checked: false)
     unchecked_notices.update_all(checked: true)
   end

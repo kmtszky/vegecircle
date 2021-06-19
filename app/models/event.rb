@@ -25,12 +25,12 @@ class Event < ApplicationRecord
   end
 
   validate do
-      errors.add(:start_date, 'は本日以降の日付を選択してください') if (start_date.present? && start_date < Date.current)
-      errors.add(:end_date,   'は本日以降の日付を選択してください') if (end_date.present? && end_date < Date.current)
-    if start_date.present? && end_date.present?
+      errors.add(:start_date, 'は本日以降の日付を選択してください') if (start_date.exists? && start_date < Date.current)
+      errors.add(:end_date,   'は本日以降の日付を選択してください') if (end_date.exists? && end_date < Date.current)
+    if start_date.exists? && end_date.exists?
       errors.add(:end_date, 'は開始日以降の日付を選択してください') if (end_date < start_date)
     end
-    if start_time.present? && end_time.present?
+    if start_time.exists? && end_time.exists?
       errors.add(:end_time, 'は開始時刻よりも後の時刻を選択してください') if (start_time >= end_time)
     end
   end
@@ -68,18 +68,6 @@ class Event < ApplicationRecord
 
   def has_schedules?
     schedules.where(event_id: self.id).exists?
-  end
-
-  def notice_created_by(farmer)
-    schedules_ids = Schedule.select(:id).where(event_id: self.event_id)
-    recipients = Reservation.select(:customer_id).distinct.where(schedule_id: schedules_ids)
-    if recipients.present?
-      notice = Notice.new(farmer_id: farmer.id, event_id: self.id, action: "農業体験の内容更新")
-      recipients.each do |recipient|
-        notice.customer_id = recipient.customer_id
-        notice.save
-      end
-    end
   end
 
   def self.search_for(content, method)

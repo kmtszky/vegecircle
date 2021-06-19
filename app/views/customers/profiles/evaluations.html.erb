@@ -7,7 +7,7 @@
         <p>レビューがまだ投稿されていません</p>
       <% else %>
         <% @evaluations.each do |evaluation| %>
-          <div class="review p-3 ">
+          <div class="bottom-borderd p-3 ">
             <h6><%= link_to farmer_path(evaluation.farmer_id), class: "text-dark" do %>
                   <%= evaluation.farmer.name %>
                 <% end %></h6>

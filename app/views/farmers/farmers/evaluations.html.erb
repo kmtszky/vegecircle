@@ -7,7 +7,7 @@
         <p>レビューがまだ投稿されていません</p>
       <% else %>
         <% @evaluations.each do |evaluation| %>
-          <div class="review pt-3 ">
+          <div class="bottom-borderd p-3 ">
             <h6><%= evaluation.customer.nickname %>さんより</h6>
             <div class="evaluation-rating" data-score="<%= evaluation.evaluation %>"></div>
             <p><%= show_date(evaluation.created_at) %></p>

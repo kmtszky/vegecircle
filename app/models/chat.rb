@@ -10,7 +10,7 @@ class Chat < ApplicationRecord
     schedules_ids = Schedule.select(:id).where(event_id: self.event_id)
     event_participants_ids = Reservation.select(:customer_id).where(schedule_id: schedules_ids)
     recipients = Customer.where(id: (chat_participants_ids + event_participants_ids).distinct)
-    if recipients.present?
+    if recipients.exists?
       notice = Notice.new(farmer_id: farmer.id, event_id: self.event_id, action: "チャット")
       recipients.each do |recipient|
         notice.customer_id = recipient.customer_id

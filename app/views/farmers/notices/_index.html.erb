@@ -1,0 +1,9 @@
+<% if notices.exists? %>
+  <% notices.each do |notice| %>
+    <div class="bottom-borderd p-3">
+      <%= notification_form(notification) %><%= "（" + time_ago_in_words(notice.created_at) + "前）" %>
+    </div>
+  <% end %>
+<% else %>
+  <p>通知はありません</p>
+<% end %>

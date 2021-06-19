@@ -151,17 +151,21 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         mypage_link = find_all('a')[1].native.inner_text
         expect(mypage_link).to match(" マイページ")
       end
-      it 'nav：左から2番目のリンクが「農業体験・予約一覧」である' do
-        event_link = find_all('a')[2].native.inner_text
+      it 'nav：左から2番目のリンクが「通知」である' do
+        notice_link = find_all('a')[2].native.inner_text
+        expect(notice_link).to match(" 通知")
+      end
+      it 'nav：左から3番目のリンクが「農業体験・予約一覧」である' do
+        event_link = find_all('a')[3].native.inner_text
         expect(event_link).to match(" 農業体験・予約一覧")
       end
 
-      it 'nav：左から3番目のリンクが「レシピ」である' do
-        recipe_link = find_all('a')[3].native.inner_text
+      it 'nav：左から4番目のリンクが「レシピ」である' do
+        recipe_link = find_all('a')[4].native.inner_text
         expect(recipe_link).to match(" レシピ")
       end
-      it 'nav：左から4番目のリンクが「ログアウト」である' do
-        farmer_log_out_link = find_all('a')[4].native.inner_text
+      it 'nav：左から5番目のリンクが「ログアウト」である' do
+        farmer_log_out_link = find_all('a')[5].native.inner_text
         expect(farmer_log_out_link).to match(" ログアウト")
       end
     end
@@ -176,13 +180,13 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         is_expected.to eq '/farmers/farmers'
       end
       it '「農業体験・予約一覧」を押すと、農業体験・予約一覧へ遷移する' do
-        event_link = find_all('a')[2].native.inner_text
+        event_link = find_all('a')[3].native.inner_text
         event_link = event_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link event_link
         is_expected.to eq '/farmers/calender'
       end
       it '「レシピ」を押すと、レシピへ遷移する' do
-        recipe_link = find_all('a')[3].native.inner_text
+        recipe_link = find_all('a')[4].native.inner_text
         recipe_link = recipe_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link recipe_link
         is_expected.to eq '/farmers/recipes'
@@ -198,7 +202,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
       fill_in 'farmer[email]', with: farmer.email
       fill_in 'farmer[password]', with: farmer.password
       click_button 'ログイン'
-      farmer_log_out_link = find_all('a')[4].native.inner_text
+      farmer_log_out_link = find_all('a')[5].native.inner_text
       farmer_log_out_link = farmer_log_out_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
       click_link farmer_log_out_link
     end
@@ -362,21 +366,24 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         reservation_link = find_all('a')[2].native.inner_text
         expect(reservation_link).to match(" 予約一覧")
       end
-
-      it 'nav：左から3番目のリンクが「近くの農家さん」である' do
-        farmer_link = find_all('a')[3].native.inner_text
+      it 'nav：左から3番目のリンクが「通知」である' do
+        notice_link = find_all('a')[3].native.inner_text
+        expect(notice_link).to match(" 通知")
+      end
+      it 'nav：左から4番目のリンクが「近くの農家さん」である' do
+        farmer_link = find_all('a')[4].native.inner_text
         expect(farmer_link).to match(" 近くの農家さん")
       end
-      it 'nav：左から4番目のリンクが「農業体験」である' do
-        event_link = find_all('a')[4].native.inner_text
+      it 'nav：左から5番目のリンクが「農業体験」である' do
+        event_link = find_all('a')[5].native.inner_text
         expect(event_link).to match(" 農業体験")
       end
-      it 'nav：左から5番目のリンクが「レシピ」である' do
-        recipe_link = find_all('a')[5].native.inner_text
+      it 'nav：左から6番目のリンクが「レシピ」である' do
+        recipe_link = find_all('a')[6].native.inner_text
         expect(recipe_link).to match(" レシピ")
       end
-      it 'nav：左から6番目のリンクが「ログアウト」である' do
-        customer_log_out_link = find_all('a')[6].native.inner_text
+      it 'nav：左から7番目のリンクが「ログアウト」である' do
+        customer_log_out_link = find_all('a')[7].native.inner_text
         expect(customer_log_out_link).to match(" ログアウト")
       end
     end
@@ -397,19 +404,19 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         is_expected.to eq '/reservations'
       end
       it '「近くの農家さん」を押すと、農家一覧へ遷移する' do
-        farmer_link = find_all('a')[3].native.inner_text
+        farmer_link = find_all('a')[4].native.inner_text
         farmer_link = farmer_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link farmer_link
         is_expected.to eq '/farmers'
       end
       it '「農業体験」を押すと、農業体験一覧へ遷移する' do
-        event_link = find_all('a')[4].native.inner_text
+        event_link = find_all('a')[5].native.inner_text
         event_link = event_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link event_link
         is_expected.to eq '/events'
       end
       it '「レシピ」を押すと、レシピへ遷移する' do
-        recipe_link = find_all('a')[5].native.inner_text
+        recipe_link = find_all('a')[6].native.inner_text
         recipe_link = recipe_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link recipe_link
         is_expected.to eq '/recipes'
@@ -425,7 +432,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
       fill_in 'customer[email]', with: customer.email
       fill_in 'customer[password]', with: customer.password
       click_button 'ログイン'
-      customer_log_out_link = find_all('a')[6].native.inner_text
+      customer_log_out_link = find_all('a')[7].native.inner_text
       customer_log_out_link = customer_log_out_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
       click_link customer_log_out_link
     end

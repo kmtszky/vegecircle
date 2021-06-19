@@ -1,2 +1,11 @@
-<h1>Farmers::Notices#index</h1>
-<p>Find me in app/views/farmers/notices/index.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-10">
+      <h3 class="text-center">通知</h3>
+      <%= link_to farmers_notices_destroy_all_path, method: :delete, class: "fas fa-trash" do %>
+        <h7>全て削除</h7>
+      <% end %>
+      <%= render 'farmers/notices/index', notices: @notices %>
+    </div>
+  </div>
+</div>
