@@ -6,7 +6,7 @@ class Farmers::ChatsController < ApplicationController
     @chat = current_farmer.chats.new(chat_params)
     @chat.event_id = params[:event_id]
     if @chat.save
-      @chat.notification_created_by(current_farmer)
+      @chat.notifice_created_by(current_farmer)
     else
       render 'error'
     end
