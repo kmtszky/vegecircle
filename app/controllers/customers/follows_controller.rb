@@ -5,12 +5,11 @@ class Customers::FollowsController < ApplicationController
   def create
     follow = @farmer.follows.new(customer_id: current_customer.id)
     follow.save
-    @farmer.find_or_create_by_notice(current_customer)
+    @farmer.find_or_create_notice_of_follow(current_customer)
   end
 
   def destroy
-    follow = @farmer.follows.find_by(customer_id: current_customer.id)
-    follow.destroy
+    @farmer.follows.find_by(customer_id: current_customer.id).destroy
   end
 
   private

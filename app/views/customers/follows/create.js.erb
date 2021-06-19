@@ -1,1 +1,2 @@
-$(".follow-<%= @farmer.id %>").html("<%= j(render "customers/follows/follow", farmer: @farmer) %>");
+<% @follow = Follow.find_by(customer_id: current_customer.id, farmer_id: @farmer.id) %>
+$("#follow-btn").html("<%= j(render "customers/follows/follow", farmer: @farmer, follow: @follow) %>");

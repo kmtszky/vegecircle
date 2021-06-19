@@ -1,11 +1,11 @@
 <div class="container">
   <div class="row">
-    <div class="col-10">
+    <div class="col-8 mx-auto">
       <h3 class="text-center">通知</h3>
-      <%= link_to notices_destroy_all_path, method: :delete, class: "fas fa-trash" do %>
-        <h7>全て削除</h7>
-      <% end %>
-      <%= render 'farmers/notices/index', notices: @notices %>
+      <div class="bottom-borderd py-3">
+        <%= link_to " すべて削除", notices_destroy_all_path, method: :delete, class: "fas fa-trash text-dark font-weight-bold" %>
+      </div>
+      <%= render 'customers/notices/index', notices: @notices %>
     </div>
   </div>
 </div>

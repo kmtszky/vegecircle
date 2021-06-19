@@ -42,13 +42,11 @@
   <div class="row">
     <div class="col-12 col-md-10 mx-auto mb-2 event">
       <%= render "farmers/events/access", event: @event %>
-      <div id="fixed_btn">
-        <% if customer_signed_in? && (@schedule.date > Date.current) %>
-          <% unless current_customer.reserved?(@schedule) %>
-            <%= link_to "予約する", new_event_schedule_reservation_path(@event, @schedule), class: "btn btn-success" %>
-          <% end %>
+      <% if customer_signed_in? && (@schedule.date > Date.current) %>
+        <% unless current_customer.reserved?(@schedule) %>
+          <%= link_to "予約する", new_event_schedule_reservation_path(@event, @schedule), class: "fixed-circle-btn2" %>
         <% end %>
-      </div>
+      <% end %>
       <div class="mt-3">
         <%= link_to event_path(@event, @schedule), class: "fixed-circle-btn" do %>イベント<br>ページへ<br>戻る<% end %>
       </div>

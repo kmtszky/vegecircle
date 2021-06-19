@@ -10,8 +10,8 @@ class Schedule < ApplicationRecord
   end
 
   validate do
-    errors.add(:date, 'は本日以降の日付を選択してください') if (data.exists? && date < Date.current)
-    if start_time.exists? && end_time.exists?
+    errors.add(:date, 'は本日以降の日付を選択してください') if (date.present? && date < Date.current)
+    if start_time.present? && end_time.present?
       errors.add(:end_time, 'は開始時刻よりも後の時刻を選択してください') if (start_time >= end_time)
     end
   end
@@ -31,7 +31,7 @@ class Schedule < ApplicationRecord
 
   def notice_created_by(farmer)
     recipients = Reservation.select(:customer_id).where(schedule_id: self.id)
-    if recipients.exists?
+    if recipients.present?
       notice = Notice.new(farmer_id: farmer.id, event_id: self.event_id, action: "農業体験のスケジュール更新")
       recipients.each do |recipient|
         notice.customer_id = recipient.customer_id

@@ -1,7 +1,7 @@
 <% if notices.present? %>
   <% notices.each do |notice| %>
     <div class="bottom-borderd py-3">
-      <%= show_content_of(notice) %><%= "（" + time_ago_in_words(notice.created_at) + "前）" %>
+      <%= show_content_of_customers(notice) %><%= "（" + time_ago_in_words(notice.created_at) + "前）" %>
     </div>
   <% end %>
 <% else %>

@@ -32,8 +32,8 @@ class Farmer < ApplicationRecord
     super && (self.is_deleted == false)
   end
 
-  def find_or_create_by_notice(customer)
-    Notice.find_or_create_by(farmer_id: self.id, customer_id: customer.id, action: 'フォロー', checked: false)
+  def find_or_create_notice_of_follow(customer)
+    Notice.find_or_create_by(farmer_id: self.id, customer_id: customer.id, action: 'フォロー')
   end
 
   def has_schedules_on_the_day?(day)

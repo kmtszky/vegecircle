@@ -5,8 +5,8 @@ class Customers::ReservationsController < ApplicationController
 
   def new
     session.delete(:reservation)
-    if current_customer.reservations.where(schedule_id: params[:schedule_id]).exists?
-      @reservation = current_customer.reservations.where(schedule_id: params[:schedule_id])
+    if current_customer.reservations.find_by(schedule_id: params[:schedule_id]).present?
+      @reservation = current_customer.reservations.find_by(schedule_id: params[:schedule_id])
       redirect_to reservations_path(current_customer), flash: { warning: "予約済みのため予約一覧ページへ移動しました。" }
     else
       @reservation = Reservation.new

@@ -7,7 +7,7 @@ class SearchesController < ApplicationController
 			@content = params[:content]
 			@records = Recipe.search_for(@content)
 			tags = Tag.search_for(@content)
-			if tags.exists?
+			if tags.present?
 				recipe_tags = RecipeTag.where(tag_id: tags.ids).pluck(:recipe_id)
 				taged_recipes = Recipe.where(id: recipe_tags)
 				all_records = @records + taged_recipes

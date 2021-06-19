@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
     resources :news, only: [:create, :destroy]
     resources :notices, only: [:index]
-      delete 'notices/destroy_all' => 'notice#destroy_all'
+      delete 'notices/destroy_all' => 'notices#destroy_all'
   end
 
   # customer
@@ -53,7 +53,7 @@ Rails.application.routes.draw do
       resources :evaluations, only: [:index, :create, :edit, :update, :destroy]
     end
     resources :notices, only: [:index]
-      delete 'notices/destroy_all' => 'notice#destroy_all'
+      delete 'notices/destroy_all' => 'notices#destroy_all'
     resource :profiles, only: [:show, :edit, :update]
       get 'customer/followings' => 'profiles#followings', as: 'followings'
       get 'customer/favorites' => 'profiles#favorites', as: 'favorites'

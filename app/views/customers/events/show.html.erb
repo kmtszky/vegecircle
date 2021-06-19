@@ -1,6 +1,8 @@
 <div class="container">
   <div class="row">
-    <a class="fixed-chat-btn" href="#chat">チャット</a>
+    <% if customer_signed_in? %>
+      <a class="fixed-chat-btn" href="#chat">チャット</a>
+    <% end %>
     <div class="col-12 col-md-5 offset-md-1 mb-4">
       <%= attachment_image_tag @event, :plan_image, class: "farm_pictures", fallback: asset_path('no_images/no_image_md.png'), size: '300x300' %>
     </div>

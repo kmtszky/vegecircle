@@ -1,5 +1,5 @@
 <% chats.each do |chat| %>
-  <% if chat.farmer_id.exists? %>
+  <% if chat.farmer_id.present? %>
     <div class="balloon right">
       <figure class="icon">
         <%= attachment_image_tag chat.farmer, :farmer_image, :fill, 80, 80, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '80x80' %>

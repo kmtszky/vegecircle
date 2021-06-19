@@ -1,6 +1,5 @@
 class Farmers::ChatsController < ApplicationController
   before_action :authenticate_farmer!
-  before_action :set_farmer
 
   def create
     @chat = current_farmer.chats.new(chat_params)

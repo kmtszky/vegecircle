@@ -203,6 +203,22 @@ footer {
   bottom: 35px;
 }
 
+.fixed-circle-btn2 {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  position: fixed;
+  right: 150px;
+  bottom: 35px;
+}
+
 .alert-timedout {
   display: none;
 }
