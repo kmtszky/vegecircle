@@ -4,7 +4,9 @@ class Customers::ChatsController < ApplicationController
   def create
     @chat = current_customer.chats.new(chat_params)
     @chat.event_id = params[:event_id]
-    unless @chat.save
+    if @chat.save
+      @chat.notification_created_by_custmomer(params[:event_id])
+    else
       render 'error'
     end
     @chats = Chat.where(event_id: params[:event_id])

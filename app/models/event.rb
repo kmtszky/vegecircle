@@ -1,6 +1,7 @@
 class Event < ApplicationRecord
 
   belongs_to :farmer
+  has_many :chats, dependent: :destroy
   has_many :event_favorites, dependent: :destroy
   has_many :schedules, dependent: :destroy
   has_many :notices, dependent: :destroy

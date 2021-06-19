@@ -1,7 +1,7 @@
 class Notice < ApplicationRecord
   belongs_to :farmer, optional: true
   belongs_to :customer, optional: true
-  belongs_to :event, optional: true
+  belongs_to :event
 
   #0～2:farmer用、3～:customer用
   enum action: {
