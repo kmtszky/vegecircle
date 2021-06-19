@@ -5,7 +5,7 @@ class Customers::ChatsController < ApplicationController
     @chat = current_customer.chats.new(chat_params)
     @chat.event_id = params[:event_id]
     if @chat.save
-      @chat.notifice_created_by_custmomer(params[:event_id])
+      @chat.create_notice(params[:event_id])
     else
       render 'error'
     end

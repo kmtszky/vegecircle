@@ -4,17 +4,15 @@ class Customers::ReservationsController < ApplicationController
   before_action :set_reservation, only: [:show, :destroy]
 
   def new
+    session.delete(:reservation)
     if current_customer.reservations.where(schedule_id: params[:schedule_id]).exists?
       @reservation = current_customer.reservations.where(schedule_id: params[:schedule_id])
       redirect_to reservations_path(current_customer), flash: { warning: "予約済みのため予約一覧ページへ移動しました。" }
+    else
+      @reservation = Reservation.new
+      reserved_number = @schedule.reservations.pluck(:people).sum
+      @reservable_number = @schedule.people - reserved_number
     end
-    session.delete(:reservation)
-    @reservation = Reservation.new
-    reserved_number = @schedule.reservations.pluck(:people).sum
-    @reservable_number = @schedule.people - reserved_number
-
-    @farmer = Farmer.find_by(id: @event.farmer_id)
-    @evaluation = Evaluation.new
   end
 
   def back
@@ -43,10 +41,9 @@ class Customers::ReservationsController < ApplicationController
       Customers::ThanxMailer.complete_reservation(@reservation).deliver_now
       redirect_to event_schedule_reservations_thanx_path
 
+      @reservation.create_notice(@event)
       reserved_number = @schedule.reservations.pluck(:people).sum
-      if @schedule.people == reserved_number
-        @schedule.update(is_full: true)
-      end
+      @schedule.update(is_full: true) if @schedule.people == reserved_number
     else
       render :confirm
     end
@@ -72,9 +69,7 @@ class Customers::ReservationsController < ApplicationController
     redirect_to reservations_path(current_customer), flash: { success: "ご予約をキャンセルしました" }
 
     reserved_number = @schedule.reservations.pluck(:people).sum
-    if @schedule.people != reserved_number
-      @schedule.update(is_full: false)
-    end
+    @schedule.update(is_full: false) if @schedule.people != reserved_number
   end
 
   private
