@@ -41,7 +41,7 @@ class Customers::ReservationsController < ApplicationController
       Customers::ThanxMailer.complete_reservation(@reservation).deliver_now
       redirect_to event_schedule_reservations_thanx_path
 
-      @reservation.create_notice(current_customer, @event)
+      @reservation.notice_created_by(current_customer, @event)
       reserved_number = @schedule.reservations.pluck(:people).sum
       @schedule.update(is_full: true) if @schedule.people == reserved_number
     else

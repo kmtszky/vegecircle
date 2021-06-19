@@ -19,7 +19,7 @@ class Chat < ApplicationRecord
     end
   end
 
-  def create_notice(customer, event_id)
+  def notice_created_by_customer(customer, event_id)
     event = Event.find(event_id)
     Notice.create(customer_id: customer.id, farmer_id: event.farmer_id, event_id: event_id, action: "チャット")
   end
