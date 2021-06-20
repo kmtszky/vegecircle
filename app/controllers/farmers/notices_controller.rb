@@ -10,6 +10,6 @@ class Farmers::NoticesController < ApplicationController
 
   def destroy_all
     current_farmer.notices.where(action: ["フォロー", "チャット", "予約"]).destroy_all
-    redirect_to farmers_farmers_path(current_farmer), flash: { success: '通知をすべて削除しました' }
+    redirect_to farmers_farmers_path, flash: { success: '通知をすべて削除しました' }
   end
 end

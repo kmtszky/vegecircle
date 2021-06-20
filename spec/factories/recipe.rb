@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :recipe do
     Faker::Config.locale = :ja
-    farmer { FactoryBot.create(:farmer) }
+    farmer
 
     title { Faker::Lorem.characters(number: 10) }
     recipe_image_id { Faker::Lorem.characters(number: 30) }

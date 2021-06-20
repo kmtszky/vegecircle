@@ -64,7 +64,7 @@ class Farmers::EventsController < ApplicationController
 
   def destroy
     @event.destroy
-    redirect_to farmers_farmers_calender_path(current_farmer), flash: { success: '農業体験を削除しました'}
+    redirect_to farmers_farmers_calender_path, flash: { success: '農業体験を削除しました'}
   end
 
   private

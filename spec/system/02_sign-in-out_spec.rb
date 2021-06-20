@@ -51,7 +51,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
       end
       it '新規登録後のリダイレクト先が、新規登録できたユーザの詳細画面になっている' do
         click_button '新規登録'
-        expect(current_path).to have_content '/farmers/farmers'
+        expect(current_path).to eq '/farmers/farmers'
       end
       it '新規登録後にサクセスメッセージが表示される' do
         click_button '新規登録'
@@ -112,7 +112,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
       end
 
       it 'ログイン後のリダイレクト先が、ログインしたユーザの詳細画面になっている' do
-        expect(current_path).to have_content '/farmers/farmers'
+        expect(current_path).to eq '/farmers/farmers'
       end
       it 'ログイン後にサクセスメッセージが表示される' do
         expect(page).to have_content 'ログインしました'

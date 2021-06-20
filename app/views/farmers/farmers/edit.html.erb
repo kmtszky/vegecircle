@@ -4,7 +4,7 @@
       <h4>基本情報の変更</h4>
       <%= render 'layouts/error_messages', validation: @farmer %><br>
 
-      <%= form_with model: @farmer, url: farmers_farmers_path(@farmer), method: :patch, local: true do |f| %>
+      <%= form_with model: @farmer, url: farmers_farmers_path, method: :patch, local: true do |f| %>
 
         <div class="field form-group">
           <%= f.label :name, "農場 / 農家さんのお名前" %><string class="required"> *</string><br />
@@ -39,7 +39,7 @@
         </div>
 
         <%= f.submit '変更を保存', class: "btn btn-success text-light mr-3" %>
-      <%= link_to  "退会する", farmers_farmers_unsubscribe_path(@farmer), class: "btn btn-danger" %>
+      <%= link_to  "退会する", farmers_farmers_unsubscribe_path, class: "btn btn-danger" %>
       <% end %>
     </div>
   </div>

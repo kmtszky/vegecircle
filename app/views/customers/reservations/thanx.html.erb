@@ -5,7 +5,7 @@
       <p>ご予約完了のメールが届きますので、ご予約内容をご確認いただきますようお願いいたします。</p>
       <div class="form-group form-row mt-5">
         <%= link_to "予約詳細ページへ", event_schedule_reservation_path(@event, @schedule, @reservation), class: "btn btn-secondary mr-3" %>
-        <%= link_to "マイページへ戻る", profiles_path(current_customer), class: "btn btn-secondary" %>
+        <%= link_to "マイページへ戻る", profiles_path, class: "btn btn-secondary" %>
       </div>
     </div>
   </div>

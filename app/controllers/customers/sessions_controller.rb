@@ -19,7 +19,7 @@ class Customers::SessionsController < Devise::SessionsController
   # end
 
    def after_sign_in_path_for(resource)
-    profiles_path(current_customer)
+    profiles_path
    end
 
    def after_sign_out_path_for(resource)
@@ -30,7 +30,7 @@ class Customers::SessionsController < Devise::SessionsController
     customer = Customer.find_by(email: 'guest@example.com')
     customer.update(is_deleted: false)
     sign_in customer
-    redirect_to profiles_path(current_customer), flash: { success: 'ゲスト住民としてログインしました' }
+    redirect_to profiles_path, flash: { success: 'ゲスト住民としてログインしました' }
    end
 
   # protected

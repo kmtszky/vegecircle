@@ -19,7 +19,7 @@ class Customers::EvaluationsController < ApplicationController
 
   def edit
     unless current_customer.id == @evaluation.customer_id
-      redirect_to profiles_path(current_customer), flash: { danger: "他の方のレビューを編集することは出来ません" }
+      redirect_to profiles_path, flash: { danger: "他の方のレビューを編集することは出来ません" }
     end
   end
 

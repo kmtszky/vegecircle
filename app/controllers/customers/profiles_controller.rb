@@ -7,13 +7,13 @@ class Customers::ProfilesController < ApplicationController
 
   def edit
     unless current_customer == @customer
-      redirect_to profiles_path(current_customer), flash: { danger: "他の方のプロフィールの変更は出来ません"}
+      redirect_to profiles_path, flash: { danger: "他の方のプロフィールの変更は出来ません"}
     end
   end
 
   def update
     if @customer.update(customer_params)
-      redirect_to profiles_path(@customer), flash: { success: "登録情報を更新しました" }
+      redirect_to profiles_path, flash: { success: "登録情報を更新しました" }
     else
       render :edit
     end

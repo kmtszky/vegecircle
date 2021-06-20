@@ -10,7 +10,7 @@
           </tr>
           <tr>
             <td class="cell-pl"><h3><%= current_farmer.name %></h3></td>
-            <td class="cell-pl"><%= link_to "編集する", edit_farmers_farmers_path(current_farmer), class: "btn btn-sm btn-success" %></td>
+            <td class="cell-pl"><%= link_to "編集する", edit_farmers_farmers_path, class: "btn btn-sm btn-success" %></td>
           </tr>
           <tr>
             <td class="cell-pl average-rating" data-score=<%= @average_rating %>></td>
@@ -80,7 +80,7 @@
       </div>
       <% if @evaluations.size > 3 %>
         <div class="text-center my-3"><i class="fas fa-angle-double-down fa-3x text-warning"></i></div>
-        <%= link_to 'もっと見る', farmers_farmers_evaluations_path(current_farmer), class: "btn btn-secondary" %>
+        <%= link_to 'もっと見る', farmers_farmers_evaluations_path, class: "btn btn-secondary" %>
       <% end %>
     </div>
   </div>

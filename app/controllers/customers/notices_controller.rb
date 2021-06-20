@@ -10,6 +10,6 @@ class Customers::NoticesController < ApplicationController
 
   def destroy_all
     current_customer.notices.where(action: ["チャット", "農業体験の内容更新", "農業体験のスケジュール更新", "お知らせ"]).destroy_all
-    redirect_to profiles_path(current_customer), flash: { success: '通知をすべて削除しました' }
+    redirect_to profiles_path, flash: { success: '通知をすべて削除しました' }
   end
 end

@@ -9,7 +9,7 @@
         <p>ご予約中の体験がなく、退会を希望される方は「退会する」ボタンをクリックください。</p>
       </session>
       <div class="actions form-group text-center">
-        <%= link_to "退会しない", profiles_path(current_customer), class: "btn btn-secondary mr-3"%><%= link_to "退会する", customer_withdraw_path, method: :patch, class: "btn btn-danger" %>
+        <%= link_to "退会しない", profiles_path, class: "btn btn-secondary mr-3"%><%= link_to "退会する", customer_withdraw_path, method: :patch, class: "btn btn-danger" %>
       </div>
     </div>
   </div>

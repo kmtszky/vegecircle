@@ -44,7 +44,7 @@ class Farmers::SchedulesController < ApplicationController
       redirect_to farmers_event_path(@event), flash: { success: "#{@schedule.date.strftime("%Y/%m/%d")}のイベントを削除しました" }
     else
       @event.destroy
-      redirect_to farmers_farmers_calender_path(current_farmer), flash: { success: '農業体験を削除しました'}
+      redirect_to farmers_farmers_calender_path, flash: { success: '農業体験を削除しました'}
     end
   end
 

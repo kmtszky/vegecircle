@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   namespace :farmers do
-    resource :farmers, only: [:index, :show, :edit, :update]
+    resource :farmers, only: [:show, :edit, :update]
       get 'farmers/unsubscribe' => 'farmers#unsubscribe',  as: 'farmers_unsubscribe'
       patch 'farmers/withdraw'  => 'farmers#withdraw',     as: 'farmers_withdraw'
       get 'evaluations' => 'farmers#evaluations',  as: 'farmers_evaluations'
