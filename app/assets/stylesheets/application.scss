@@ -222,3 +222,14 @@ footer {
 .alert-timedout {
   display: none;
 }
+
+.round-number {
+  background-color: #dc143c;
+  border-radius: 50%;
+  text-align: center;
+  color: white;
+  position: relative;
+  left: 3px;
+  bottom: 7px;
+  z-index: 999;
+}

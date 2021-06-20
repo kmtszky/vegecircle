@@ -1,4 +1,5 @@
 class Customers::NoticesController < ApplicationController
+
   def index
     notices = current_customer.notices
     @notices = notices.where(action: ["チャット", "農業体験の内容更新", "農業体験のスケジュール更新", "お知らせ"]).order('created_at DESC').first(20)

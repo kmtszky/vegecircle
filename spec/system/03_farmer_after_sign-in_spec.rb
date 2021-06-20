@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe '[step3] Farmer ログイン後のテスト' do
+describe '[step3-1] Farmer ログイン後のテスト' do
   let(:farmer) { create(:farmer) }
   let!(:other_farmer) { create(:farmer) }
   let!(:event) { create(:event, farmer: farmer) }
@@ -198,7 +198,7 @@ describe '[step3] Farmer ログイン後のテスト' do
     end
 
     context '退会可能か確認' do
-      it '退会ボタンを押して、リダイレクト先がトップ画面である' do
+      it '「退会する」ボタンを押して、リダイレクト先が登録画面である' do
         click_link '退会する'
         expect(current_path).to eq '/farmers/sign_in'
       end

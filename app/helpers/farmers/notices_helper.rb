@@ -2,9 +2,7 @@ module Farmers::NoticesHelper
 
   def show_content_of(notice)
     @customer = notice.customer
-    unless notice.event_id.blank?
-      @event = notice.event
-    end
+    @event = notice.event unless notice.event_id.blank?
 
     case notice.action
     when "フォロー" then
