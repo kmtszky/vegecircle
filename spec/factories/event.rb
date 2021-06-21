@@ -17,5 +17,9 @@ FactoryBot.define do
     start_time { Faker::Time.between_dates(from: Date.today, to: Date.today + 1, period: :morning) }
     end_time { Faker::Time.between_dates(from: Date.today + 2, to: Date.today + 3, period: :day) }
     number_of_participants { Faker::Number.number(digits: 2) }
+
+    trait :skip_validate do
+      to_create {|instance| instance.save(validate: false)}
+    end
   end
 end

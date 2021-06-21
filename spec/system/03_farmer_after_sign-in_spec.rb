@@ -37,6 +37,34 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(page).not_to have_link other_recipe.title, href: farmers_recipe_path(other_recipe)
       end
     end
+
+    context '農業体験の投稿一覧の確認' do
+      before do
+          FactoryBot.create(:event, :skip_validate, farmer: farmer, title: 'old_event', end_date: Date.current - 1)
+          FactoryBot.create(:event, farmer: farmer)
+          FactoryBot.create(:event, farmer: farmer)
+          visit farmers_farmers_path
+      end
+
+      it '終了日が今日よりも前のものは表示されない' do
+        expect(page).not_to have_content "old_event"
+      end
+      it '農業体験：3件以上の投稿で「もっと見る」リンクが表示されている' do
+        expect(page).to have_link '>> もっと見る', href: farmers_events_path
+      end
+    end
+
+    context 'レシピ一覧の確認' do
+      before do
+        FactoryBot.create(:recipe, farmer: farmer)
+        FactoryBot.create(:recipe, farmer: farmer)
+        visit farmers_farmers_path
+      end
+
+      it '3件以上の投稿で「もっと見る」リンクが表示されている' do
+        expect(page).to have_link '>> もっと見る', href: farmers_recipes_path
+      end
+    end
   end
 
   describe 'お知らせ機能のテスト' do
@@ -76,7 +104,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
     end
 
     context '一覧の確認' do
-      it 'ニュースの内容が降順で表示されているか、都度削除ボタンが表示されているか' do
+      it 'ニュースの内容が降順で表示され、都度削除ボタンが表示されているか。3件以上で「全てのお知らせを表示」ボタンが出るか' do
         (1..4).each do |i|
           News.create(news: 'hoge'+i.to_s, farmer_id: farmer.id)
         end

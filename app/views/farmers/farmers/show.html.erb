@@ -57,8 +57,8 @@
     <div class="col-12 col-md-10 mx-auto mt-3">
       <div class="d-flex flox-row">
         <h5 class="mr-4">予約受付中の農業体験</h5>
-        <% if @events.count >= 4 %>
-          <%= link_to '>> もっと見る', farmers_events_path(current_farmer), class: "text-dark" %>
+        <% if @events.count >= 3 %>
+          <%= link_to '>> もっと見る', farmers_events_path, class: "text-dark" %>
         <% end %>
       </div>
       <%= render 'farmers/events/index', events: @events %>
@@ -67,18 +67,21 @@
 
   <div class="row">
     <div class="col-12 col-md-10 mx-auto mt-3">
-      <h5>農家ご飯</h5>
+      <h5 class="mr-4">レシピ</h5>
+        <% if @recipes.count >= 3 %>
+          <%= link_to '>> もっと見る', farmers_recipes_path, class: "text-dark" %>
+        <% end %>
       <%= render 'farmers/recipes/index', recipes: @recipes %>
     </div>
   </div>
 
   <div class="row">
     <div class="col-12 col-md-10 mx-auto text-center">
-      <h5>この農家さんに関するレビュー</h5>
+      <h5><%= current_farmer.name %>さんに関するレビュー</h5>
       <div class="evaluations">
         <%= render 'customers/evaluations/index', evaluations: @evaluations %>
       </div>
-      <% if @evaluations.size > 3 %>
+      <% if @evaluations.size >= 3 %>
         <div class="text-center my-3"><i class="fas fa-angle-double-down fa-3x text-warning"></i></div>
         <%= link_to 'もっと見る', farmers_farmers_evaluations_path, class: "btn btn-secondary" %>
       <% end %>
