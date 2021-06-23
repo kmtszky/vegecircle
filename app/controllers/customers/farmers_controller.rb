@@ -13,7 +13,6 @@ class Customers::FarmersController < ApplicationController
   def show
     @farmer = Farmer.find(params[:id])
     @events = Event.where(farmer_id: @farmer.id).where('end_date > ?', Date.current).order('created_at DESC').first(3)
-    @follow = Follow.find_by(customer_id: current_customer.id, farmer_id: @farmer.id)
     news_index = News.where(farmer_id: @farmer.id).order('created_at DESC')
     @news_last3 = news_index.first(3)
     @news_left = news_index.offset(3)

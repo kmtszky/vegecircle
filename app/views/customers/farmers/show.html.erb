@@ -20,7 +20,7 @@
       <% end %>
       <% if customer_signed_in? %>
         <div id="follow-btn">
-          <%= render "customers/follows/follow", farmer: @farmer, follow: @follow %>
+          <%= render "customers/follows/follow", farmer: @farmer, follow: Follow.find_by(customer_id: current_customer.id, farmer_id: @farmer.id) %>
         </div>
       <% end %>
     </div>
