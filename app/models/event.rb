@@ -21,7 +21,7 @@ class Event < ApplicationRecord
     validates :end_date
     validates :start_time, on: :create
     validates :end_time, on: :create
-    validates :number_of_participants, numericality: { only_integer: true }, on: :create
+    validates :number_of_participants, numericality: { only_integer: true, greater_than_or_equal_to: 1 }, on: :create
   end
 
   validate do
