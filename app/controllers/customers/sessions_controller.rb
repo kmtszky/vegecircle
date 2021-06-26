@@ -27,10 +27,7 @@ class Customers::SessionsController < Devise::SessionsController
    end
 
    def guest_sign_in
-    customer = Customer.find_or_create_by!(email: 'guest@example.com') do |customer|
-     customer.nickname = 'ゲスト'
-     customer.password = SecureRandom.urlsafe_base64
-    end
+    customer = Customer.guest_account
     customer.update(is_deleted: false)
     sign_in customer
     redirect_to profiles_path, flash: { success: 'ゲスト住民としてログインしました' }
