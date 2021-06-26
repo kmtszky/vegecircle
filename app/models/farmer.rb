@@ -36,7 +36,11 @@ class Farmer < ApplicationRecord
     Notice.find_or_create_by(farmer_id: self.id, customer_id: customer.id, action: 'フォロー')
   end
 
-  def guest_account
+  def has_schedules_on_the_day?(day)
+    schedules.where(date: day).exists?
+  end
+
+  def self.guest_account
     find_or_create_by!(email: 'guest@example.com') do |farmer|
       farmer.name = 'ゲスト（農家）'
       farmer.password = SecureRandom.urlsafe_base64
@@ -44,10 +48,6 @@ class Farmer < ApplicationRecord
       farmer.store_address = '新潟県魚沼市清本5-12-8'
       farmer.introduction = '農家用ゲストアカウントです'
     end
-  end
-
-  def has_schedules_on_the_day?(day)
-    schedules.where(date: day).exists?
   end
 
   def self.search_for(content, method)

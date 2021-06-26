@@ -26,14 +26,14 @@ class Customer < ApplicationRecord
     follows.where(farmer_id: farmer.id).exists?
   end
 
-  def guest_account
+  def reserved?(schedule)
+    reservations.where(schedule_id: schedule.id).exists?
+  end
+
+  def self.guest_account
     find_or_create_by!(email: 'guest@example.com') do |customer|
       customer.nickname = 'ゲスト'
       customer.password = SecureRandom.urlsafe_base64
     end
-  end
-
-  def reserved?(schedule)
-    reservations.where(schedule_id: schedule.id).exists?
   end
 end
