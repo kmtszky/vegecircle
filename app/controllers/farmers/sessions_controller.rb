@@ -27,7 +27,13 @@ class Farmers::SessionsController < Devise::SessionsController
   end
 
   def guest_sign_in
-    farmer = Farmer.find_by(email: 'guest@example.com')
+    farmer = Farmer.find_or_create_by!(email: 'guest@example.com') do |farmer|
+      farmer.name = 'ゲスト（農家）'
+      farmer.password = SecureRandom.urlsafe_base64
+      farmer.farm_address = '新潟県魚沼市'
+      farmer.store_address = '新潟県魚沼市清本5-12-8'
+      farmer.introduction = '農家用ゲストアカウントです'
+    end
     farmer.update(is_deleted: false)
     sign_in farmer
     redirect_to farmers_farmers_path, flash: { success: 'ゲスト農家としてログインしました' }
