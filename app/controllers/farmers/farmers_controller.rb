@@ -12,10 +12,10 @@ class Farmers::FarmersController < ApplicationController
     @events = Event.where(["farmer_id = ? and end_date >= ?", current_farmer.id, Date.current]).order('start_date ASC').first(3)
     @evaluations = Evaluation.where(farmer_id: current_farmer.id).order('created_at DESC').first(3)
 
-    if current_farmer.evaluations.blank?
-      @average_rating = 0
-    else
+    if current_farmer.evaluations.exists?
       @average_rating = current_farmer.evaluations.average(:evaluation).round(2)
+    else
+      @average_rating = 0
     end
   end
 
