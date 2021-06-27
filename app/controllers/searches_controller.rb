@@ -5,7 +5,7 @@ class SearchesController < ApplicationController
 		case @model
 		when 'recipe' then
 			@content = params[:content]
-			@records = Recipe.search_for(@content)
+			@records = Recipe.title_like(@content)
 			tags = Tag.search_for(@content)
 			if tags.present?
 				recipe_tags = RecipeTag.where(tag_id: tags.ids).pluck(:recipe_id)

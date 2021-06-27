@@ -37,15 +37,15 @@ class Recipe < ApplicationRecord
     recipe_favorites.where(customer_id: customer.id).exists?
   end
 
-  def self.search_for(content)
-    Recipe.where('title like ?', '%' + content + '%')
+  def self.title_like(title)
+    where('title like ?', '%' + content + '%')
   end
 
   def self.sorts(method)
     if method == 'new'
-      Recipe.all.order('created_at DESC')
+      all.order('created_at DESC')
     else
-      Recipe.includes(:recipe_favorites).sort {|a, b| b.recipe_favorites.size <=> a.recipe_favorites.size }
+      includes(:recipe_favorites).sort {|a, b| b.recipe_favorites.size <=> a.recipe_favorites.size }
     end
   end
 end
