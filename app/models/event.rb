@@ -45,21 +45,13 @@ class Event < ApplicationRecord
   }
 
   def create_schedules(farmer)
-    number_of_days = self.end_date - self.start_date
-    self.start_date.step(self.start_date + number_of_days, 1) do |date|
-      schedule = Schedule.new(date: date, event_id: self.id, people: self.number_of_participants)
-      schedule.start_time = DateTime.new(date.year, date.month, date.day, self.start_time.split(":")[0].to_i, self.start_time.split(":")[1].to_i, 00, "+09:00")
-      schedule.end_time = DateTime.new(date.year, date.month, date.day, self.end_time.split(":")[0].to_i, self.end_time.split(":")[1].to_i, 00, "+09:00")
-      schedule.save unless farmer.has_schedules_on_the_day?(date)
+    start_date.step(start_date + number_of_days, 1) do |date|
+      create_schedule(date) unless farmer.has_schedules_on_the_day?(date)
     end
   end
 
   def date_update
-    min_schedule_date = Schedule.where(event_id: self.id).pluck(:date).min
-    max_schedule_date = Schedule.where(event_id: self.id).pluck(:date).max
-    if (min_schedule_date != self.start_date) || (max_schedule_date != self.end_date)
-      self.update(start_date: min_schedule_date, end_date: max_schedule_date)
-    end
+    update(start_date: min_schedule_date, end_date: max_schedule_date) if schedule_date_not_equal_start_or_end_date?
   end
 
   def favorited_by?(customer)
@@ -67,7 +59,27 @@ class Event < ApplicationRecord
   end
 
   def has_schedules?
-    schedules.where(event_id: self.id).exists?
+    schedules.where(event_id: id).exists?
+  end
+
+  def max_schedule_date
+    schedules.pluck(:date).max
+  end
+  
+  def min_schedule_date
+    schedules.pluck(:date).min
+  end
+
+  def max_schedule_date_not_equal_end_date?
+    max_schedule_date != end_date
+  end
+
+  def min_schedule_date_not_equal_start_date?
+    min_schedule_date != start_date
+  end
+
+  def schedule_date_not_equal_start_or_end_date?
+    min_schedule_date_not_equal_start_date? || max_schedule_date_not_equal_end_date?
   end
 
   def self.search_for(content, method)
@@ -92,5 +104,23 @@ class Event < ApplicationRecord
     else
       order('created_at DESC')
     end
+  end
+
+  private
+
+  def build_start_or_end_time(start_or_end, date)
+    DateTime.new(date.year, date.month, date.day, start_or_end.split(":")[0].to_i, start_or_end.split(":")[1].to_i, 00, "+09:00")
+  end
+
+  def create_schedule(date)
+    Schedule.create(date: date,
+                    event_id: id,
+                    people: number_of_participants,
+                    start_time: build_start_or_end_time(start_time, date),
+                    end_time: build_start_or_end_time(end_time, date))
+  end
+
+  def number_of_days
+    end_date - start_date
   end
 end
