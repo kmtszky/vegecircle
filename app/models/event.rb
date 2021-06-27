@@ -59,27 +59,7 @@ class Event < ApplicationRecord
   end
 
   def has_schedules?
-    schedules.where(event_id: id).exists?
-  end
-
-  def max_schedule_date
-    schedules.pluck(:date).max
-  end
-  
-  def min_schedule_date
-    schedules.pluck(:date).min
-  end
-
-  def max_schedule_date_not_equal_end_date?
-    max_schedule_date != end_date
-  end
-
-  def min_schedule_date_not_equal_start_date?
-    min_schedule_date != start_date
-  end
-
-  def schedule_date_not_equal_start_or_end_date?
-    min_schedule_date_not_equal_start_date? || max_schedule_date_not_equal_end_date?
+    schedules.exists?
   end
 
   def self.search_for(content, method)
@@ -120,7 +100,27 @@ class Event < ApplicationRecord
                     end_time: build_start_or_end_time(end_time, date))
   end
 
+  def max_schedule_date
+    schedules.pluck(:date).max
+  end
+
+  def min_schedule_date
+    schedules.pluck(:date).min
+  end
+
+  def max_schedule_date_not_equal_end_date?
+    max_schedule_date != end_date
+  end
+
+  def min_schedule_date_not_equal_start_date?
+    min_schedule_date != start_date
+  end
+
   def number_of_days
     end_date - start_date
+  end
+
+  def schedule_date_not_equal_start_or_end_date?
+    min_schedule_date_not_equal_start_date? || max_schedule_date_not_equal_end_date?
   end
 end

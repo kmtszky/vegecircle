@@ -16,17 +16,8 @@ class Schedule < ApplicationRecord
     end
   end
 
-  def date_update(start_time, end_time)
-    update(start_time: DateTime.new(self.date.year, self.date.month, self.date.day, start_time.split(":")[0].to_i, start_time.split(":")[1].to_i, 00, "+09:00"),
-           end_time: DateTime.new(self.date.year, self.date.month, self.date.day, end_time.split(":")[0].to_i, end_time.split(":")[1].to_i, 00, "+09:00"))
-  end
-
-  def eventdate_update(event)
-    min_schedule_date = Schedule.where(event_id: event.id).pluck(:date).min
-    max_schedule_date = Schedule.where(event_id: event.id).pluck(:date).max
-    if (min_schedule_date != event.start_date) || (max_schedule_date != event.end_date)
-      event.update(start_date: min_schedule_date, end_date: max_schedule_date)
-    end
+  def eventdate_update
+    event.date_update
   end
 
   def notice_created_by(farmer)
