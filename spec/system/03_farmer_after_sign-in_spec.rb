@@ -3,10 +3,6 @@ require 'rails_helper'
 describe '[step3-1] Farmer ログイン後のテスト' do
   let(:farmer) { create(:farmer) }
   let!(:other_farmer) { create(:farmer) }
-  let!(:event) { create(:event, farmer: farmer) }
-  let!(:other_event) { create(:event, farmer: other_farmer) }
-  let!(:recipe) { create(:recipe, farmer: farmer) }
-  let!(:other_recipe) { create(:recipe, farmer: other_farmer) }
 
   before do
     visit new_farmer_session_path
@@ -20,49 +16,24 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       it 'URLが正しい' do
         expect(current_path).to eq '/farmers/farmers'
       end
-      it '自分の名前・直売所の住所・農家の所在エリアが表示される' do
+      it '自分の名前・メールアドレス・フォロワー数が表示される' do
         expect(page).to have_content farmer.name
-        expect(page).to have_content farmer.farm_address
-        expect(page).to have_content farmer.store_address
+        expect(page).to have_content farmer.email
+        expect(page).to have_content farmer.evaluations.size
       end
       it '自分の編集画面へのリンクが存在する' do
-        expect(page).to have_link "編集する", href: edit_farmers_farmers_path
+        expect(page).to have_link "基本情報の編集", href: edit_farmers_farmers_path
       end
-      it '自分の投稿へのリンクが表示される' do
-        expect(page).to have_link event.title, href: farmers_event_path(event)
-        expect(page).to have_link recipe.title, href: farmers_recipe_path(recipe)
+      it 'プレビューリンクが存在し、クリックするとプレビューページへ遷移する' do
+        expect(page).to have_link '', href: farmer_path(farmer)
+        click_link ''
+        expect(current_path).to eq '/farmers/' + farmer.id.to_s
       end
-      it '他人の投稿は表示されない' do
-        expect(page).not_to have_link other_event.title, href: farmers_event_path(other_event)
-        expect(page).not_to have_link other_recipe.title, href: farmers_recipe_path(other_recipe)
+      it '自分の評価一覧へのリンクが存在する' do
+        expect(page).to have_link farmer.evaluations.size, href: farmers_farmers_evaluations_path
       end
-    end
-
-    context '農業体験の投稿一覧の確認' do
-      before do
-          FactoryBot.create(:event, :skip_validate, farmer: farmer, title: 'old_event', end_date: Date.current - 1)
-          FactoryBot.create(:event, farmer: farmer)
-          FactoryBot.create(:event, farmer: farmer)
-          visit farmers_farmers_path
-      end
-
-      it '終了日が今日よりも前のものは表示されない' do
-        expect(page).not_to have_content "old_event"
-      end
-      it '農業体験：3件以上の投稿で「もっと見る」リンクが表示されている' do
-        expect(page).to have_link '>> もっと見る', href: farmers_events_path
-      end
-    end
-
-    context 'レシピ一覧の確認' do
-      before do
-        FactoryBot.create(:recipe, farmer: farmer)
-        FactoryBot.create(:recipe, farmer: farmer)
-        visit farmers_farmers_path
-      end
-
-      it '3件以上の投稿で「もっと見る」リンクが表示されている' do
-        expect(page).to have_link '>> もっと見る', href: farmers_recipes_path
+      it '他人の情報は表示されない' do
+        expect(page).not_to have_content other_farmer.name
       end
     end
   end
@@ -113,7 +84,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
           i = 4 - n
           expect(page).to have_content news.news
           # Destroyリンク
-          destroy_link = find_all('a')[n+7]
+          destroy_link = find_all('a')[n+9]
           break if n == 3
           expect(destroy_link[:href]).to eq farmers_news_path("#{i}")
         end

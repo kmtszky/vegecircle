@@ -1,90 +1,37 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-6 offset-md-1 my-2">
-      <table>
-        <tbody>
-          <tr>
-            <td rowspan="3"><%= attachment_image_tag current_farmer, :farmer_image, :fill, 100, 100, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '100x100' %></td>
-            <td class="cell-pl"><%= current_farmer.farm_address %></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="cell-pl"><h3><%= current_farmer.name %></h3></td>
-            <td class="cell-pl"><%= link_to "編集する", edit_farmers_farmers_path, class: "btn btn-sm btn-success" %></td>
-          </tr>
-          <tr>
-            <td class="cell-pl average-rating" data-score=<%= @average_rating %>></td>
-            <td class="cell-pl">フォロワー数：<%= current_farmer.follows.size %>人</td>
-          </tr>
-        </tbody>
-      </table><br>
-      <% unless current_farmer.introduction.blank? %>
-        <%= safe_join(current_farmer.introduction.split("\n"),tag(:br)) %>
-      <% end %>
+    <div class="col-11 col-md-10 mx-auto mb-3">
+      <h4><%= current_farmer.name %>さんのマイページ
+        <%= link_to farmer_path(current_farmer), class: "btn btn-sm bg-gray rounded-circle" do %><i class="fas fa-eye"></i><% end %>
+      </h4>
     </div>
-    <div class="col-12 col-md-4 mr-auto my-2">
-      <div class="list-wrap slideshow">
-        <%= attachment_image_tag current_farmer, :image_1, class: "farm_pictures", fallback: asset_path('no_images/no_image_md.png') %>
-        <%= attachment_image_tag current_farmer, :image_2, class: "farm_pictures" %>
-        <%= attachment_image_tag current_farmer, :image_3, class: "farm_pictures" %>
-      </div>
+    <div class="col-6 col-md-3 offset-1 offset-md-4 mt-4">
+      <%= attachment_image_tag current_farmer, :farmer_image, :fill, 200, 200, class: "rounded-circle", fallback: asset_path('no_images/no_image_md.png'), size: '200x200' %>
+    </div>
+    <div class="col-5 col-md-5 mt-4 m-auto">
+      <p class="mt-2"><strong>メールアドレス</strong>：<%= current_farmer.email %></p>
+      <p><strong>フォロワー数　</strong>：<%= current_farmer.follows.size %>人</p>
+      <span class="cell-pl average-rating" data-score=<%= @average_rating %>></span>
+      <span><strong>(<%= link_to farmers_farmers_evaluations_path do %><%= current_farmer.evaluations.size %><% end %>)</strong></span>
+      <p class="mt-4"><%= link_to "基本情報の編集", edit_farmers_farmers_path, class: "btn btn-sm btn-success mr-3" %></p>
     </div>
   </div>
-
   <div class="row">
-    <div class="col-12 col-md-6 offset-md-1 my-3">
-      <h5>直売所へのアクセス</h5>
-      <%= current_farmer.store_address %>
-      <%= render 'customers/farmers/map', farmer: current_farmer %>
-    </div>
-    <div class="col-12 col-md-4 mr-auto my-3">
-      <h5>お知らせ</h5>
+    <div class="col-11 col-md-10 mx-auto my-3 text-center"><hr>
+      <h5 class="mb-2">お知らせの投稿</h5>
       <%= render 'layouts/error_messages', validation: @news %>
-      <div class="news-index">
-        <%= render 'farmers/news/index', news: @news_last3, news_left: @news_left %>
-      </div>
+    </div>
+    <div class="col-5 offset-1 col-md-4 offset-md-2">
       <%= form_with model: [:farmers, @news], local: true do |f| %>
         <div class="form-group">
-          <%= f.text_area :news, class: "form-control form-control-sm" %>
+          <%= f.text_area :news, rows: 4, class: "form-control form-control-sm" %>
           <%= f.attachment_field :news_image, class: "form-control-file" %>
         </div>
         <%= f.submit '送信', class: "btn btn-sm btn-success" %>
       <% end %>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="col-12 col-md-10 mx-auto mt-3">
-      <div class="d-flex flox-row">
-        <h5 class="mr-4">予約受付中の農業体験</h5>
-        <% if @events.count >= 3 %>
-          <%= link_to '>> もっと見る', farmers_events_path, class: "text-dark" %>
-        <% end %>
-      </div>
-      <%= render 'farmers/events/index', events: @events %>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-12 col-md-10 mx-auto mt-3">
-      <h5 class="mr-4">レシピ</h5>
-        <% if @recipes.count >= 3 %>
-          <%= link_to '>> もっと見る', farmers_recipes_path, class: "text-dark" %>
-        <% end %>
-      <%= render 'farmers/recipes/index', recipes: @recipes %>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-12 col-md-10 mx-auto text-center">
-      <h5><%= current_farmer.name %>さんに関するレビュー</h5>
-      <div class="evaluations">
-        <%= render 'customers/evaluations/index', evaluations: @evaluations %>
-      </div>
-      <% if @evaluations.size >= 3 %>
-        <div class="text-center my-3"><i class="fas fa-angle-double-down fa-3x text-warning"></i></div>
-        <%= link_to 'もっと見る', farmers_farmers_evaluations_path, class: "btn btn-secondary" %>
-      <% end %>
+    <div class="col-6 col-md-5 news-index">
+      <%= render 'farmers/news/index', news: @news_last3, news_left: @news_left %>
     </div>
   </div>
   <%= render 'farmers/farmers/raty-js' %>
