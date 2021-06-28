@@ -362,9 +362,9 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         mypage_link = find_all('a')[1].native.inner_text
         expect(mypage_link).to match(" マイページ")
       end
-      it 'nav：左から2番目のリンクが「予約一覧」である' do
+      it 'nav：左から2番目のリンクが「農業体験の予約一覧」である' do
         reservation_link = find_all('a')[2].native.inner_text
-        expect(reservation_link).to match(" 予約一覧")
+        expect(reservation_link).to match(" 農業体験の予約一覧")
       end
       it 'nav：左から3番目のリンクが「通知」である' do
         notice_link = find_all('a')[3].native.inner_text
@@ -397,7 +397,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
         click_link mypage_link
         is_expected.to eq '/profiles'
       end
-      it '「予約一覧」を押すと、予約一覧へ遷移する' do
+      it '「農業体験の予約一覧」を押すと、予約一覧へ遷移する' do
         reservation_link = find_all('a')[2].native.inner_text
         reservation_link = reservation_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link reservation_link

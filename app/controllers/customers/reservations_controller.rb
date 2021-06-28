@@ -7,7 +7,7 @@ class Customers::ReservationsController < ApplicationController
     session.delete(:reservation)
     if current_customer.reservations.find_by(schedule_id: params[:schedule_id]).present?
       @reservation = current_customer.reservations.find_by(schedule_id: params[:schedule_id])
-      redirect_to reservations_path(current_customer), flash: { warning: "予約済みのため予約一覧ページへ移動しました。" }
+      redirect_to reservations_path(current_customer), flash: { warning: "予約済みのため、農業体験の予約一覧ページへ移動しました。" }
     else
       @reservation = Reservation.new
       reserved_number = @schedule.reservations.pluck(:people).sum

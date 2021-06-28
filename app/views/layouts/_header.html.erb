@@ -10,7 +10,7 @@
           <% if customer_signed_in? %>
           <!--customerのヘッダー-->
             <li><%= link_to ' マイページ', profiles_path, class: "nav-link text-dark fas fa-user" %></li>
-            <li><%= link_to ' 予約一覧', reservations_path, class: "nav-link text-dark fas fa-pen" %></li>
+            <li><%= link_to ' 農業体験の予約一覧', reservations_path, class: "nav-link text-dark fas fa-pen" %></li>
             <li><%= link_to notices_path, class: "nav-link text-dark fas fa-bell" do %>
                   <%= ' 通知' %><span class="round-number"><%= unchecked_notices_count(current_customer) %></span>
                 <% end %></li>
