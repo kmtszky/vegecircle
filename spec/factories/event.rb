@@ -18,13 +18,13 @@ FactoryBot.define do
     end_time { Faker::Time.between_dates(from: Date.today + 2, to: Date.today + 3, period: :day) }
     number_of_participants { Faker::Number.number(digits: 2) }
 
-  trait :with_schedules do
-    after(:build) do |event|
-      event.start_date.step(event.start_date + (event.end_date - event.start_date), 1) do |date|
-        event.schedules << FactoryBot.create(:schedule, event: event, date: date, start_time: event.start_time, end_time: event.end_time, people: event.number_of_participants)
+    trait :with_schedules do
+      after(:build) do |event|
+        event.start_date.step(event.start_date + (event.end_date - event.start_date), 1) do |date|
+          event.schedules << FactoryBot.create(:schedule, event: event, date: date, start_time: event.start_time, end_time: event.end_time, people: event.number_of_participants)
+        end
       end
     end
-  end
 
     trait :skip_validate do
       to_create {|instance| instance.save(validate: false)}

@@ -89,11 +89,23 @@ RSpec.describe Event, "モデルに関するテスト", type: :model do
       expect(event).to be_invalid
       expect(event.errors[:fee]).to include("is not a number")
     end
+    it "feeが0以上の数字で入力されているかバリデーションチェックされ、数字のエラーメッセージが返ってきているか" do
+      event = FactoryBot.build(:event)
+      event.fee = -1
+      expect(event).to be_invalid
+      expect(event.errors[:fee]).to include("must be greater than or equal to 0")
+    end
     it "number_of_participantsが数字で入力されているかバリデーションチェックされ、数字のエラーメッセージが返ってきているか" do
       event = FactoryBot.build(:event)
       event.number_of_participants = 'hoge'
       expect(event).to be_invalid
       expect(event.errors[:number_of_participants]).to include("is not a number")
+    end
+    it "number_of_participantsが1以上の数字で入力されているかバリデーションチェックされ、数字のエラーメッセージが返ってきているか" do
+      event = FactoryBot.build(:event)
+      event.number_of_participants = -1
+      expect(event).to be_invalid
+      expect(event.errors[:number_of_participants]).to include("must be greater than or equal to 0")
     end
   end
   context "日程・日時のバリデーションチェック" do
