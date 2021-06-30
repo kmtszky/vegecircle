@@ -1,4 +1,6 @@
 class Customers::RecipesController < ApplicationController
+  skip_before_action :set_prefectures
+
   def index
     @recipes = Recipe.page(params[:page]).reverse_order
   end

@@ -2,6 +2,7 @@ class Farmers::EventsController < ApplicationController
   before_action :authenticate_farmer!
   before_action :set_event, only: [:show, :edit, :update, :destroy, :withdraw]
   before_action :set_schedule, only: [:show, :edit, :update, :destroy, :withdraw]
+  skip_before_action :set_prefectures
 
   def new
     @event = Event.new

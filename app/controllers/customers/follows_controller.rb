@@ -1,6 +1,7 @@
 class Customers::FollowsController < ApplicationController
   before_action :authenticate_customer!
   before_action :set_farmer
+  skip_before_action :set_prefectures
 
   def create
     follow = @farmer.follows.new(customer_id: current_customer.id)

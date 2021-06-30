@@ -1,6 +1,7 @@
 class Farmers::RecipesController < ApplicationController
   before_action :authenticate_farmer!
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
+  skip_before_action :set_prefectures
 
   def index
     @recipes = current_farmer.recipes.page(params[:page]).reverse_order

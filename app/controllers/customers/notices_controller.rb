@@ -1,4 +1,5 @@
 class Customers::NoticesController < ApplicationController
+  skip_before_action :set_prefectures
 
   def index
     notices = current_customer.notices

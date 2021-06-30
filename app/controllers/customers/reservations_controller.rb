@@ -2,6 +2,7 @@ class Customers::ReservationsController < ApplicationController
   before_action :authenticate_customer!
   before_action :set_schedule, only: [:new, :confirm, :back, :create, :thanx, :show, :destroy]
   before_action :set_reservation, only: [:show, :destroy]
+  skip_before_action :set_prefectures
 
   def new
     session.delete(:reservation)

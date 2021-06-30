@@ -1,5 +1,6 @@
 class Customers::ChatsController < ApplicationController
   before_action :authenticate_customer!
+  skip_before_action :set_prefectures
 
   def create
     @chat = current_customer.chats.new(chat_params)

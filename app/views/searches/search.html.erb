@@ -7,8 +7,10 @@
             <%= render 'farmers/recipes/index', recipes: @records %>
           <% elsif @model == 'Tag' %>
             <%= render 'farmers/recipes/index', recipes: @records %>
-          <% else %>
+          <% elsif @model == 'event' %>
             <%= render 'farmers/events/index', events: @records %>
+          <% else %>
+            <%= render 'customers/farmers/index', farmers: @records %>
           <% end %>
         <% else %>
           <% if @model == 'recipe' %>

@@ -2,6 +2,7 @@ class Customers::EvaluationsController < ApplicationController
   before_action :authenticate_customer!, except: [:index]
   before_action :set_farmer, only: [:create, :edit]
   before_action :set_evaluation, only: [:edit, :update, :destroy]
+  skip_before_action :set_prefectures
 
   def create
     @evaluation = current_customer.evaluations.new(evaluation_params)

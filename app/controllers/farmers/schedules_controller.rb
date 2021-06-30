@@ -1,6 +1,7 @@
 class Farmers::SchedulesController < ApplicationController
   before_action :authenticate_farmer!
   before_action :set_schedule
+  skip_before_action :set_prefectures
 
   def show
   end

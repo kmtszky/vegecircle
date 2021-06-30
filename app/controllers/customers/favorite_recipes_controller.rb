@@ -1,6 +1,7 @@
 class Customers::FavoriteRecipesController < ApplicationController
   before_action :authenticate_customer!
   before_action :set_recipe
+  skip_before_action :set_prefectures
 
   def create
     favorite = @recipe.recipe_favorites.new(customer_id: current_customer.id)

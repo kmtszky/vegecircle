@@ -1,5 +1,6 @@
 class Farmers::NewsController < ApplicationController
   before_action :authenticate_farmer!
+  skip_before_action :set_prefectures
 
   def create
     @news = current_farmer.news.new(news_params)

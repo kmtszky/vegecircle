@@ -1,6 +1,7 @@
 class Farmers::FarmersController < ApplicationController
   before_action :authenticate_farmer!
   before_action :set_farmer, only: [:edit, :update, :withdraw]
+  skip_before_action :set_prefectures
 
   def show
     @news = News.new

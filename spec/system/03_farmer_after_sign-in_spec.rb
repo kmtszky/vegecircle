@@ -296,15 +296,15 @@ describe '[step3-1] Farmer ログイン後のテスト' do
     context '投稿機能の確認：成功時' do
       before do
         fill_in 'event[title]', with: Faker::Lorem.characters(number: 10)
-        image_path = Rails.root.join('assets/images/no_images/no_image_md.png')
+        image_path = Rails.root.join('app/assets/images/no_images/no_image_md.png')
         attach_file('event[plan_image]', image_path, make_visible: true)
         fill_in 'event[body]', with: Faker::Lorem.paragraph
         fill_in 'event[fee]', with: Faker::Number.number(digits: 3)
         fill_in 'event[cancel_change]', with: Faker::Lorem.paragraph
         fill_in 'event[location]', with: Faker::Address.full_address
         fill_in 'event[access]', with: Faker::Lorem.characters(number: 10)
-        fill_in 'event[start_date]', with: Date.current + 2
-        fill_in 'event[end_date]', with: Date.current + 3
+        fill_in 'event[start_date]', with: Faker::Date.between(from: '2021-07-02', to: '2021-07-02')
+        fill_in 'event[end_date]', with: Faker::Date.between(from: '2021-07-04', to: '2021-07-04')
         fill_in 'event[start_time]', with: Faker::Time.between_dates(from: Date.today, to: Date.today + 1, period: :morning)
         fill_in 'event[end_time]', with: Faker::Time.between_dates(from: Date.today + 2, to: Date.today + 3, period: :day)
         fill_in 'event[number_of_participants]', with: Faker::Number.number(digits: 2)
@@ -327,7 +327,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
     context '投稿機能の確認：失敗時（body：空、fee：文字、number_of_participants：1未満、日付を過去に）' do
       before do
         fill_in 'event[title]', with: Faker::Lorem.characters(number: 10)
-        image_path = Rails.root.join('assets/images/no_images/no_image_md.png')
+        image_path = Rails.root.join('app/assets/images/no_images/no_image_md.png')
         attach_file('event[plan_image]', image_path, make_visible: true)
         fill_in 'event[body]', with: ''
         fill_in 'event[fee]', with: 'hoge'
@@ -335,8 +335,8 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         @address = Faker::Address.full_address
         fill_in 'event[location]', with: @address
         fill_in 'event[access]', with: Faker::Lorem.characters(number: 10)
-        fill_in 'event[start_date]', with: Date.current - 1
-        fill_in 'event[end_date]', with: Date.current - 3
+        fill_in 'event[start_date]', with: (Date.current - 1)
+        fill_in 'event[end_date]', with: (Date.current - 3)
         fill_in 'event[start_time]', with: Faker::Time.between_dates(from: Date.today, to: Date.today + 1, period: :morning)
         fill_in 'event[end_time]', with: Faker::Time.between_dates(from: Date.today + 2, to: Date.today + 3, period: :day)
         fill_in 'event[number_of_participants]', with: 0
@@ -347,11 +347,11 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       end
       it '新規作成ページから移動しない' do
         click_button '作成する'
-        expect(current_path).to eq 'farmers/events/new'
+        expect(current_path).to eq '/farmers/events'
       end
       it '新規投稿フォームの内容が正しい' do
         expect(find_field('event[body]').text).to be_blank
-        expect(page).to have_field 'event[address]', with: @address
+        expect(page).to have_field 'event[location]', with: @address
       end
       it 'バリデーションエラーが表示される' do
         click_button '作成する'

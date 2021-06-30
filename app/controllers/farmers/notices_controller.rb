@@ -1,4 +1,6 @@
 class Farmers::NoticesController < ApplicationController
+  skip_before_action :set_prefectures
+
   def index
     notices = current_farmer.notices
     @notices = notices.where(action: ["フォロー", "チャット", "予約"]).order('created_at DESC').first(20)

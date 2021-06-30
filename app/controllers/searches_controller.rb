@@ -1,4 +1,5 @@
 class SearchesController < ApplicationController
+  skip_before_action :set_prefectures
 
 	def search
 		@model = params[:model]
