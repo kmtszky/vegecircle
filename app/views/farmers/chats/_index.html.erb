@@ -15,7 +15,7 @@
   <% else %>
     <div class="balloon left">
       <figure class="icon">
-        <%= attachment_image_tag chat.customer, :customer_image, :fill, 80, 80, class: "rounded-circle", fallback: asset_path('logo/customer_default_icon.jpg'), size: '80x80' %>
+        <%= attachment_image_tag chat.customer, :customer_image, :fill, 80, 80, class: "rounded-circle", fallback: asset_path('customer/customer_default_icon.jpg'), size: '80x80' %>
         <figcaption class="name text-center"><%= chat.customer.nickname %></figcaption>
       </figure>
       <div class="chat-group">

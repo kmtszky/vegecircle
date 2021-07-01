@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe '[step3-1] Farmer ログイン後のテスト' do
-  let(:farmer) { create(:farmer) }
+  let!(:farmer) { create(:farmer) }
   let!(:other_farmer) { create(:farmer) }
 
   before do
@@ -210,7 +210,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
   end
 
   describe '農業体験・予約一覧のテスト' do
-    let(:event) { create(:event, :with_schedules, farmer: farmer) }
+    let!(:event) { create(:event, :with_schedules, farmer: farmer) }
     let!(:other_event) { create(:event, :with_schedules, farmer: other_farmer) }
 
     before do
@@ -239,8 +239,9 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       end
       it '自分の農業体験の名前・予約可能人数・開始時刻が表示される' do
         expect(page).to have_content event.title
-        expect(page).to have_content event.schedules.start_time
-        expect(page).to have_content event.schedules.people
+        byebug
+        expect(page).to have_content event.schedules.first.start_time.strftime.hour
+        expect(page).to have_content event.schedules.first.people
       end
       it '他人の農業体験は表示されない' do
         expect(page).not_to have_content other_event.title
@@ -297,21 +298,22 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       before do
         fill_in 'event[title]', with: Faker::Lorem.characters(number: 10)
         image_path = Rails.root.join('app/assets/images/no_images/no_image_md.png')
-        attach_file('event[plan_image]', image_path, make_visible: true)
+        attach_file('event[plan_image]', image_path)
         fill_in 'event[body]', with: Faker::Lorem.paragraph
         fill_in 'event[fee]', with: Faker::Number.number(digits: 3)
         fill_in 'event[cancel_change]', with: Faker::Lorem.paragraph
         fill_in 'event[location]', with: Faker::Address.full_address
         fill_in 'event[access]', with: Faker::Lorem.characters(number: 10)
-        fill_in 'event[start_date]', with: Faker::Date.between(from: '2021-07-02', to: '2021-07-02')
-        fill_in 'event[end_date]', with: Faker::Date.between(from: '2021-07-04', to: '2021-07-04')
-        fill_in 'event[start_time]', with: Faker::Time.between_dates(from: Date.today, to: Date.today + 1, period: :morning)
-        fill_in 'event[end_time]', with: Faker::Time.between_dates(from: Date.today + 2, to: Date.today + 3, period: :day)
+        fill_in 'event[start_date]', with: Faker::Date.between(from: Date.current + 1, to: Date.current + 1)
+        fill_in 'event[end_date]', with: Faker::Date.between(from: Date.current + 2, to: Date.current + 3)
+        fill_in 'event[start_time]', with: Faker::Time.between_dates(from: Date.current + 1, to: Date.current + 1, period: :morning)
+        fill_in 'event[end_time]', with: Faker::Time.between_dates(from: Date.current + 2, to: Date.current + 3, period: :day)
         fill_in 'event[number_of_participants]', with: Faker::Number.number(digits: 2)
       end
 
       it '新しい農業体験が正しく保存される' do
         expect { click_button '作成する' }.to change(farmer.events, :count).by(1)
+        byebug
       end
       it '作成した農業体験のページへ遷移する' do
         click_button '作成する'

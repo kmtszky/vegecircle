@@ -16,17 +16,22 @@ class Schedule < ApplicationRecord
     end
   end
 
+  def date_update(start_time, end_time)
+    update(start_time: event.build_start_or_end_time(start_time, date),
+           end_time: event.build_start_or_end_time(end_time, date))
+  end
+
   def eventdate_update
     event.date_update
   end
 
   def notice_created_by(farmer)
-    recipients = Reservation.select(:customer_id).where(schedule_id: self.id)
+    recipients = Reservation.select(:customer_id).where(schedule_id: id)
     if recipients.present?
-      notice = Notice.new(farmer_id: farmer.id, event_id: self.event_id, action: "農業体験のスケジュール更新")
+      notice = Notice.new(farmer_id: farmer.id, event_id: event_id, action: "農業体験のスケジュール更新")
       recipients.each do |recipient|
         notice.customer_id = recipient.customer_id
-        reservation = Reservation.find_by(schedule_id: self.id, customer_id: recipient.customer_id)
+        reservation = Reservation.find_by(schedule_id: id, customer_id: recipient.customer_id)
         notice.reservation_id = reservation.id
         notice.save
       end
