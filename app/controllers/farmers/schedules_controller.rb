@@ -27,7 +27,7 @@ class Farmers::SchedulesController < ApplicationController
       end
     else
       if @schedule.update(schedule_params)
-        @schedule.date_update(params[:schedule][:start_time], params[:schedule][:end_time], date)
+        @schedule.date_update(params[:schedule][:start_time], params[:schedule][:end_time])
         @schedule.eventdate_update
         @schedule.notice_created_by(current_farmer)
         redirect_to farmers_event_schedule_path(@event, @schedule),

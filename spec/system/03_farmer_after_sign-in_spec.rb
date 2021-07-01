@@ -114,22 +114,14 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       it 'URLが正しい' do
         expect(current_path).to eq '/farmers/farmers/edit'
       end
-      it '農家名編集フォームに自分の名前が表示される' do
+      it 'フォームに適切な内容が表示される' do
         expect(page).to have_field 'farmer[name]', with: farmer.name
-      end
-      it '農家画像編集フォームが表示される' do
-        expect(page).to have_field 'farmer[farmer_image]'
-      end
-      it '農家エリア編集フォームに農家エリアが表示される' do
         expect(page).to have_field 'farmer[farm_address]', with: farmer.farm_address
-      end
-      it '直売所住所編集フォームに直売所住所が表示される' do
         expect(page).to have_field 'farmer[store_address]', with: farmer.store_address
-      end
-      it '自己紹介編集フォームに自分の自己紹介文が表示される' do
         expect(page).to have_field 'farmer[introduction]', with: farmer.introduction
       end
-      it '農家紹介画像フォームが表示される' do
+      it '画像投稿用のフォームが表示される' do
+        expect(page).to have_field 'farmer[farmer_image]'
         expect(page).to have_field 'farmer[image_1]'
         expect(page).to have_field 'farmer[image_2]'
         expect(page).to have_field 'farmer[image_3]'
@@ -217,7 +209,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       visit farmers_farmers_calender_path
     end
 
-    context '表示内容の確認' do
+    context 'カレンダー画面の表示内容の確認' do
       it 'URLが正しい' do
         expect(current_path).to eq '/farmers/calender'
       end
@@ -239,8 +231,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       end
       it '自分の農業体験の名前・予約可能人数・開始時刻が表示される' do
         expect(page).to have_content event.title
-        byebug
-        expect(page).to have_content event.schedules.first.start_time.strftime.hour
+        expect(page).to have_content event.schedules.first.start_time.hour
         expect(page).to have_content event.schedules.first.people
       end
       it '他人の農業体験は表示されない' do
@@ -300,25 +291,25 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         image_path = Rails.root.join('app/assets/images/no_images/no_image_md.png')
         attach_file('event[plan_image]', image_path)
         fill_in 'event[body]', with: Faker::Lorem.paragraph
-        fill_in 'event[fee]', with: Faker::Number.number(digits: 3)
+        fill_in 'event[fee]', with: Faker::Number.within(range: 100..1000)
         fill_in 'event[cancel_change]', with: Faker::Lorem.paragraph
         fill_in 'event[location]', with: Faker::Address.full_address
         fill_in 'event[access]', with: Faker::Lorem.characters(number: 10)
         fill_in 'event[start_date]', with: Faker::Date.between(from: Date.current + 1, to: Date.current + 1)
         fill_in 'event[end_date]', with: Faker::Date.between(from: Date.current + 2, to: Date.current + 3)
-        fill_in 'event[start_time]', with: Faker::Time.between_dates(from: Date.current + 1, to: Date.current + 1, period: :morning)
-        fill_in 'event[end_time]', with: Faker::Time.between_dates(from: Date.current + 2, to: Date.current + 3, period: :day)
-        fill_in 'event[number_of_participants]', with: Faker::Number.number(digits: 2)
+        fill_in 'event[start_time]', with: "09:00:00.000"
+        fill_in 'event[end_time]', with: "12:00:00.000"
+        fill_in 'event[number_of_participants]', with: Faker::Number.within(range: 10..20)
       end
 
       it '新しい農業体験が正しく保存される' do
         expect { click_button '作成する' }.to change(farmer.events, :count).by(1)
-        byebug
       end
       it '作成した農業体験のページへ遷移する' do
         click_button '作成する'
-        expect(current_path).to eq 'farmers/events/' + event.id.to_s
-        expect(page).to have_content event.title
+        byebug
+        expect(current_path).to eq '/farmers/events/' + farmer.events.last.id.to_s
+        expect(page).to have_content farmer.events.last.title
       end
       it 'サクセスメッセージが表示される' do
         click_button '作成する'
@@ -326,11 +317,11 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       end
     end
 
-    context '投稿機能の確認：失敗時（body：空、fee：文字、number_of_participants：1未満、日付を過去に）' do
+    context '投稿機能の確認：失敗時（body：空, fee：文字, number_of_participants < 1, start_date < end_date < Date.today, start_time > end_time）' do
       before do
         fill_in 'event[title]', with: Faker::Lorem.characters(number: 10)
         image_path = Rails.root.join('app/assets/images/no_images/no_image_md.png')
-        attach_file('event[plan_image]', image_path, make_visible: true)
+        attach_file('event[plan_image]', image_path)
         fill_in 'event[body]', with: ''
         fill_in 'event[fee]', with: 'hoge'
         fill_in 'event[cancel_change]', with: Faker::Lorem.paragraph
@@ -339,8 +330,8 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         fill_in 'event[access]', with: Faker::Lorem.characters(number: 10)
         fill_in 'event[start_date]', with: (Date.current - 1)
         fill_in 'event[end_date]', with: (Date.current - 3)
-        fill_in 'event[start_time]', with: Faker::Time.between_dates(from: Date.today, to: Date.today + 1, period: :morning)
-        fill_in 'event[end_time]', with: Faker::Time.between_dates(from: Date.today + 2, to: Date.today + 3, period: :day)
+        fill_in 'event[start_time]', with: "12:00:00.000"
+        fill_in 'event[end_time]', with: "09:00:00.000"
         fill_in 'event[number_of_participants]', with: 0
       end
 
@@ -362,6 +353,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(page).to have_content "must be greater than or equal to 1"
         expect(page).to have_content "は本日以降の日付を選択してください"
         expect(page).to have_content "は開始日以降の日付を選択してください"
+        expect(page).to have_content "は開始時刻よりも後の時刻を選択してください"
       end
     end
   end

@@ -45,7 +45,6 @@ class Event < ApplicationRecord
   }
 
   def build_start_or_end_time(start_or_end, date)
-    byebug
     DateTime.new(date.year, date.month, date.day, start_or_end.split(":")[0].to_i, start_or_end.split(":")[1].to_i, 00, "+09:00")
   end
 
@@ -94,10 +93,9 @@ class Event < ApplicationRecord
   private
 
   def create_schedule(date)
-    byebug
     Schedule.create(date: date,
                     event_id: id,
-                  people: number_of_participants,
+                    people: number_of_participants,
                     start_time: build_start_or_end_time(start_time, date),
                     end_time: build_start_or_end_time(end_time, date))
   end
