@@ -307,7 +307,6 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       end
       it '作成した農業体験のページへ遷移する' do
         click_button '作成する'
-        byebug
         expect(current_path).to eq '/farmers/events/' + farmer.events.last.id.to_s
         expect(page).to have_content farmer.events.last.title
       end
