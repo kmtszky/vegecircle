@@ -3,6 +3,8 @@ require 'rails_helper'
 describe '[step3-1] Farmer ログイン後のテスト' do
   let!(:farmer) { create(:farmer) }
   let!(:other_farmer) { create(:farmer) }
+  let!(:event) { create(:event, :with_schedules, farmer: farmer) }
+  let!(:other_event) { create(:event, :with_schedules, farmer: other_farmer) }
 
   before do
     visit new_farmer_session_path
@@ -202,9 +204,6 @@ describe '[step3-1] Farmer ログイン後のテスト' do
   end
 
   describe '農業体験・予約一覧のテスト' do
-    let!(:event) { create(:event, :with_schedules, farmer: farmer) }
-    let!(:other_event) { create(:event, :with_schedules, farmer: other_farmer) }
-
     before do
       visit farmers_farmers_calender_path
     end
@@ -233,6 +232,11 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(page).to have_content event.title
         expect(page).to have_content event.schedules.first.start_time.hour
         expect(page).to have_content event.schedules.first.people
+      end
+      it '農業体験をクリックすると、農業体験のスケジュール詳細画面へ遷移する' do
+        expect(page).to have_link event.title, href: farmers_event_schedule_path(event, event.schedules.first)
+        page.all("a")[9].click
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s + "/schedules/" + event.schedules.first.id.to_s
       end
       it '他人の農業体験は表示されない' do
         expect(page).not_to have_content other_event.title
@@ -293,7 +297,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         fill_in 'event[body]', with: Faker::Lorem.paragraph
         fill_in 'event[fee]', with: Faker::Number.within(range: 100..1000)
         fill_in 'event[cancel_change]', with: Faker::Lorem.paragraph
-        fill_in 'event[location]', with: Faker::Address.full_address
+        fill_in 'event[location]', with: "栃木県宇都宮市池上町4-2-5"
         fill_in 'event[access]', with: Faker::Lorem.characters(number: 10)
         fill_in 'event[start_date]', with: Faker::Date.between(from: Date.current + 1, to: Date.current + 1)
         fill_in 'event[end_date]', with: Faker::Date.between(from: Date.current + 2, to: Date.current + 3)
@@ -312,7 +316,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       end
       it 'サクセスメッセージが表示される' do
         click_button '作成する'
-        expect(page).to have_content '農業体験を作成しました'
+        expect(page).to have_content('作成しました')
       end
     end
 
@@ -353,6 +357,101 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(page).to have_content "は本日以降の日付を選択してください"
         expect(page).to have_content "は開始日以降の日付を選択してください"
         expect(page).to have_content "は開始時刻よりも後の時刻を選択してください"
+      end
+    end
+  end
+
+  describe '農業体験画面のテスト' do
+    before do
+      visit farmers_event_path(event)
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s
+      end
+      it 'お気に入り件数が表示される' do
+        expect(page).to have_content event.event_favorites.size
+      end
+      it 'イベント名・イベント概要・開催時刻・参加費・キャンセルポリシー・そのほかが表示される' do
+        expect(page).to have_content event.title
+        expect(page).to have_content event.body
+        expect(page).to have_content event.schedules.first.start_time.strftime('%H:%M')
+        expect(page).to have_content event.schedules.first.end_time.strftime('%H:%M')
+        expect(page).to have_content event.fee
+        expect(page).to have_content event.cancel_change
+        expect(page).to have_content event.etc
+      end
+      it '集合場所・アクセス方法・駐車場が表示される' do
+        expect(page).to have_content event.location
+        expect(page).to have_content event.access
+        expect(page).to have_content event.parking
+      end
+      it '農業体験の日程が表示され、クリックするとスケジュール詳細画面へ遷移する' do
+        expect(page).to have_content event.schedules.first.date.strftime('%Y/%m/%d')
+        click_link event.schedules.first.date.strftime('%Y/%m/%d')
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s
+      end
+      it '農業体験編集画面へのリンクが存在し、クリックすると農業体験編集画面へ遷移する' do
+        expect(page).to have_link "編集する", href: edit_farmers_event_path(event)
+        click_link "編集する"
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s + '/edit'
+      end
+      it '「チャット」ボタンを押すと、ページ内のチャットフォームまで移動する' do
+        expect(page).to have_link "チャット", href: "#chat"
+        click_link "チャット"
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s
+      end
+    end
+
+    context "チャット投稿用フォームの表示内容の確認" do
+      it 'チャット投稿用の空フォームが表示される' do
+        expect(page).to have_field 'chat[chat]'
+        expect(find_field('chat[chat]').text).to be_blank
+      end
+      it 'チャットの投稿ボタンが表示される' do
+        expect(page).to have_button '送信'
+      end
+    end
+    #チャットの投稿機能はjavascriptのため飛ばす
+  end
+
+  describe '農業体験詳細画面のテスト' do
+    before do
+      visit farmers_event_schedule_path(event, event.schedules.first)
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s
+      end
+      it 'お気に入り件数・予約件数が表示される' do
+        expect(page).to have_content event.event_favorites.size
+        expect(page).to have_content event.schedules.first.reservations.size
+      end
+      it 'イベント名・イベント概要・開催時刻・参加費・キャンセルポリシー・そのほかが表示される' do
+        expect(page).to have_content event.title
+        expect(page).to have_content event.body
+        expect(page).to have_content event.schedules.first.start_time.strftime('%H:%M')
+        expect(page).to have_content event.schedules.first.end_time.strftime('%H:%M')
+        expect(page).to have_content event.fee
+        expect(page).to have_content event.cancel_change
+        expect(page).to have_content event.etc
+      end
+      it '集合場所・アクセス方法・駐車場が表示される' do
+        expect(page).to have_content event.location
+        expect(page).to have_content event.access
+        expect(page).to have_content event.parking
+      end
+      it 'スケジュール編集画面へのリンクが存在し、クリックするとスケジュール編集画面へ遷移する' do
+        expect(page).to have_link "編集する", href: edit_farmers_event_schedule_path(event, event.schedules.first)
+        click_link "編集する"
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/edit'
+      end
+      it '農業体験編集画面へのリンクが存在し、クリックすると農業体験編集画面へ遷移する' do
+        expect(page).to have_link "日時以外の項目を編集する", href: edit_farmers_event_path(event)
+        click_link "日時以外の項目を編集する"
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s + '/edit'
       end
     end
   end

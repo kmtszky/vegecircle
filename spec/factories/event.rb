@@ -8,14 +8,14 @@ FactoryBot.define do
     body { Faker::Lorem.paragraph }
     fee { Faker::Number.within(range: 100..1000) }
     cancel_change { Faker::Lorem.paragraph }
-    location { Faker::Address.full_address }
+    location { "栃木県宇都宮市池上町4-2-5" }
     access { Faker::Lorem.characters(number: 10) }
-    start_date { Date.current + 1 }
-    end_date { Date.current + 2 }
+    start_date { Date.current + 3 }
+    end_date { Date.current + 4 }
 
     # Schedule用パラメータ
-    start_time { Faker::Time.between_dates(from: Date.current + 1, to: Date.current + 1, period: :morning) }
-    end_time { Faker::Time.between_dates(from: Date.current + 2, to: Date.current + 2, period: :day) }
+    start_time { Faker::Time.between_dates(from: Date.current + 3, to: Date.current + 3, period: :morning) }
+    end_time { Faker::Time.between_dates(from: Date.current + 4, to: Date.current + 4, period: :day) }
     number_of_participants { Faker::Number.within(range: 10..20) }
 
     trait :with_schedules do
