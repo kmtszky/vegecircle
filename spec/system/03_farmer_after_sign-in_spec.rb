@@ -203,7 +203,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
     end
   end
 
-  describe '農業体験・予約一覧のテスト' do
+  describe '農業体験・予約一覧（カレンダー）のテスト' do
     before do
       visit farmers_farmers_calender_path
     end
@@ -416,7 +416,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
     #チャットの投稿機能はjavascriptのため飛ばす
   end
 
-  describe '農業体験詳細画面のテスト' do
+  describe '農業体験のスケジュール画面のテスト' do
     before do
       visit farmers_event_schedule_path(event, event.schedules.first)
     end
@@ -452,6 +452,74 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(page).to have_link "日時以外の項目を編集する", href: edit_farmers_event_path(event)
         click_link "日時以外の項目を編集する"
         expect(current_path).to eq '/farmers/events/' + event.id.to_s + '/edit'
+      end
+    end
+  end
+
+  describe '農業体験一覧画面のテスト' do
+    before do
+      visit farmers_events_path
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/farmers/events'
+      end
+      it 'タイトル・タブが表示される' do
+        expect(page).to have_content '農業体験一覧'
+        expect(page).to have_content '予約受付中の農業体験'
+        expect(page).to have_content '終了済みの農業体験'
+      end
+      it 'イベント名・集合場所（都道府県まで）・開催期間が表示される' do
+        expect(page).to have_content event.title
+        expect(page).to have_content event.location.match(/^.{2,3}[都道府県]/).to_s
+        expect(page).to have_content event.start_date.strftime('%m/%d')
+        expect(page).to have_content event.end_date.strftime('%m/%d')
+      end
+      it '他人の投稿が表示されない' do
+        expect(page).not_to have_content other_event.title
+      end
+      it '検索フォーム（文字入力・日付）が表示される' do
+        expect(page).to have_field 'content'
+        expect(page).to have_field 'event_date'
+      end
+      it 'ソート用のセレクションフォームが表示される' do
+        expect(page).to have_field 'keyword'
+      end
+      it '農業体験・予約一覧（カレンダー）画面へのリンクが存在し、クリックすると農業体験・予約一覧画面へ遷移する' do
+        expect(page).to have_link "カレンダー表示に切り替え", href: farmers_farmers_calender_path
+        click_link "カレンダー表示に切り替え"
+        expect(current_path).to eq '/farmers/calender'
+      end
+    end
+  end
+
+  describe 'レシピ一覧画面のテスト' do
+    before do
+      visit farmers_recipes_path
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/farmers/recipes'
+      end
+      it 'タイトル表示される' do
+        expect(page).to have_content 'レシピ一覧'
+      end
+      it 'イベント名・集合場所（都道府県まで）・開催期間が表示される' do
+      end
+      it '他人の投稿が表示されない' do
+      end
+      it '検索フォーム（文字入力・日付）が表示される' do
+        expect(page).to have_field 'content'
+      end
+      it 'ソート用のセレクションフォームが表示される' do
+        expect(page).to have_field 'keyword'
+      end
+      it 'レシピ投稿用のボタンが表示され、クリックするとレシピ作成画面へ遷移する' do
+        expect(page).to have_link "レシピを投稿する", href: new_farmers_recipe_path
+        click_link "レシピを投稿する"
+        expect(current_path).to eq '/farmers/recipes/new'
       end
     end
   end
