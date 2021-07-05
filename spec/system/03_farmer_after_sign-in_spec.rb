@@ -533,10 +533,10 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         image_path = Rails.root.join('app/assets/images/no_images/no_image_md.png')
         attach_file('recipe[recipe_image]', image_path)
         fill_in 'recipe[duration]', with: Faker::Number.within(range: 10..90)
-        fill_in 'recipe[amount]', with: Faker::Number.within(range: 1..10)
+        select 3, from: 'recipe[amount]'
         fill_in 'recipe[ingredient]', with: Faker::Lorem.paragraph
         fill_in 'recipe[recipe]', with: Faker::Lorem.paragraph
-        fill_in 'recipe[tag_list]', with: Faker::Lorem.words.split(',')
+        fill_in 'recipe[tag_list]', with: "タグ1, タグ2, タグ3, タグ4"
       end
 
       it '新しいレシピが正しく保存される' do
@@ -553,14 +553,14 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       end
     end
 
-    context '投稿機能の確認：失敗時（duration：float, amount: 0, ingredient・tag_list：空）' do
+    context '投稿機能の確認：失敗時（duration：float, ingredient・tag_list：空）' do
       before do
         @title = Faker::Lorem.characters(number: 10)
         fill_in 'recipe[title]', with: @title
         image_path = Rails.root.join('app/assets/images/no_images/no_image_md.png')
         attach_file('recipe[recipe_image]', image_path)
         fill_in 'recipe[duration]', with: 1.5
-        select 'recipe[amount]', with: 0
+        select 3, from: 'recipe[amount]'
         fill_in 'recipe[ingredient]', with: ''
         fill_in 'recipe[recipe]', with: Faker::Lorem.paragraph
         fill_in 'recipe[tag_list]', with: ''
@@ -580,8 +580,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       it 'バリデーションエラーが表示される' do
         click_button '作成する'
         expect(page).to have_content "can't be blank"
-        expect(page).to have_content "is not a number"
-        expect(page).to have_content "must be greater than or equal to 1"
+        expect(page).to have_content "must be an integer"
       end
     end
   end
@@ -604,7 +603,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(page).to have_content recipe.amount
         expect(page).to have_content recipe.ingredient
         expect(page).to have_content recipe.recipe
-        expect(page).to have_content recipe.tags.first
+        expect(page).to have_content recipe.tags.first.tag
       end
       it 'レシピの編集画面へのリンクが存在し、クリックすると編集画面へ遷移する' do
         expect(page).to have_link '編集する', href: edit_farmers_recipe_path(recipe)
@@ -617,24 +616,45 @@ describe '[step3-1] Farmer ログイン後のテスト' do
     end
 
     context "削除機能の確認" do
-      it '削除ボタンを押すと、確認ウィンドウが表示される' do
-        click_link "削除する"
-        expect(page.accept_confirm).to eq "レシピを削除しますか?"
-      end
-      it '確認ウィンドウ承認後、正常に削除される' do
-        expect {
-          page.accept_confirm do
-            click_link "削除する"
-            expect(page).to have_content "レシピを削除しました"
-          end
-        }. to change(farmer.recipes, :count).by(-1)
+      it '削除ボタンを押すと、正常に削除される' do
+        expect{ click_link "削除する" }.to change(farmer.recipes, :count).by(-1)
       end
       it '削除するとマイページに遷移し、サクセスメッセージが表示される' do
-        page.accept_confirm do
-          click_link "削除する"
-        end
+        click_link "削除する"
         expect(page).to have_content "レシピを削除しました"
         expect(current_path).to eq "/farmers/farmers"
+      end
+    end
+  end
+
+  describe 'レシピ編集画面のテスト' do
+    before do
+      visit edit_farmers_recipe_path(recipe)
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/farmers/recipes'
+      end
+      it 'タイトルが表示される' do
+        expect(page).to have_content 'レシピ一覧'
+      end
+      it 'レシピ名が表示される' do
+        expect(page).to have_content recipe.title
+      end
+      it '他人の投稿が表示されない' do
+        expect(page).not_to have_content other_recipe.title
+      end
+      it '検索フォーム（文字入力・日付）が表示される' do
+        expect(page).to have_field 'content'
+      end
+      it 'ソート用のセレクションフォームが表示される' do
+        expect(page).to have_field 'keyword'
+      end
+      it 'レシピ投稿用のボタンが表示され、クリックするとレシピ作成画面へ遷移する' do
+        expect(page).to have_link "レシピを投稿する", href: new_farmers_recipe_path
+        click_link "レシピを投稿する"
+        expect(current_path).to eq '/farmers/recipes/new'
       end
     end
   end

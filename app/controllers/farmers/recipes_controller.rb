@@ -47,7 +47,7 @@ class Farmers::RecipesController < ApplicationController
 
   def destroy
     @recipe.destroy
-    redirect_to farmer_path(current_farmer), flash: {success: "レシピを削除しました"}
+    redirect_to farmers_farmers_path, flash: {success: "レシピを削除しました"}
   end
 
   private
