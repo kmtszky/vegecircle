@@ -577,7 +577,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(find_field('recipe[ingredient]').text).to be_blank
         expect(page).to have_field 'recipe[title]', with: @title
       end
-      it 'バリデーションエラーが表示される' do
+      it 'バリデーションのエラーメッセージが表示される' do
         click_button '作成する'
         expect(page).to have_content "can't be blank"
         expect(page).to have_content "must be an integer"
@@ -633,28 +633,64 @@ describe '[step3-1] Farmer ログイン後のテスト' do
     end
 
     context "表示内容の確認" do
-      it 'URLが正しい' do
-        expect(current_path).to eq '/farmers/recipes'
+      it 'フォームに適切な内容が表示される' do
+        expect(page).to have_field 'recipe[title]', with: recipe.title
+        expect(page).to have_field 'recipe[duration]', with: recipe.duration
+        expect(page).to have_select 'recipe[amount]', selected: recipe.amount.to_s
+        expect(page).to have_field 'recipe[ingredient]', with: recipe.ingredient
+        expect(page).to have_field 'recipe[recipe]', with: recipe.recipe
+        expect(page).to have_field 'recipe[tag_list]'
       end
-      it 'タイトルが表示される' do
-        expect(page).to have_content 'レシピ一覧'
+      it '画像投稿用のフォームが表示される' do
+        expect(page).to have_field 'recipe[recipe_image]'
       end
-      it 'レシピ名が表示される' do
-        expect(page).to have_content recipe.title
+      it '「更新する」ボタンが表示される' do
+        expect(page).to have_button '更新する'
       end
-      it '他人の投稿が表示されない' do
-        expect(page).not_to have_content other_recipe.title
+    end
+
+    context '更新成功時' do
+      before do
+        @recipe_old_title = recipe.title
+        @recipe_tags = recipe.tags
+        fill_in 'recipe[title]', with: Faker::Lorem.characters(number: 10)
+        fill_in 'recipe[duration]', with: Faker::Number.within(range: 10..90)
+        select 3, from: 'recipe[amount]'
+        fill_in 'recipe[ingredient]', with: Faker::Lorem.paragraph
+        fill_in 'recipe[recipe]', with: Faker::Lorem.paragraph
+        fill_in 'recipe[tag_list]', with: "タグ1, タグ2, タグ3"
+        click_button '更新する'
       end
-      it '検索フォーム（文字入力・日付）が表示される' do
-        expect(page).to have_field 'content'
+
+      it '変更内容が正しく更新される' do
+        expect(recipe.reload.title).not_to eq @recipe_old_title
+        expect(recipe.reload.tags).not_to eq @recipe_tags
       end
-      it 'ソート用のセレクションフォームが表示される' do
-        expect(page).to have_field 'keyword'
+      it 'リダイレクト先がレシピの詳細画面である' do
+        expect(current_path).to eq '/farmers/recipes/' + recipe.id.to_s
       end
-      it 'レシピ投稿用のボタンが表示され、クリックするとレシピ作成画面へ遷移する' do
-        expect(page).to have_link "レシピを投稿する", href: new_farmers_recipe_path
-        click_link "レシピを投稿する"
-        expect(current_path).to eq '/farmers/recipes/new'
+      it 'サクセスメッセージが表示される' do
+        expect(page).to have_content 'レシピを更新しました'
+      end
+    end
+
+    context '更新失敗時' do
+      before do
+        fill_in 'recipe[title]', with: Faker::Lorem.characters(number: 10)
+        fill_in 'recipe[duration]', with: 1.5
+        select 3, from: 'recipe[amount]'
+        fill_in 'recipe[ingredient]', with: ''
+        fill_in 'recipe[recipe]', with: Faker::Lorem.paragraph
+        fill_in 'recipe[tag_list]', with: ''
+        click_button '更新する'
+      end
+
+      it '編集画面から遷移しない' do
+        expect(current_path).to eq '/farmers/recipes/' + recipe.id.to_s
+      end
+      it 'バリデーションのエラーメッセージが表示される' do
+        expect(page).to have_content "can't be blank"
+        expect(page).to have_content "must be an integer"
       end
     end
   end
