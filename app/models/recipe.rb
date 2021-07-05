@@ -9,8 +9,8 @@ class Recipe < ApplicationRecord
   with_options presence: true do
     validates :title
     validates :recipe_image
-    validates :duration, numericality: true
-    validates :amount, numericality: true
+    validates :duration, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+    validates :amount, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
     validates :ingredient
     validates :recipe
     validates :tag_list
@@ -18,18 +18,18 @@ class Recipe < ApplicationRecord
 
   attachment :recipe_image
 
-  def save_tags(inputed_tags)
-    current_tags = self.tags.pluck(:tag) unless self.tags.nil?
+  def save_tags(inputted_tags)
+    current_tags = tags.pluck(:tag) unless tags.nil?
     tags_to_be_added = inputted_tags - current_tags
     tags_to_be_deleted = current_tags - inputted_tags
 
     tags_to_be_added.each do |tag_to_be_added|
       recipe_tag = Tag.find_or_create_by(tag: tag_to_be_added)
-      self.tags << recipe_tag
+      tags << recipe_tag
     end
 
     tags_to_be_deleted.each do |tag_to_be_deleted|
-      self.tags.delete Tag.find_by(tag: tag_to_be_deleted)
+      tags.delete Tag.find_by(tag: tag_to_be_deleted)
     end
   end
 

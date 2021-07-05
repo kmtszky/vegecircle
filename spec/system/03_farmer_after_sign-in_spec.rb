@@ -5,6 +5,8 @@ describe '[step3-1] Farmer ログイン後のテスト' do
   let!(:other_farmer) { create(:farmer) }
   let!(:event) { create(:event, :with_schedules, farmer: farmer) }
   let!(:other_event) { create(:event, :with_schedules, farmer: other_farmer) }
+  let!(:recipe) { create(:recipe, :with_tag_lists, farmer: farmer) }
+  let!(:other_recipe) { create(:recipe, :with_tag_lists, farmer: other_farmer) }
 
   before do
     visit new_farmer_session_path
@@ -69,7 +71,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         click_button '送信'
         expect(page).to have_content 'お知らせを投稿しました'
       end
-      it '投稿成功時：削除ボタンが表示される' do
+      it '投稿成功時：新しい投稿と、削除ボタンが表示される' do
         click_button '送信'
         expect(page).to have_content farmer.news.last.news
         expect(page).to have_link '削除'
@@ -494,6 +496,149 @@ describe '[step3-1] Farmer ログイン後のテスト' do
     end
   end
 
+  describe 'レシピ作成画面のテスト' do
+    before do
+      visit new_farmers_recipe_path
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/farmers/recipes/new'
+      end
+      it 'タイトル表示される' do
+        expect(page).to have_content 'レシピの作成'
+      end
+      it '入力用の空フォームが表示される' do
+        expect(page).to have_field 'recipe[title]'
+        expect(find_field('recipe[title]').text).to be_blank
+        expect(page).to have_field 'recipe[recipe_image]'
+        expect(page).to have_field 'recipe[duration]'
+        expect(find_field('recipe[duration]').text).to be_blank
+        expect(page).to have_field 'recipe[amount]'
+        expect(page).to have_field 'recipe[ingredient]'
+        expect(find_field('recipe[ingredient]').text).to be_blank
+        expect(page).to have_field 'recipe[recipe]'
+        expect(find_field('recipe[recipe]').text).to be_blank
+        expect(page).to have_field 'recipe[tag_list]'
+        expect(find_field('recipe[tag_list]').text).to be_blank
+      end
+      it 'レシピの投稿ボタンが表示される' do
+        expect(page).to have_button '作成する'
+      end
+    end
+
+    context '投稿機能の確認：成功時' do
+      before do
+        fill_in 'recipe[title]', with: Faker::Lorem.characters(number: 10)
+        image_path = Rails.root.join('app/assets/images/no_images/no_image_md.png')
+        attach_file('recipe[recipe_image]', image_path)
+        fill_in 'recipe[duration]', with: Faker::Number.within(range: 10..90)
+        fill_in 'recipe[amount]', with: Faker::Number.within(range: 1..10)
+        fill_in 'recipe[ingredient]', with: Faker::Lorem.paragraph
+        fill_in 'recipe[recipe]', with: Faker::Lorem.paragraph
+        fill_in 'recipe[tag_list]', with: Faker::Lorem.words.split(',')
+      end
+
+      it '新しいレシピが正しく保存される' do
+        expect { click_button '作成する' }.to change(farmer.recipes, :count).by(1)
+      end
+      it '作成したレシピのページへ遷移する' do
+        click_button '作成する'
+        expect(current_path).to eq '/farmers/recipes/' + farmer.recipes.last.id.to_s
+        expect(page).to have_content farmer.recipes.last.title
+      end
+      it 'サクセスメッセージが表示される' do
+        click_button '作成する'
+        expect(page).to have_content('レシピを作成しました')
+      end
+    end
+
+    context '投稿機能の確認：失敗時（duration：float, amount: 0, ingredient・tag_list：空）' do
+      before do
+        @title = Faker::Lorem.characters(number: 10)
+        fill_in 'recipe[title]', with: @title
+        image_path = Rails.root.join('app/assets/images/no_images/no_image_md.png')
+        attach_file('recipe[recipe_image]', image_path)
+        fill_in 'recipe[duration]', with: 1.5
+        select 'recipe[amount]', with: 0
+        fill_in 'recipe[ingredient]', with: ''
+        fill_in 'recipe[recipe]', with: Faker::Lorem.paragraph
+        fill_in 'recipe[tag_list]', with: ''
+      end
+
+      it '新しい農業体験が保存されない' do
+        expect { click_button '作成する' }.not_to change(farmer.recipes, :count)
+      end
+      it '新規作成ページから移動しない' do
+        click_button '作成する'
+        expect(current_path).to eq '/farmers/recipes'
+      end
+      it '新規投稿フォームの内容が正しい' do
+        expect(find_field('recipe[ingredient]').text).to be_blank
+        expect(page).to have_field 'recipe[title]', with: @title
+      end
+      it 'バリデーションエラーが表示される' do
+        click_button '作成する'
+        expect(page).to have_content "can't be blank"
+        expect(page).to have_content "is not a number"
+        expect(page).to have_content "must be greater than or equal to 1"
+      end
+    end
+  end
+
+  describe 'レシピ詳細画面のテスト' do
+    before do
+      visit farmers_recipe_path(recipe)
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/farmers/recipes/' + recipe.id.to_s
+      end
+      it 'お気に入り件数が表示される' do
+        expect(page).to have_content recipe.recipe_favorites.size
+      end
+      it '料理名・調理時間・分量・材料・レシピ・タグが表示される' do
+        expect(page).to have_content recipe.title
+        expect(page).to have_content recipe.duration
+        expect(page).to have_content recipe.amount
+        expect(page).to have_content recipe.ingredient
+        expect(page).to have_content recipe.recipe
+        expect(page).to have_content recipe.tags.first
+      end
+      it 'レシピの編集画面へのリンクが存在し、クリックすると編集画面へ遷移する' do
+        expect(page).to have_link '編集する', href: edit_farmers_recipe_path(recipe)
+        click_link "編集する"
+        expect(current_path).to eq '/farmers/recipes/' + recipe.id.to_s + '/edit'
+      end
+      it 'レシピの削除ボタンが表示される' do
+        expect(page).to have_link '削除する'
+      end
+    end
+
+    context "削除機能の確認" do
+      it '削除ボタンを押すと、確認ウィンドウが表示される' do
+        click_link "削除する"
+        expect(page.accept_confirm).to eq "レシピを削除しますか?"
+      end
+      it '確認ウィンドウ承認後、正常に削除される' do
+        expect {
+          page.accept_confirm do
+            click_link "削除する"
+            expect(page).to have_content "レシピを削除しました"
+          end
+        }. to change(farmer.recipes, :count).by(-1)
+      end
+      it '削除するとマイページに遷移し、サクセスメッセージが表示される' do
+        page.accept_confirm do
+          click_link "削除する"
+        end
+        expect(page).to have_content "レシピを削除しました"
+        expect(current_path).to eq "/farmers/farmers"
+      end
+    end
+  end
+
   describe 'レシピ一覧画面のテスト' do
     before do
       visit farmers_recipes_path
@@ -503,12 +648,14 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       it 'URLが正しい' do
         expect(current_path).to eq '/farmers/recipes'
       end
-      it 'タイトル表示される' do
+      it 'タイトルが表示される' do
         expect(page).to have_content 'レシピ一覧'
       end
-      it 'イベント名・集合場所（都道府県まで）・開催期間が表示される' do
+      it 'レシピ名が表示される' do
+        expect(page).to have_content recipe.title
       end
       it '他人の投稿が表示されない' do
+        expect(page).not_to have_content other_recipe.title
       end
       it '検索フォーム（文字入力・日付）が表示される' do
         expect(page).to have_field 'content'
