@@ -23,7 +23,8 @@ store_address = ["兵庫県神崎郡市川町西田中8-3-8", "愛知県小牧�
     farm_address: farm_address[n],
     store_address: store_address[n],
     email: Faker::Internet.email,
-    password: Faker::Internet.password(min_length: 6)
+    password: Faker::Internet.password(min_length: 6),
+    farmer_image: File.open("./app/assets/images/farmer/icon_farmer#{n+1}.jpg")
   )
 end
 

@@ -418,6 +418,84 @@ describe '[step3-1] Farmer ログイン後のテスト' do
     #チャットの投稿機能はjavascriptのため飛ばす
   end
 
+  describe '農業体験編集画面のテスト' do
+    before do
+      visit edit_farmers_event_path(event)
+    end
+
+    context "表示内容の確認" do
+      it 'フォームに適切な内容が表示される' do
+        expect(page).to have_field 'event[title]', with: event.title
+        expect(page).to have_field 'event[body]', with: event.body
+        expect(page).to have_select 'event[fee]', with: event.fee
+        expect(page).to have_field 'event[cancel_change]', with: event.cancel_change
+        expect(page).to have_field 'event[etc]', with: event.etc
+        expect(page).to have_field 'event[location]', with: event.location
+        expect(page).to have_field 'event[access]', with: event.access
+        expect(page).to have_field 'event[parking]', with: event.parking
+      end
+      it '画像投稿用のフォームが表示される' do
+        expect(page).to have_field 'event[plan_image]'
+      end
+      it '「更新する」ボタンが表示される' do
+        expect(page).to have_button '更新する'
+      end
+      it '「削除する」ボタンが表示される' do
+        expect(page).to have_link '削除する', href: farmers_event_path(event)
+      end
+      it '「戻る」ボタンが表示される' do
+        expect(page).to have_link '戻る', href: farmers_event_path(event)
+      end
+      it 'スケジュール編集用のリンクが表示される' do
+        expect(page).to have_link event.schedules.first.date.strftime('%Y/%m/%d'), href: edit_farmers_event_schedule_path(event, event.schedules.first)
+      end
+    end
+
+    context '更新成功時' do
+      before do
+        @event_old_title = event.title
+        fill_in 'event[title]', with: Faker::Lorem.characters(number: 10)
+        fill_in 'event[duration]', with: Faker::Number.within(range: 10..90)
+        select 3, from: 'event[amount]'
+        fill_in 'event[ingredient]', with: Faker::Lorem.paragraph
+        fill_in 'event[event]', with: Faker::Lorem.paragraph
+        fill_in 'event[tag_list]', with: "タグ1, タグ2, タグ3"
+        click_button '更新する'
+      end
+
+      it '変更内容が正しく更新される' do
+        expect(event.reload.title).not_to eq @event_old_title
+        expect(event.reload.tags).not_to eq @event_tags
+      end
+      it 'リダイレクト先がレシピの詳細画面である' do
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s
+      end
+      it 'サクセスメッセージが表示される' do
+        expect(page).to have_content 'レシピを更新しました'
+      end
+    end
+
+    context '更新失敗時' do
+      before do
+        fill_in 'event[title]', with: Faker::Lorem.characters(number: 10)
+        fill_in 'event[duration]', with: 1.5
+        select 3, from: 'event[amount]'
+        fill_in 'event[ingredient]', with: ''
+        fill_in 'event[event]', with: Faker::Lorem.paragraph
+        fill_in 'event[tag_list]', with: ''
+        click_button '更新する'
+      end
+
+      it '編集画面から遷移しない' do
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s
+      end
+      it 'バリデーションのエラーメッセージが表示される' do
+        expect(page).to have_content "can't be blank"
+        expect(page).to have_content "must be an integer"
+      end
+    end
+  end
+
   describe '農業体験のスケジュール画面のテスト' do
     before do
       visit farmers_event_schedule_path(event, event.schedules.first)
@@ -611,7 +689,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(current_path).to eq '/farmers/recipes/' + recipe.id.to_s + '/edit'
       end
       it 'レシピの削除ボタンが表示される' do
-        expect(page).to have_link '削除する'
+        expect(page).to have_link '削除する', href: farmers_recipe_path(recipe)
       end
     end
 
