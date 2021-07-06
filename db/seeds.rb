@@ -36,8 +36,46 @@ end
   )
 end
 
-Farmer.all.each do |farmer|
+Farmer.where(id: [1, 2, 3, 4, 5]).each do |farmer|
   farmer.news.create!(
     news: 'テスト投稿'
   )
+end
+
+event_title = ["じゃがいも収穫", "だいこん収穫", "いちご狩り！", "ぶどう狩り", "とうもろこし収穫祭！茹で食べよう！", "ブロッコリーの収穫！", "みかんの収穫", "夏野菜を食べよう", "人参の収穫"]
+event_body = ["じゃがいもを収穫します！収穫後、じゃがバターも作る予定です＾＾",
+              "大きくなった大根を収穫します。ぜひお立ち寄りください！",
+              "イチゴがどんどん甘くなってきました。練乳も用意してお待ちおります！",
+              "人房ずつ大切に育てました。今年は災害も少なく特に自信の出来栄えです。",
+              "とうもろこしを収穫します！とれたては非常に甘く、茹でずとも食べることもできるほどです。ご参加お待ちしています！",
+              "ブロッコリーの収穫前の姿をご存知でしょうか？ぜひ収穫を楽しんでいただきながら、花畑のような見た目も楽しんでいただけたらと思います。",
+              "みかんを収穫します。ご家族あたり1kgまでお持ち帰りも可能です！",
+              "夏野菜が大きく育ってきました。収穫のお手伝いをしていただけるとありがたいです！",
+              "人参が今年も大きく育ちました。収穫をして、他の野菜と一緒に食事もしませんか？"]
+9.times do |n|
+  Farmer.where( 'id >= ?', rand(Farmer.first.id..Farmer.last.id)).each do |farmer|
+    event = farmer.events.create!(
+      title: event_title[n],
+      plan_image: File.open("./app/assets/images/event/event#{n+1}.jpg"),
+      body: event_body[n],
+      fee: Faker::Number.within(range: 100..1000),
+      cancel_change: "前日までにキャンセル連絡をお願いいたします。",
+      location: farmer.store_address,
+      access: "車で来られるのが良いかと思います。",
+      parking: Faker::Number.within(range: 0..2),
+      etc: "動きやすい服装で、水分の持参を忘れずお願いいたします！",
+      start_date: Faker::Date.between(from: Date.current + 2, to: Date.current + 4),
+      end_date: Faker::Date.between(from: Date.current + 4, to: Date.current + 6),
+      start_time: "09:00:00.000",
+      end_time: "12:00:00.000",
+      number_of_participants: Faker::Number.within(range: 10..20)
+    )
+    event.create_schedules(farmer)
+    if event.has_schedules?
+      number_of_days = event.end_date - event.start_date
+      event.date_update unless event.schedules.size == number_of_days + 1
+    else
+      event.destroy
+    end
+  end
 end

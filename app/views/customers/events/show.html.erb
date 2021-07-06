@@ -8,6 +8,7 @@
     </div>
     <div class="col-12 col-md-5 mr-auto my-2" id="event_<%= @event.id %>">
       <h4 class="text-left mb-3"><%= @event.title %></h4>
+      <h6 class="text-left mb-3">企画：<%= link_to @event.farmer.name, farmer_path(@event.farmer) %></h6>
       <% if customer_signed_in? %>
         <h6 class="favorite-btn"><%= render 'customers/favorite_events/favorite-btn', event: @event %></h6>
       <% else %>
