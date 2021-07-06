@@ -47,6 +47,10 @@ class Farmer < ApplicationRecord
       farmer.farm_address = '新潟県魚沼市'
       farmer.store_address = '新潟県魚沼市清本5-12-8'
       farmer.introduction = '農家用ゲストアカウントです'
+      farmer.farmer_image = File.open("./app/assets/images/farmer/icon_farmer_guest.jpg")
+      farmer.image_1 = File.open("./app/assets/images/farmer/slide_farmer_guest1.jpg")
+      farmer.image_2 = File.open("./app/assets/images/farmer/slide_farmer_guest2.jpg")
+      farmer.image_3 = File.open("./app/assets/images/farmer/slide_farmer_guest3.jpg")
     end
   end
 
