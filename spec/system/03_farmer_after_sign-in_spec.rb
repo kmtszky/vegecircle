@@ -427,7 +427,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       it 'フォームに適切な内容が表示される' do
         expect(page).to have_field 'event[title]', with: event.title
         expect(page).to have_field 'event[body]', with: event.body
-        expect(page).to have_select 'event[fee]', with: event.fee
+        expect(page).to have_field 'event[fee]', with: event.fee
         expect(page).to have_field 'event[cancel_change]', with: event.cancel_change
         expect(page).to have_field 'event[etc]', with: event.etc
         expect(page).to have_field 'event[location]', with: event.location
@@ -455,34 +455,33 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       before do
         @event_old_title = event.title
         fill_in 'event[title]', with: Faker::Lorem.characters(number: 10)
-        fill_in 'event[duration]', with: Faker::Number.within(range: 10..90)
-        select 3, from: 'event[amount]'
-        fill_in 'event[ingredient]', with: Faker::Lorem.paragraph
-        fill_in 'event[event]', with: Faker::Lorem.paragraph
-        fill_in 'event[tag_list]', with: "タグ1, タグ2, タグ3"
+        fill_in 'event[body]', with: Faker::Lorem.paragraph
+        fill_in 'event[fee]', with: Faker::Number.within(range: 100..1000)
+        fill_in 'event[cancel_change]', with: Faker::Lorem.paragraph
+        fill_in 'event[location]', with: "栃木県宇都宮市池上町4-2-5"
+        fill_in 'event[access]', with: Faker::Lorem.characters(number: 10)
         click_button '更新する'
       end
 
       it '変更内容が正しく更新される' do
         expect(event.reload.title).not_to eq @event_old_title
-        expect(event.reload.tags).not_to eq @event_tags
       end
-      it 'リダイレクト先がレシピの詳細画面である' do
+      it 'リダイレクト先が農業体験の詳細画面である' do
         expect(current_path).to eq '/farmers/events/' + event.id.to_s
       end
       it 'サクセスメッセージが表示される' do
-        expect(page).to have_content 'レシピを更新しました'
+        expect(page).to have_content '農業体験を更新しました'
       end
     end
 
     context '更新失敗時' do
       before do
         fill_in 'event[title]', with: Faker::Lorem.characters(number: 10)
-        fill_in 'event[duration]', with: 1.5
-        select 3, from: 'event[amount]'
-        fill_in 'event[ingredient]', with: ''
-        fill_in 'event[event]', with: Faker::Lorem.paragraph
-        fill_in 'event[tag_list]', with: ''
+        fill_in 'event[body]', with: ''
+        fill_in 'event[fee]', with: 1.5
+        fill_in 'event[cancel_change]', with: Faker::Lorem.paragraph
+        fill_in 'event[location]', with: "栃木県宇都宮市池上町4-2-5"
+        fill_in 'event[access]', with: Faker::Lorem.characters(number: 10)
         click_button '更新する'
       end
 
@@ -532,6 +531,77 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(page).to have_link "日時以外の項目を編集する", href: edit_farmers_event_path(event)
         click_link "日時以外の項目を編集する"
         expect(current_path).to eq '/farmers/events/' + event.id.to_s + '/edit'
+      end
+    end
+  end
+
+  describe '農業体験のスケジュール編集画面のテスト' do
+    before do
+      visit edit_farmers_event_schedule_path(event, event.schedules.first)
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/edit'
+      end
+      it 'タイトルが正しい' do
+        expect(page).to have_content event.title + 'の日程編集'
+      end
+      it 'フォームに適切な内容が表示される' do
+        expect(page).to have_field 'scheudle[date]', with: schedule.date
+        expect(page).to have_field 'scheudle[start_time]', with: schedule.start_time
+        expect(page).to have_field 'scheudle[end_time]', with: schedule.end_time
+        expect(page).to have_field 'schedule[people]', with: schedule.people
+      end
+      it '「更新する」ボタンが表示される' do
+        expect(page).to have_button '更新する'
+      end
+      it '「削除する」ボタンが表示される' do
+        expect(page).to have_link '削除する', href: farmers_event_schedule_path(event, event.schedules.first)
+      end
+      it '「戻る」ボタンが表示される' do
+        expect(page).to have_link '戻る', href: farmers_event_schedule_path(event, event.schedules.first)
+      end
+    end
+
+    context '更新成功時' do
+      before do
+        @schedule_old_date = schedule.date
+        fill_in 'scheudle[date]', with: Date.current + 3
+        fill_in 'scheudle[start_time]', with: "10:00:00"
+        fill_in 'scheudle[end_time]', with: "13:00:00.000"
+        fill_in 'scheudle[people]', with: Faker::Number.within(range: 3..6)
+        click_button '更新する'
+      end
+
+      it '変更内容が正しく更新される' do
+        expect(schedule.reload.date).not_to eq @schedule_old_date
+      end
+      it 'リダイレクト先が農業体験の詳細画面である' do
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s
+      end
+      it 'サクセスメッセージが表示される' do
+        expect(page).to have_content '農業体験の日程または人数を更新しました'
+      end
+    end
+
+    context '更新失敗時' do
+      before do
+        fill_in 'event[title]', with: Faker::Lorem.characters(number: 10)
+        fill_in 'event[body]', with: ''
+        fill_in 'event[fee]', with: 1.5
+        fill_in 'event[cancel_change]', with: Faker::Lorem.paragraph
+        fill_in 'event[location]', with: "栃木県宇都宮市池上町4-2-5"
+        fill_in 'event[access]', with: Faker::Lorem.characters(number: 10)
+        click_button '更新する'
+      end
+
+      it '編集画面から遷移しない' do
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s
+      end
+      it 'バリデーションのエラーメッセージが表示される' do
+        expect(page).to have_content "can't be blank"
+        expect(page).to have_content "must be an integer"
       end
     end
   end
