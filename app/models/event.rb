@@ -66,6 +66,20 @@ class Event < ApplicationRecord
     schedules.exists?
   end
 
+  def notice_created_by(farmer)
+    reserved_schedule_ids = schedules.select(:id)
+    recipients = Reservation.select(:customer_id).where(schedule_id: reserved_schedule_ids)
+    if recipients.present?
+      notice = Notice.new(farmer_id: farmer.id, event_id: event_id, action: "農業体験のスケジュール更新")
+      recipients.each do |recipient|
+        notice.customer_id = recipient.customer_id
+        reservation = Reservation.find_by(schedule_id: id, customer_id: recipient.customer_id)
+        notice.reservation_id = reservation.id
+        notice.save
+      end
+    end
+  end
+
   def self.search_for(content, method)
     case method
     when 'forward'

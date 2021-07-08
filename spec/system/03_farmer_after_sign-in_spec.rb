@@ -548,10 +548,10 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(page).to have_content event.title + 'の日程編集'
       end
       it 'フォームに適切な内容が表示される' do
-        expect(page).to have_field 'scheudle[date]', with: schedule.date
-        expect(page).to have_field 'scheudle[start_time]', with: schedule.start_time
-        expect(page).to have_field 'scheudle[end_time]', with: schedule.end_time
-        expect(page).to have_field 'schedule[people]', with: schedule.people
+        expect(page).to have_field 'schedule[date]', with: event.schedules.first.date
+        expect(page).to have_field 'schedule[start_time]'
+        expect(page).to have_field 'schedule[end_time]'
+        expect(page).to have_field 'schedule[people]', with: event.schedules.first.people
       end
       it '「更新する」ボタンが表示される' do
         expect(page).to have_button '更新する'
@@ -566,19 +566,19 @@ describe '[step3-1] Farmer ログイン後のテスト' do
 
     context '更新成功時' do
       before do
-        @schedule_old_date = schedule.date
-        fill_in 'scheudle[date]', with: Date.current + 3
-        fill_in 'scheudle[start_time]', with: "10:00:00"
-        fill_in 'scheudle[end_time]', with: "13:00:00.000"
-        fill_in 'scheudle[people]', with: Faker::Number.within(range: 3..6)
+        @schedule_old_date = event.schedules.first.date
+        fill_in 'schedule[date]', with: Date.current + 5
+        fill_in 'schedule[start_time]', with: "10:00:00.000"
+        fill_in 'schedule[end_time]', with: "13:00:00.000"
+        fill_in 'schedule[people]', with: Faker::Number.within(range: 3..6)
         click_button '更新する'
       end
 
       it '変更内容が正しく更新される' do
-        expect(schedule.reload.date).not_to eq @schedule_old_date
+        expect(event.schedules.first.reload.date).not_to eq @schedule_old_date
       end
       it 'リダイレクト先が農業体験の詳細画面である' do
-        expect(current_path).to eq '/farmers/events/' + event.id.to_s
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s
       end
       it 'サクセスメッセージが表示される' do
         expect(page).to have_content '農業体験の日程または人数を更新しました'
@@ -587,20 +587,19 @@ describe '[step3-1] Farmer ログイン後のテスト' do
 
     context '更新失敗時' do
       before do
-        fill_in 'event[title]', with: Faker::Lorem.characters(number: 10)
-        fill_in 'event[body]', with: ''
-        fill_in 'event[fee]', with: 1.5
-        fill_in 'event[cancel_change]', with: Faker::Lorem.paragraph
-        fill_in 'event[location]', with: "栃木県宇都宮市池上町4-2-5"
-        fill_in 'event[access]', with: Faker::Lorem.characters(number: 10)
+        fill_in 'schedule[date]', with: Date.current - 1
+        fill_in 'schedule[start_time]', with: "10:00:00.000"
+        fill_in 'schedule[end_time]', with: "09:00:00.000"
+        fill_in 'schedule[people]', with: 0.5
         click_button '更新する'
       end
 
       it '編集画面から遷移しない' do
-        expect(current_path).to eq '/farmers/events/' + event.id.to_s
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s
       end
       it 'バリデーションのエラーメッセージが表示される' do
-        expect(page).to have_content "can't be blank"
+        expect(page).to have_content "は本日以降の日付を選択してください"
+        expect(page).to have_content "は開始時刻よりも後の時刻を選択してください"
         expect(page).to have_content "must be an integer"
       end
     end
