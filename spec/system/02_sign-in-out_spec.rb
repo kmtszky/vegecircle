@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' do
-  describe 'farmer：新規登録のテスト' do
+  describe '【farmer】新規登録のテスト' do
     before do
       visit new_farmer_registration_path
     end
@@ -79,7 +79,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
     end
   end
 
-  describe 'farmer：ログイン機能のテスト' do
+  describe '【farmer】ログイン機能のテスト' do
     let(:farmer) { create(:farmer) }
 
     before do
@@ -133,7 +133,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
     end
   end
 
-  describe 'ヘッダーのテスト: farmerがログインしている場合' do
+  describe '【farmer】ヘッダーのテスト' do
     let(:farmer) { create(:farmer) }
 
     before do
@@ -194,7 +194,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
     end
   end
 
-  describe 'farmer:ログアウトのテスト' do
+  describe '【farmer】ログアウトのテスト' do
     let(:farmer) { create(:farmer) }
 
     before do
@@ -220,7 +220,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
     end
   end
 
-  describe 'customer：新規登録のテスト' do
+  describe '【customer】新規登録のテスト' do
     before do
       visit new_customer_registration_path
     end
@@ -288,7 +288,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
     end
   end
 
-  describe 'customer：ログイン機能のテスト' do
+  describe '【customer】ログイン機能のテスト' do
     let(:customer) { create(:customer) }
 
     before do
@@ -344,7 +344,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
     end
   end
 
-  describe 'ヘッダーのテスト: customerがログインしている場合' do
+  describe '【customer】ヘッダーのテスト' do
     let(:customer) { create(:customer) }
 
     before do
@@ -424,7 +424,7 @@ describe '[step2] Farmer / Customer ログイン・ログアウトのテスト' 
     end
   end
 
-  describe 'customer：ログアウトのテスト' do
+  describe '【customer】ログアウトのテスト' do
     let(:customer) { create(:customer) }
 
     before do

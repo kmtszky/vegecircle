@@ -38,7 +38,7 @@
         <%= render "customers/reservations/index", reservations: @schedule.reservations, event: @event %>
         </div>
       <% end %>
-      <%= link_to farmers_event_path(@event, @scheudle), class: "fixed-circle-btn" do %>イベント<br>概要へ<br>戻る<% end %>
+      <%= link_to farmers_event_path(@event), class: "fixed-circle-btn" do %>イベント<br>概要へ<br>戻る<% end %>
     </div>
   </div>
 </div>

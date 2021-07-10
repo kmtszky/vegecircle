@@ -109,7 +109,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
     end
   end
 
-  describe '自分のユーザ情報編集画面のテスト' do
+  describe 'ユーザ情報編集画面のテスト' do
     before do
       visit edit_farmers_farmers_path
     end
@@ -521,6 +521,11 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(page).to have_content event.location
         expect(page).to have_content event.access
         expect(page).to have_content event.parking
+      end
+      it '農業体験画面へのリンクが存在し、クリックすると農業体験画面へ遷移する' do
+        expect(page).to have_link "イベント概要へ戻る", href: farmers_event_path(event)
+        click_link "イベント概要へ戻る"
+        expect(current_path).to eq '/farmers/events/' + event.id.to_s
       end
       it 'スケジュール編集画面へのリンクが存在し、クリックするとスケジュール編集画面へ遷移する' do
         expect(page).to have_link "編集する", href: edit_farmers_event_schedule_path(event, event.schedules.first)
