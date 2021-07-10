@@ -124,6 +124,59 @@ describe '[step3-2] Customer ログイン後のテスト' do
     end
   end
 
+  describe '農家一覧画面のテスト' do
+    before do
+      visit farmers_path
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/farmers'
+      end
+      it 'タイトルが表示される' do
+        expect(page).to have_content '農家さん一覧'
+      end
+      it '農家名・エリアが表示される' do
+        expect(page).to have_link "", href: farmer_path(farmer)
+        expect(page).to have_content farmer.name
+        expect(page).to have_content farmer.farm_address
+      end
+      it '検索用の都道府県名一覧が表示される' do
+        expect(page).to have_content 'エリアから探す'
+        expect(page).to have_content '関東'
+        expect(page).to have_link '栃木県', href: search_path(prefecture: "栃木県", model: 'farmer')
+      end
+      it '検索フォーム（文字入力）が表示される' do
+        expect(page).to have_field 'content'
+      end
+    end
+
+    context '検索機能のチェック' do
+      it 'エリア検索にて都道府県名をクリックすると、検索結果が表示される' do
+        click_link '栃木県'
+        expect(current_path).to eq "/search"
+        expect(page).to have_content "「栃木県」の検索結果"
+        expect(page).to have_link ""
+      end
+      it 'エリア検索にて都道府県名をクリックし、検索結果が無い場合にメッセージが表示される' do
+        click_link '宮城県'
+        expect(page).to have_content "該当する農業さんがまだ登録されていません"
+      end
+      it 'キーワード検索すると、検索結果が表示される' do
+        fill_in 'content', with: farmer.name
+        find(".btn-warning").click
+        expect(current_path).to eq "/search"
+        expect(page).to have_content "「#{farmer.name}」の検索結果"
+        expect(page).to have_link "", href: farmer_path(farmer)
+      end
+      it 'キーワード検索し、検索結果が無い場合にメッセージが表示される' do
+        fill_in 'content', with: "hogehogehoge"
+        find(".btn-warning").click
+        expect(page).to have_content "該当する農業さんがまだ登録されていません"
+      end
+    end
+  end
+
   describe '農業体験画面のテスト' do
     before do
       visit event_path(event)
@@ -133,7 +186,8 @@ describe '[step3-2] Customer ログイン後のテスト' do
       it 'URLが正しい' do
         expect(current_path).to eq '/events/' + event.id.to_s
       end
-      it 'お気に入り件数が表示される' do
+      it '農家名・お気に入り件数が表示される' do
+        expect(page).to have_link farmer.name, href: farmer_path(farmer)
         expect(page).to have_content event.event_favorites.size
       end
       it 'イベント名・イベント概要・開催時刻・参加費・キャンセルポリシー・そのほかが表示される' do
@@ -161,6 +215,9 @@ describe '[step3-2] Customer ログイン後のテスト' do
         click_link "チャット"
         expect(current_path).to eq '/events/' + event.id.to_s
       end
+      it '農業体験編集画面へのリンクが存在しない' do
+        expect(page).not_to have_link "編集する", href: edit_farmers_event_path(event)
+      end
     end
 
     context "チャット投稿用フォームの表示内容の確認" do
@@ -175,6 +232,80 @@ describe '[step3-2] Customer ログイン後のテスト' do
     #チャットの投稿機能はjavascriptのため飛ばす
   end
 
+  describe '農業体験一覧画面のテスト' do
+    before do
+      visit events_path
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/events'
+      end
+      it 'タイトル・タブが表示される' do
+        expect(page).to have_content '農業体験一覧'
+        expect(page).not_to have_content '終了済みの農業体験'
+      end
+      it 'イベント名・集合場所（都道府県まで）・開催期間が表示される' do
+        expect(page).to have_content event.title
+        expect(page).to have_content event.location.match(/^.{2,3}[都道府県]/).to_s
+        expect(page).to have_content event.start_date.strftime('%m/%d')
+        expect(page).to have_content event.end_date.strftime('%m/%d')
+      end
+      it '検索用の都道府県名一覧が表示される' do
+        expect(page).to have_content 'エリアから探す'
+        expect(page).to have_content '関東'
+        expect(page).to have_link '栃木県', href: search_path(prefecture: "栃木県", model: 'event')
+      end
+      it '検索フォーム（文字入力・日付）が表示される' do
+        expect(page).to have_field 'content'
+        expect(page).to have_field 'event_date'
+      end
+      it 'ソート用のセレクションフォームが表示される' do
+        expect(page).to have_field 'keyword'
+      end
+      it '農家用の農業体験画面へのリンクが存在しない' do
+        expect(page).not_to have_link event.title, href: farmers_event_path(event)
+      end
+    end
+
+    context '検索機能のチェック' do
+      it 'エリア検索にて都道府県名をクリックすると、検索結果が表示される' do
+        click_link '栃木県'
+        expect(current_path).to eq "/search"
+        expect(page).to have_content "「栃木県」の検索結果"
+        expect(page).to have_link "", href: event_path(event)
+      end
+      it 'エリア検索にて都道府県名をクリックし、検索結果が無い場合にメッセージが表示される' do
+        click_link '宮城県'
+        expect(page).to have_content "予約受付中の農業体験はありません"
+      end
+      it 'キーワード検索すると、検索結果が表示される' do
+        fill_in 'content', with: event.title
+        page.all(".btn-warning")[0].click
+        expect(current_path).to eq "/search"
+        expect(page).to have_content "「#{event.title}」の検索結果"
+        expect(page).to have_link "", href: event_path(event)
+      end
+      it 'キーワード検索し、検索結果が無い場合にメッセージが表示される' do
+        fill_in 'content', with: "hogehogehoge"
+        page.all(".btn-warning")[0].click
+        expect(page).to have_content "予約受付中の農業体験はありません"
+      end
+      it '日付検索すると、検索結果が表示される' do
+        fill_in 'event_date', with: (Date.current + 3).strftime('%Y-%m-%d')
+        page.all(".btn-warning")[1].click
+        expect(current_path).to eq "/search"
+        expect(page).to have_content "「#{(Date.current + 3).strftime('%Y-%m-%d')}」の検索結果"
+        expect(page).to have_link "", href: event_path(event)
+      end
+      it '日付検索し、該当結果が無い場合にメッセージが表示される' do
+        fill_in 'event_date', with: (Date.current + 10).strftime('%Y-%m-%d')
+        page.all(".btn-warning")[1].click
+        expect(page).to have_content "予約受付中の農業体験はありません"
+      end
+    end
+  end
+
   describe '農業体験のスケジュール画面のテスト' do
     before do
       visit event_schedule_path(event, event.schedules.first)
@@ -184,9 +315,9 @@ describe '[step3-2] Customer ログイン後のテスト' do
       it 'URLが正しい' do
         expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s
       end
-      it 'お気に入り件数・予約件数が表示される' do
+      it '農家名・お気に入り件数が表示される' do
+        expect(page).to have_link farmer.name, href: farmer_path(farmer)
         expect(page).to have_content event.event_favorites.size
-        expect(page).to have_content event.schedules.first.reservations.size
       end
       it 'イベント名・イベント概要・開催時刻・参加費・キャンセルポリシー・そのほかが表示される' do
         expect(page).to have_content event.title
@@ -211,6 +342,83 @@ describe '[step3-2] Customer ログイン後のテスト' do
         expect(page).to have_link "予約する", href: new_event_schedule_reservation_path(event, event.schedules.first)
         click_link "予約する"
         expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/new'
+      end
+      it 'スケジュール編集画面へのリンクが存在しない' do
+        expect(page).not_to have_link "編集する", href: edit_farmers_event_schedule_path(event, event.schedules.first)
+      end
+    end
+  end
+
+  describe 'レシピ詳細画面のテスト' do
+    before do
+      visit recipe_path(recipe)
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/recipes/' + recipe.id.to_s
+      end
+      it 'お気に入り件数が表示される' do
+        expect(page).to have_content recipe.recipe_favorites.size
+      end
+      it '料理名・調理時間・分量・材料・レシピ・タグが表示される' do
+        expect(page).to have_content recipe.title
+        expect(page).to have_content recipe.duration
+        expect(page).to have_content recipe.amount
+        expect(page).to have_content recipe.ingredient
+        expect(page).to have_content recipe.recipe
+        expect(page).to have_content recipe.tags.first.tag
+      end
+      it 'レシピの編集画面・削除のリンクが存在しない' do
+        expect(page).not_to have_link '編集する', href: edit_farmers_recipe_path(recipe)
+        expect(page).not_to have_link '削除する', href: farmers_recipe_path(recipe)
+      end
+    end
+  end
+
+  describe 'レシピ一覧画面のテスト' do
+    before do
+      visit recipes_path
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/recipes'
+      end
+      it 'タイトルが表示される' do
+        expect(page).to have_content 'レシピ一覧'
+      end
+      it 'レシピ名が表示される' do
+        expect(page).to have_content recipe.title
+      end
+      it '検索フォーム（文字入力）が表示される' do
+        expect(page).to have_field 'content'
+      end
+      it 'ソート用のセレクションフォームが表示される' do
+        expect(page).to have_field 'keyword'
+      end
+      it 'レシピ投稿用のボタンが表示されない' do
+        expect(page).not_to have_link "レシピを投稿する", href: new_farmers_recipe_path
+      end
+    end
+
+    context '検索機能のチェック' do
+      it 'キーワード検索すると、検索結果が表示される' do
+        fill_in 'content', with: recipe.title
+        find(".btn-warning").click
+        expect(current_path).to eq "/search"
+        expect(page).to have_link recipe.title, href: recipe_path(recipe)
+      end
+      it 'タイトルに含まれないワード（例：タグ）でキーワード検索すると、検索結果が表示される' do
+        fill_in 'content', with: "tag3"
+        find(".btn-warning").click
+        expect(current_path).to eq "/search"
+        expect(page).to have_link recipe.title, href: recipe_path(recipe)
+      end
+      it 'キーワード検索し、検索結果が無い場合にメッセージが表示される' do
+        fill_in 'content', with: "hogehogehoge"
+        find(".btn-warning").click
+        expect(page).to have_content "レシピがまだ投稿されていません"
       end
     end
   end

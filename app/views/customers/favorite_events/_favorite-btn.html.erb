@@ -1,5 +1,5 @@
 <% if event.favorited_by?(current_customer) %>
-  <%= link_to event.event_favorites.count, event_favorite_events_path(event), method: :delete, remote: true, class: "fas fa-heart text-danger" %>
+  <%= link_to event.event_favorites.size, event_favorite_events_path(event), method: :delete, remote: true, class: "fas fa-heart text-danger" %>
 <% else %>
-  <%= link_to event.event_favorites.count, event_favorite_events_path(event), method: :post, remote: true, class: "far fa-heart text-secondary" %>
+  <%= link_to event.event_favorites.size, event_favorite_events_path(event), method: :post, remote: true, class: "far fa-heart text-secondary" %>
 <% end %>

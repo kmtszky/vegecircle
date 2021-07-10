@@ -11,7 +11,7 @@ FactoryBot.define do
     recipe { Faker::Lorem.paragraph }
 
     #タグ用パラメータ
-    tag_list { Faker::Lorem.words.split(',') }
+    tag_list { "tag1, tag2, tag3, tag4".split(',') }
 
     trait :with_tag_lists do
       after(:build) do |recipe|

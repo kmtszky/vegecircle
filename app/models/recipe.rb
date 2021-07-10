@@ -18,6 +18,10 @@ class Recipe < ApplicationRecord
 
   attachment :recipe_image
 
+  def favorited_by?(customer)
+    recipe_favorites.where(customer_id: customer.id).exists?
+  end
+
   def save_tags(inputted_tags)
     current_tags = tags.pluck(:tag) unless tags.nil?
     tags_to_be_added = inputted_tags - current_tags
@@ -33,12 +37,15 @@ class Recipe < ApplicationRecord
     end
   end
 
-  def favorited_by?(customer)
-    recipe_favorites.where(customer_id: customer.id).exists?
+  def self.title_like(title)
+    where('title like ?', '%' + title + '%')
   end
 
-  def self.title_like(title)
-    where('title like ?', '%' + content + '%')
+  def self.search_for(title, tags)
+		recipe_tags = RecipeTag.where(tag_id: tags.ids).pluck(:recipe_id)
+		all_records = title_like(title) + where(id: recipe_tags)
+		deduped_records_ids = all_records.pluck(:id).uniq
+    where(id: deduped_records_ids)
   end
 
   def self.sorts(method)

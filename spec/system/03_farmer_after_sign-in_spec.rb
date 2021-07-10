@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe '[step3-1] Farmer ログイン後のテスト' do
   let!(:farmer) { create(:farmer) }
-  let!(:other_farmer) { create(:farmer) }
+  let!(:other_farmer) { create(:farmer, store_address: "福島県伊達市梁川町赤五輪5-4-6") }
   let!(:event) { create(:event, :with_schedules, farmer: farmer) }
   let!(:other_event) { create(:event, :with_schedules, farmer: other_farmer) }
   let!(:recipe) { create(:recipe, :with_tag_lists, farmer: farmer) }
@@ -646,6 +646,43 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(current_path).to eq '/farmers/calender'
       end
     end
+
+    context '検索機能のチェック' do
+      it 'キーワード検索すると、検索結果が表示される' do
+        fill_in 'content', with: event.title
+        page.all(".btn-warning")[0].click
+        expect(current_path).to eq "/search"
+        expect(page).to have_content "「#{event.title}」の検索結果"
+        expect(page).to have_link "", href: farmers_event_path(event)
+      end
+      it 'キーワード検索し、検索結果が無い場合にメッセージが表示される' do
+        fill_in 'content', with: "hogehogehoge"
+        page.all(".btn-warning")[0].click
+        expect(page).to have_content "予約受付中の農業体験はありません"
+      end
+      it 'キーワード検索にて、他人の農業体験は検索結果に表示されない' do
+        fill_in 'content', with: other_event.title
+        page.all(".btn-warning")[1].click
+        expect(page).not_to have_link "", href: farmers_event_path(other_event)
+      end
+      it '日付検索すると、検索結果が表示される' do
+        fill_in 'event_date', with: (Date.current + 3).strftime('%Y-%m-%d')
+        page.all(".btn-warning")[1].click
+        expect(current_path).to eq "/search"
+        expect(page).to have_content "「#{(Date.current + 3).strftime('%Y-%m-%d')}」の検索結果"
+        expect(page).to have_link "", href: farmers_event_path(event)
+      end
+      it '日付検索し、該当結果が無い場合にメッセージが表示される' do
+        fill_in 'event_date', with: (Date.current + 10).strftime('%Y-%m-%d')
+        page.all(".btn-warning")[1].click
+        expect(page).to have_content "予約受付中の農業体験はありません"
+      end
+      it '日付検索にて、他人の農業体験は検索結果に表示されない' do
+        fill_in 'event_date', with: (Date.current + 3).strftime('%Y-%m-%d')
+        page.all(".btn-warning")[1].click
+        expect(page).not_to have_link "", href: farmers_event_path(other_event)
+      end
+    end
   end
 
   describe 'レシピ作成画面のテスト' do
@@ -865,7 +902,7 @@ describe '[step3-1] Farmer ログイン後のテスト' do
       it '他人の投稿が表示されない' do
         expect(page).not_to have_content other_recipe.title
       end
-      it '検索フォーム（文字入力・日付）が表示される' do
+      it '検索フォーム（文字入力）が表示される' do
         expect(page).to have_field 'content'
       end
       it 'ソート用のセレクションフォームが表示される' do
@@ -875,6 +912,33 @@ describe '[step3-1] Farmer ログイン後のテスト' do
         expect(page).to have_link "レシピを投稿する", href: new_farmers_recipe_path
         click_link "レシピを投稿する"
         expect(current_path).to eq '/farmers/recipes/new'
+      end
+    end
+
+    context '検索機能のチェック' do
+      it 'キーワード検索すると、検索結果が表示される' do
+        fill_in 'content', with: recipe.title
+        find(".btn-warning").click
+        expect(current_path).to eq "/search"
+        expect(page).to have_link recipe.title, href: farmers_recipe_path(recipe)
+      end
+      it 'タイトルに含まれないワード（例：タグ）でキーワード検索すると、検索結果が表示される' do
+        fill_in 'content', with: "tag3"
+        find(".btn-warning").click
+        expect(current_path).to eq "/search"
+        expect(page).to have_link recipe.title, href: farmers_recipe_path(recipe)
+      end
+      it 'キーワード検索し、検索結果が無い場合にメッセージが表示される' do
+        fill_in 'content', with: "hogehogehoge"
+        find(".btn-warning").click
+        expect(current_path).to eq "/search"
+        expect(page).to have_content "レシピがまだ投稿されていません"
+      end
+      it 'キーワード検索にて、他人のレシピは検索結果に表示されない' do
+        fill_in 'content', with: other_recipe.title
+        find(".btn-warning").click
+        expect(current_path).to eq "/search"
+        expect(page).not_to have_link other_recipe.title, href: farmers_recipe_path(other_recipe)
       end
     end
   end

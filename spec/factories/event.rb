@@ -10,6 +10,7 @@ FactoryBot.define do
     cancel_change { Faker::Lorem.paragraph }
     location { "栃木県宇都宮市池上町4-2-5" }
     access { Faker::Lorem.characters(number: 10) }
+    etc { Faker::Lorem.characters(number: 10) }
     start_date { Date.current + 3 }
     end_date { Date.current + 4 }
 

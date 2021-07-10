@@ -6,19 +6,13 @@ class SearchesController < ApplicationController
 		case @model
 		when 'recipe' then
 			@content = params[:content]
-			@records = Recipe.title_like(@content)
-			tags = Tag.search_for(@content)
+			tags = Tag.tag_like(@content)
 			if tags.present?
-				recipe_tags = RecipeTag.where(tag_id: tags.ids).pluck(:recipe_id)
-				taged_recipes = Recipe.where(id: recipe_tags)
-				all_records = @records + taged_recipes
-				deduped_records_ids = all_records.pluck(:id).uniq
-				if farmer_signed_in?
-					@records = current_farmer.recipes.where(id: deduped_records_ids)
-				else
-					@records = Recipe.where(id: deduped_records_ids)
-				end
+				@records = Recipe.search_for(@content, tags)
+			else
+				@records = Recipe.title_like(@content)
 			end
+			@records = @records.where(farmer_id: current_farmer.id) if farmer_signed_in?
 		when 'event' then
 			if params.has_key?(:prefecture)
 				@content = params[:prefecture]

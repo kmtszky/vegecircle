@@ -45,7 +45,7 @@
         </div>
       </div>
       <% unless customer_signed_in? || farmer_signed_in? %>
-        <%= link_to customers_guest_sign_in_path, method: :post, class: "guest-login", id: "customer"  do %>ゲスト<br>ログイン<br>（住民）<% end %>
+        <%= link_to customers_guest_sign_in_path, method: :post, class: "guest-login", id: "customer"  do %>ゲスト<br>ログイン<% end %>
         <%= link_to farmers_guest_sign_in_path, method: :post, class: "guest-login", id: "farmer" do %>ゲスト<br>ログイン<br>（農家）<% end %>
       <% end %>
     </div>

@@ -1,0 +1,8 @@
+<h4 class="text-left mb-3"><%= event.title %></h4>
+<h6 class="text-left mb-3">企画：<%= link_to event.farmer.name, farmer_path(event.farmer) %></h6>
+<% if customer_signed_in? %>
+  <h6 class="favorite-btn"><%= render 'customers/favorite_events/favorite-btn', event: event %></h6>
+<% else %>
+  <h6><i class="fas fa-heart text-danger"></i> <%= event.event_favorites.size %></h6>
+<% end %>
+<%= safe_join(event.body.split("\n"),tag(:br)) %>
