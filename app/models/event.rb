@@ -66,18 +66,10 @@ class Event < ApplicationRecord
     schedules.exists?
   end
 
-  def notice_created_by(farmer)
+  def notice_create
     reserved_schedule_ids = schedules.select(:id)
-    recipients = Reservation.select(:customer_id).where(schedule_id: reserved_schedule_ids)
-    if recipients.present?
-      notice = Notice.new(farmer_id: farmer.id, event_id: event_id, action: "農業体験のスケジュール更新")
-      recipients.each do |recipient|
-        notice.customer_id = recipient.customer_id
-        reservation = Reservation.find_by(schedule_id: id, customer_id: recipient.customer_id)
-        notice.reservation_id = reservation.id
-        notice.save
-      end
-    end
+    customers = Reservation.select(:customer_id).where(schedule_id: reserved_schedule_ids)
+    notice_send_to(customers) if customers.present?
   end
 
   def self.search_for(content, method)
@@ -136,5 +128,13 @@ class Event < ApplicationRecord
 
   def schedule_date_not_equal_start_or_end_date?
     min_schedule_date_not_equal_start_date? || max_schedule_date_not_equal_end_date?
+  end
+
+  def notice_send_to(customers)
+    notice = Notice.new(event_id: id, action: "農業体験の内容更新")
+    customers.each do |customer|
+      notice.customer_id = customer.customer_id
+      notice.save
+    end
   end
 end

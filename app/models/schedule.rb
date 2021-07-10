@@ -25,20 +25,24 @@ class Schedule < ApplicationRecord
     event.date_update
   end
 
-  def notice_created_by(farmer)
-    recipients = Reservation.select(:customer_id).where(schedule_id: id)
-    if recipients.present?
-      notice = Notice.new(farmer_id: farmer.id, event_id: event_id, action: "農業体験のスケジュール更新")
-      recipients.each do |recipient|
-        notice.customer_id = recipient.customer_id
-        reservation = Reservation.find_by(schedule_id: id, customer_id: recipient.customer_id)
-        notice.reservation_id = reservation.id
-        notice.save
-      end
-    end
+  def notice_create
+    customers = Reservation.select(:customer_id).where(schedule_id: id)
+    notice_send_to(customers) if customers.present?
   end
 
   def self.end_events_of_the_day
     where(date: (Date.current - 1)).update(is_deleted: true)
+  end
+
+  private
+
+  def notice_send_to(customers)
+    notice = Notice.new(event_id: event_id, action: "農業体験のスケジュール更新")
+    customers.each do |customer|
+      notice.customer_id = customer.customer_id
+      reservation = Reservation.find_by(schedule_id: id, customer_id: customer.customer_id)
+      notice.reservation_id = reservation.id
+      notice.save
+    end
   end
 end

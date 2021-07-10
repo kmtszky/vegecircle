@@ -23,18 +23,8 @@ class Recipe < ApplicationRecord
   end
 
   def save_tags(inputted_tags)
-    current_tags = tags.pluck(:tag) unless tags.nil?
-    tags_to_be_added = inputted_tags - current_tags
-    tags_to_be_deleted = current_tags - inputted_tags
-
-    tags_to_be_added.each do |tag_to_be_added|
-      recipe_tag = Tag.find_or_create_by(tag: tag_to_be_added)
-      tags << recipe_tag
-    end
-
-    tags_to_be_deleted.each do |tag_to_be_deleted|
-      tags.delete Tag.find_by(tag: tag_to_be_deleted)
-    end
+    save_new_tags(inputted_tags)
+    delete_tags(inputted_tags)
   end
 
   def self.title_like(title)
@@ -53,6 +43,27 @@ class Recipe < ApplicationRecord
       all.order('created_at DESC')
     else
       includes(:recipe_favorites).sort {|a, b| b.recipe_favorites.size <=> a.recipe_favorites.size }
+    end
+  end
+
+  private
+
+  def current_tags
+    tags.pluck(:tag) unless tags.nil?
+  end
+
+  def save_new_tags(inputted_tags)
+    tags_to_be_added = inputted_tags - current_tags
+    tags_to_be_added.each do |tag_to_be_added|
+      recipe_tag = Tag.find_or_create_by(tag: tag_to_be_added)
+      tags << recipe_tag
+    end
+  end
+
+  def delete_tags(inputted_tags)
+    tags_to_be_deleted = current_tags - inputted_tags
+    tags_to_be_deleted.each do |tag_to_be_deleted|
+      tags.delete Tag.find_by(tag: tag_to_be_deleted)
     end
   end
 end

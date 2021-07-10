@@ -18,7 +18,7 @@ class Farmers::SchedulesController < ApplicationController
     if current_farmer.has_schedules_on_the_day?(params[:schedule][:date])
       if current_farmer.schedules.select(:event_id).where(date: params[:schedule][:date]).size == 1
         @schedule.date_update(params[:schedule][:start_time], params[:schedule][:end_time])
-        @schedule.notice_created_by(current_farmer)
+        @schedule.notice_create
         redirect_to farmers_event_schedule_path(@event, @schedule),
           flash: { success: "農業体験の日程または人数を更新しました" }
       else
@@ -29,7 +29,7 @@ class Farmers::SchedulesController < ApplicationController
       if @schedule.update(schedule_params)
         @schedule.date_update(params[:schedule][:start_time], params[:schedule][:end_time])
         @schedule.eventdate_update
-        @schedule.notice_created_by(current_farmer)
+        @schedule.notice_create
         redirect_to farmers_event_schedule_path(@event, @schedule),
           flash: { success: "農業体験の日程または人数を更新しました" }
       else

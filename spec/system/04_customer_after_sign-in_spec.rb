@@ -349,6 +349,49 @@ describe '[step3-2] Customer ログイン後のテスト' do
     end
   end
 
+  describe '予約作成画面のテスト' do
+    before do
+      visit new_event_schedule_reservation_path(event, event.schedules.first)
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/new'
+      end
+      it '農家名・お気に入り件数が表示される' do
+        expect(page).to have_link farmer.name, href: farmer_path(farmer)
+        expect(page).to have_content event.event_favorites.size
+      end
+      it 'イベント名・イベント概要・開催時刻・参加費・キャンセルポリシー・そのほかが表示される' do
+        expect(page).to have_content event.title
+        expect(page).to have_content event.body
+        expect(page).to have_content event.schedules.first.start_time.strftime('%H:%M')
+        expect(page).to have_content event.schedules.first.end_time.strftime('%H:%M')
+        expect(page).to have_content event.fee
+        expect(page).to have_content event.cancel_change
+        expect(page).to have_content event.etc
+      end
+      it '集合場所・アクセス方法・駐車場が表示される' do
+        expect(page).to have_content event.location
+        expect(page).to have_content event.access
+        expect(page).to have_content event.parking
+      end
+      it '農業体験画面へのリンクが存在し、クリックすると農業体験画面へ遷移する' do
+        expect(page).to have_link "イベントページへ戻る", href: event_path(event)
+        click_link "イベントページへ戻る"
+        expect(current_path).to eq '/events/' + event.id.to_s
+      end
+      it '農業体験画面を予約するリンクが存在し、クリックすると農業体験予約画面へ遷移する' do
+        expect(page).to have_link "予約する", href: new_event_schedule_reservation_path(event, event.schedules.first)
+        click_link "予約する"
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/new'
+      end
+      it 'スケジュール編集画面へのリンクが存在しない' do
+        expect(page).not_to have_link "編集する", href: edit_farmers_event_schedule_path(event, event.schedules.first)
+      end
+    end
+  end
+
   describe 'レシピ詳細画面のテスト' do
     before do
       visit recipe_path(recipe)

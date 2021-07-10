@@ -56,7 +56,7 @@ class Farmers::EventsController < ApplicationController
   def update
     if @event.update(event_params)
       redirect_to farmers_event_path(@event), flash: { success: '農業体験を更新しました' }
-      @event.notice_created_by(current_farmer)
+      @event.notice_create
     else
       @schedules = Schedule.where(event_id: @event.id).pluck(:date)
       render :edit

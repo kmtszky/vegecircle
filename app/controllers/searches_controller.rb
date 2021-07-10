@@ -48,11 +48,8 @@ class SearchesController < ApplicationController
 		@method = params[:keyword]
 		case @model
 		when 'recipe'
-			if farmer_signed_in?
-				@records = current_farmer.recipes.sorts(@method)
-			else
-				@records = Recipe.sorts(@method)
-			end
+			@records = Recipe.sorts(@method)
+			@records = @records.where(farmer_id: current_farmer.id) if farmer_signed_in?
 		when 'event'
 			if farmer_signed_in?
 				@records = current_farmer.events.sorts(@method)
