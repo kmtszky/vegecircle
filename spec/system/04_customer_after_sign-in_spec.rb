@@ -5,8 +5,6 @@ describe '[step3-2] Customer ログイン後のテスト' do
   let!(:other_customer) { create(:customer) }
   let!(:farmer) { create(:farmer) }
   let!(:event) { create(:event, :with_schedules, farmer: farmer) }
-  let!(:schedule) { create(:schedule, event: event)}
-  let!(:reservation) { create(:reservation, customer: customer, schedule: schedule) }
   let!(:recipe) { create(:recipe, :with_tag_lists, farmer: farmer) }
 
   before do
@@ -451,7 +449,8 @@ describe '[step3-2] Customer ログイン後のテスト' do
     before do
       visit new_event_schedule_reservation_path(event, event.schedules.first)
       fill_in 'reservation[people]', with: Faker::Number.within(range: 1..5)
-      click_button "次へすすむ"
+      click_button '次へすすむ'
+      @reservation = customer.reservations.new(schedule_id: event.schedules.first.id, people: 5)
     end
 
     context "フォームの表示内容の確認" do
@@ -465,18 +464,17 @@ describe '[step3-2] Customer ログイン後のテスト' do
         expect(page).to have_content event.schedules.first.date.strftime('%Y/%m/%d')
         expect(page).to have_content event.schedules.first.start_time.strftime('%H:%M')
         expect(page).to have_content event.schedules.first.end_time.strftime('%H:%M')
-#        expect(page).to have_content event.schedules.first.reservations.first.people
+        expect(page).to have_content @reservation.people
         expect(page).to have_content event.cancel_change
-        expect(page).to have_content event.cancel_etc
-#        expect(page).to have_content event.fee * reservation.people
+        expect(page).to have_content event.etc
       end
-      it '予約するボタンが表示されており、クリックすると予約完了画面（thanx）へ遷移する' do
-        expect(page).to have_link, href: event_schedule_reservations_path(event, event.schedules.first, event.schedules.first.reservations.first)
+      it '予約するボタンが表示されており、クリックすると予約完了画面へ遷移する' do
+        expect(page).to have_link "予約する", href: event_schedule_reservations_path(event, event.schedules.first)
         click_link "予約する"
         expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/thanx'
       end
       it '戻るボタンが表示されており、クリックすると作成画面へ遷移する' do
-        expect(page).to have_link, href: event_schedule_reservations_back_path(event, event.schedules.first, event.schedules.first.reservations.first)
+        expect(page).to have_link "戻る", href: event_schedule_reservations_back_path(event, event.schedules.first)
         click_link "戻る"
         expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/back'
       end
@@ -484,11 +482,9 @@ describe '[step3-2] Customer ログイン後のテスト' do
   end
 
   describe '農業体験の予約完了画面のテスト' do
+    let!(:reservation) { create(:reservation, customer: customer, schedule: event.schedules.first) }
     before do
-      visit new_event_schedule_reservation_path(event, event.schedules.first)
-      fill_in 'reservation[people]', with: Faker::Number.within(range: 1..5)
-      click_button "次へすすむ"
-      click_link "予約する"
+      visit event_schedule_reservations_thanx_path(event, event.schedules.first)
     end
 
     context "フォームの表示内容の確認" do
@@ -496,14 +492,90 @@ describe '[step3-2] Customer ログイン後のテスト' do
         expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/thanx'
       end
       it '予約詳細ページへのリンクが表示されており、クリックすると予約詳細画面へ遷移する' do
-        expect(page).to have_link, href: event_schedule_reservation_path(event, event.schedules.first, event.schedules.first.reservations.first)
-        click_link "予約する"
-        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/' + event.schedules.first.reservations.first.id.to_s
+        expect(page).to have_link "予約詳細ページへ", href: event_schedule_reservation_path(event, event.schedules.first, reservation)
+        click_link "予約詳細ページへ"
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/' + reservation.id.to_s
       end
       it 'マイページへ戻るボタンが表示されており、クリックするとマイページへ遷移する' do
-        expect(page).to have_link, href: profiles_path
+        expect(page).to have_link "マイページへ戻る", href: profiles_path
         click_link "マイページへ戻る"
         expect(current_path).to eq '/profiles'
+      end
+    end
+  end
+
+  describe '農業体験の予約詳細画面のテスト' do
+    let!(:reservation) { create(:reservation, customer: customer, schedule: event.schedules.first) }
+    before do
+      visit event_schedule_reservation_path(event, event.schedules.first, reservation)
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/' + reservation.id.to_s
+      end
+      it '予約・農業体験の詳細が表示されている' do
+        expect(page).to have_content event.title
+        expect(page).to have_content event.fee
+        expect(page).to have_content event.location
+        expect(page).to have_content event.schedules.first.date.strftime('%Y/%m/%d')
+        expect(page).to have_content event.schedules.first.start_time.strftime('%H:%M')
+        expect(page).to have_content event.schedules.first.end_time.strftime('%H:%M')
+        expect(page).to have_content reservation.people
+        expect(page).to have_content event.cancel_change
+        expect(page).to have_content event.etc
+        expect(page).to have_content event.location
+        expect(page).to have_content event.access
+        expect(page).to have_content event.parking
+      end
+      it '農業体験詳細画面へのリンクが表示され、クリックすると詳細画面へ遷移する' do
+        expect(page).to have_link "農業体験のスケジュール詳細ページへ", href: event_schedule_path(event, event.schedules.first)
+        click_link "農業体験のスケジュール詳細ページへ"
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s
+      end
+      it '予約をキャンセルするリンクが表示されている' do
+        expect(page).to have_link "予約をキャンセルする", href: event_schedule_reservation_path(event_id: event.id, schedule_id: event.schedules.first.id, id: reservation.id)
+      end
+    end
+
+    context "キャンセル機能の確認" do
+      it '予約をキャンセルするリンクをクリックすると予約がキャンセルされる' do
+        expect{ click_link "予約をキャンセルする" }.to change(customer.reservations, :count).by(-1)
+      end
+      it '予約をキャンセルするリンクをクリックすると、農業体験予約一覧へ遷移しサクセスメッセージが表示される' do
+        click_link "予約をキャンセルする"
+        expect(current_path).to eq '/reservations'
+        expect(page).to have_content 'ご予約をキャンセルしました'
+      end
+    end
+  end
+
+  describe '農業体験の予約一覧画面のテスト' do
+    let!(:reservation) { create(:reservation, customer: customer, schedule: event.schedules.first) }
+    before do
+      visit reservations_path
+    end
+
+    context "表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/reservations'
+      end
+      it 'タイトルが表示されている' do
+        expect(page).to have_content '農業体験の予約一覧'
+      end
+      it '合計予約数が表示されている' do
+        expect(page).to have_content customer.reservations.size
+      end
+      it 'イベント名、イベント日時、予約人数、料金が表示されている' do
+        expect(page).to have_link event.title, href: event_schedule_reservation_path(id: reservation.id, schedule_id: reservation.schedule_id, event_id: reservation.schedule.event_id)
+        expect(page).to have_content reservation.schedule.date.strftime('%Y/%m/%d')
+        expect(page).to have_content reservation.schedule.start_time.strftime('%H:%M')
+        expect(page).to have_content reservation.schedule.end_time.strftime('%H:%M')
+        expect(page).to have_content reservation.people
+      end
+      it 'イベント名をクリックすると、農業体験予約詳細画面へ遷移する' do
+        click_link event.title
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + reservation.schedule.id.to_s + '/reservations/' + reservation.id.to_s
       end
     end
   end

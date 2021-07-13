@@ -6,7 +6,7 @@ FactoryBot.define do
     title { Faker::Lorem.characters(number: 10) }
     plan_image_id { Faker::Lorem.characters(number: 30) }
     body { Faker::Lorem.paragraph }
-    fee { Faker::Number.within(range: 100..1000) }
+    fee { Faker::Number.within(range: 100..999) }
     cancel_change { Faker::Lorem.paragraph }
     location { "栃木県宇都宮市池上町4-2-5" }
     access { Faker::Lorem.characters(number: 10) }

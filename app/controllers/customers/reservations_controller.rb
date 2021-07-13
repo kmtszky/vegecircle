@@ -67,7 +67,7 @@ class Customers::ReservationsController < ApplicationController
 
   def destroy
     Reservation.find(params[:id]).destroy
-    redirect_to reservations_path(current_customer), flash: { success: "ご予約をキャンセルしました" }
+    redirect_to reservations_path, flash: { success: "ご予約をキャンセルしました" }
 
     reserved_number = @schedule.reservations.pluck(:people).sum
     @schedule.update(is_full: false) if @schedule.people != reserved_number

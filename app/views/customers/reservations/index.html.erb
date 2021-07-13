@@ -12,7 +12,7 @@
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
           <div class="mt-4">
-            <% if @reservations.count == 0 %>
+            <% if @reservations.size == 0 %>
               <h6>予約している農業体験はありません</h6>
             <% else %>
               <%= render 'customers/reservations/reserved_index', reservations: @reservations %>
@@ -21,7 +21,7 @@
         </div>
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
           <div class="mt-4">
-            <% if @past_reservations.count == 0 %>
+            <% if @past_reservations.size == 0 %>
               <h6>過去に参加した農業体験はありません</h6>
             <% else %>
               <%= render 'customers/reservations/reserved_index', reservations: @past_reservations %>

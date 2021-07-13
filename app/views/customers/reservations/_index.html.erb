@@ -1,7 +1,7 @@
-<% if reservations.count == 0 %>
+<% if reservations.size == 0 %>
   <h6>予約なし</h6>
 <% else %>
-  <h6>現在のご予約数：<%= reservations.count %></h6>
+  <h6>現在のご予約数：<%= reservations.size %></h6>
 
   <table class="table">
     <thead>
