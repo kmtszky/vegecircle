@@ -5,6 +5,8 @@ describe '[step3-2] Customer ログイン後のテスト' do
   let!(:other_customer) { create(:customer) }
   let!(:farmer) { create(:farmer) }
   let!(:event) { create(:event, :with_schedules, farmer: farmer) }
+  let!(:schedule) { create(:schedule, event: event)}
+  let!(:reservation) { create(:reservation, customer: customer, schedule: schedule) }
   let!(:recipe) { create(:recipe, :with_tag_lists, farmer: farmer) }
 
   before do
@@ -349,45 +351,159 @@ describe '[step3-2] Customer ログイン後のテスト' do
     end
   end
 
-  describe '予約作成画面のテスト' do
+  describe '農業体験の予約作成画面のテスト' do
     before do
       visit new_event_schedule_reservation_path(event, event.schedules.first)
     end
 
-    context "表示内容の確認" do
+    context "フォームの表示内容の確認" do
       it 'URLが正しい' do
         expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/new'
       end
-      it '農家名・お気に入り件数が表示される' do
-        expect(page).to have_link farmer.name, href: farmer_path(farmer)
-        expect(page).to have_content event.event_favorites.size
-      end
-      it 'イベント名・イベント概要・開催時刻・参加費・キャンセルポリシー・そのほかが表示される' do
+      it 'イベントの内容が表示されている' do
         expect(page).to have_content event.title
-        expect(page).to have_content event.body
+        expect(page).to have_content event.fee
+        expect(page).to have_content event.location
         expect(page).to have_content event.schedules.first.start_time.strftime('%H:%M')
         expect(page).to have_content event.schedules.first.end_time.strftime('%H:%M')
+        expect(page).to have_content "イベント概要をご確認後、予約人数を設定して「次へすすむ」をクリックしてください。"
+      end
+      it '予約人数の空フォームが表示される' do
+        expect(page).to have_field 'reservation[people]'
+        expect(find_field('reservation[people]').text).to be_blank
+      end
+      it '次へすすむボタンが表示される' do
+        expect(page).to have_button '次へすすむ'
+      end
+    end
+
+    context '投稿機能の確認：成功時' do
+      before do
+        fill_in 'reservation[people]', with: Faker::Number.within(range: 1..5)
+      end
+
+      it '次へすすむボタンを押すと、確認画面へ遷移する' do
+        click_button '次へすすむ'
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/confirm'
+        expect(page).to have_content "ご予約内容をご確認いただき、問題なければ「予約する」をクリックしてください。"
+      end
+    end
+
+    context '投稿機能の確認：失敗時（people < 1）' do
+      before do
+        @people = 0
+        fill_in 'reservation[people]', with: @people
+      end
+
+      it '新規作成ページから移動しない' do
+        click_button '次へすすむ'
+        expect(page).to have_content "イベント概要をご確認後、予約人数を設定して「次へすすむ」をクリックしてください。"
+      end
+      it '新規投稿フォームの内容が正しい' do
+        expect(page).to have_field 'reservation[people]', with: @people
+      end
+      it 'バリデーションエラーが表示される' do
+        click_button '次へすすむ'
+        expect(page).to have_content "must be greater than or equal to 1"
+      end
+    end
+
+    context '投稿機能の確認：失敗時（people = 文字）' do
+      before do
+        @people = "hoge"
+        fill_in 'reservation[people]', with: @people
+      end
+
+      it '新規作成ページから移動しない' do
+        click_button '次へすすむ'
+        expect(page).to have_content "イベント概要をご確認後、予約人数を設定して「次へすすむ」をクリックしてください。"
+      end
+      it '新規投稿フォームの内容が正しい' do
+        expect(page).to have_field 'reservation[people]', with: @people
+      end
+      it 'バリデーションエラーが表示される' do
+        click_button '次へすすむ'
+        expect(page).to have_content "is not a number"
+      end
+    end
+
+    context '投稿機能の確認：失敗時（people = float）' do
+      before do
+        @people = 1.5
+        fill_in 'reservation[people]', with: @people
+      end
+
+      it '新規作成ページから移動しない' do
+        click_button '次へすすむ'
+        expect(page).to have_content "イベント概要をご確認後、予約人数を設定して「次へすすむ」をクリックしてください。"
+      end
+      it '新規投稿フォームの内容が正しい' do
+        expect(page).to have_field 'reservation[people]', with: @people
+      end
+      it 'バリデーションエラーが表示される' do
+        click_button '次へすすむ'
+        expect(page).to have_content "must be an integer"
+      end
+    end
+  end
+
+  describe '農業体験の予約確認画面のテスト' do
+    before do
+      visit new_event_schedule_reservation_path(event, event.schedules.first)
+      fill_in 'reservation[people]', with: Faker::Number.within(range: 1..5)
+      click_button "次へすすむ"
+    end
+
+    context "フォームの表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/confirm'
+      end
+      it 'イベントの内容が表示されている' do
+        expect(page).to have_content event.title
         expect(page).to have_content event.fee
-        expect(page).to have_content event.cancel_change
-        expect(page).to have_content event.etc
-      end
-      it '集合場所・アクセス方法・駐車場が表示される' do
         expect(page).to have_content event.location
-        expect(page).to have_content event.access
-        expect(page).to have_content event.parking
+        expect(page).to have_content event.schedules.first.date.strftime('%Y/%m/%d')
+        expect(page).to have_content event.schedules.first.start_time.strftime('%H:%M')
+        expect(page).to have_content event.schedules.first.end_time.strftime('%H:%M')
+#        expect(page).to have_content event.schedules.first.reservations.first.people
+        expect(page).to have_content event.cancel_change
+        expect(page).to have_content event.cancel_etc
+#        expect(page).to have_content event.fee * reservation.people
       end
-      it '農業体験画面へのリンクが存在し、クリックすると農業体験画面へ遷移する' do
-        expect(page).to have_link "イベントページへ戻る", href: event_path(event)
-        click_link "イベントページへ戻る"
-        expect(current_path).to eq '/events/' + event.id.to_s
-      end
-      it '農業体験画面を予約するリンクが存在し、クリックすると農業体験予約画面へ遷移する' do
-        expect(page).to have_link "予約する", href: new_event_schedule_reservation_path(event, event.schedules.first)
+      it '予約するボタンが表示されており、クリックすると予約完了画面（thanx）へ遷移する' do
+        expect(page).to have_link, href: event_schedule_reservations_path(event, event.schedules.first, event.schedules.first.reservations.first)
         click_link "予約する"
-        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/new'
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/thanx'
       end
-      it 'スケジュール編集画面へのリンクが存在しない' do
-        expect(page).not_to have_link "編集する", href: edit_farmers_event_schedule_path(event, event.schedules.first)
+      it '戻るボタンが表示されており、クリックすると作成画面へ遷移する' do
+        expect(page).to have_link, href: event_schedule_reservations_back_path(event, event.schedules.first, event.schedules.first.reservations.first)
+        click_link "戻る"
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/back'
+      end
+    end
+  end
+
+  describe '農業体験の予約完了画面のテスト' do
+    before do
+      visit new_event_schedule_reservation_path(event, event.schedules.first)
+      fill_in 'reservation[people]', with: Faker::Number.within(range: 1..5)
+      click_button "次へすすむ"
+      click_link "予約する"
+    end
+
+    context "フォームの表示内容の確認" do
+      it 'URLが正しい' do
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/thanx'
+      end
+      it '予約詳細ページへのリンクが表示されており、クリックすると予約詳細画面へ遷移する' do
+        expect(page).to have_link, href: event_schedule_reservation_path(event, event.schedules.first, event.schedules.first.reservations.first)
+        click_link "予約する"
+        expect(current_path).to eq '/events/' + event.id.to_s + '/schedules/' + event.schedules.first.id.to_s + '/reservations/' + event.schedules.first.reservations.first.id.to_s
+      end
+      it 'マイページへ戻るボタンが表示されており、クリックするとマイページへ遷移する' do
+        expect(page).to have_link, href: profiles_path
+        click_link "マイページへ戻る"
+        expect(current_path).to eq '/profiles'
       end
     end
   end
